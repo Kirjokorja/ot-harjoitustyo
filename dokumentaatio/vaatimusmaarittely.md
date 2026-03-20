@@ -2,8 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamisen apuvälineeksi tarinaa kirjoittaessa esim. roolipeliä tai kirjaa varten.
-Sovellukseen pystyy rekisteröitymään useampi käyttäjä.
+Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamisen apuvälineeksi tarinaa kirjoittaessa esim. roolipeliä tai kirjaa varten. Sovellus säilyttää luotuja maailmoja ja niihin liittyviä tietokoteita sekä näiden suhteita tietokanaassa. Sovellukseen pystyy rekisteröitymään useampi käyttäjä, jotka voivat jakaa luomuksiaan.
 
 ## Käyttäjät
 
