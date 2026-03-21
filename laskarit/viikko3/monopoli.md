@@ -14,23 +14,12 @@ classDiagram
     Katu --|> Ruutu
     Kortti "*" --o "6" SattumaYhteismaa
     Katu "1" *-- "0..4" Talo
-    Katu "1" *-- "1" Hotelli
-    class Monopolipeli{
-        
-    }
-    class Ruutu{
-        seuraava: Ruutu
-        toimintio()
-    }
-    class Katu{
-        nimi: string
-        talot: int
-        hotelli: int
-    }
-    class SattumaYhteismaa{
-        kortit: list~Kortti~
-    }
-    class Kortti{
-        toimintio()
-    }
+    Katu "1" *-- "0..1" Hotelli
+    Pelaaja "1" --> "*" Katu
+    Monopolipeli ..> Aloitusruutu
+    Monopolipeli ..> Vankila
+    Toiminto --o Ruutu
+    Toiminto "1" --o "1" Kortti
+    Raha "*" --* "1" Monopolipeli
+    Pelaaja "1" --> "*" Raha
 ```
