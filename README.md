@@ -1,6 +1,6 @@
 # Ohjelmistotekniikka, harjoitustyö
 
-Kehitän sovelluksen maailmanrakennus- ja roolipelityökaluksi.
+Kehitän sovelluksen **_maailmanrakennus- ja roolipelityökaluksi_**.
 
 [Laskarit](laskarit/)  
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)  
