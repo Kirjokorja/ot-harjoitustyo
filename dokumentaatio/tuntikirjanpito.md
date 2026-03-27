@@ -7,3 +7,4 @@
 | 24.3. | 4 t    | Tkinteriin tutustumista |
 | 25.3. | 3 t    | graafisen käyttöliittymän kehitystä |
 | 26.3. | 4,5 t  | tietokannan kehitystä |
+| 27.3. | 2,5 t  | tietokannan ja käyttäjän hallinnan kehitystä |
