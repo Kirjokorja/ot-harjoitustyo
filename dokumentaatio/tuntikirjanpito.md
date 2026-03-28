@@ -8,3 +8,4 @@
 | 25.3. | 3 t    | graafisen käyttöliittymän kehitystä |
 | 26.3. | 4,5 t  | tietokannan kehitystä |
 | 27.3. | 3,5 t  | tietokannan ja käyttäjän hallinnan kehitystä |
+| 28.3. | 11 t   | käyttäjän lisääminen tietokantaan |
