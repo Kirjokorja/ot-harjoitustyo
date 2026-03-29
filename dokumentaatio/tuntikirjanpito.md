@@ -9,3 +9,4 @@
 | 26.3. | 4,5 t  | tietokannan kehitystä |
 | 27.3. | 3,5 t  | tietokannan ja käyttäjän hallinnan kehitystä |
 | 28.3. | 11 t   | käyttäjän lisääminen tietokantaan |
+| 29.3. | 1,5 t  | käyttäjän lisääminen tietokantaan |
