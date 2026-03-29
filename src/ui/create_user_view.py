@@ -1,12 +1,11 @@
 from tkinter import ttk, constants, StringVar
-from bcrypt import gensalt, hashpw
 
 class CreateUserView:
     """Luokka vastaa sovelluksen käyttäjänluontinäkymästä.
         
         Attribuutit:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
-            _user_service (UserService): käyttäjään liityvistä toiminnoista vastaava olio
+            _user_service: toiminnoista vastaava olio
             _back_to_start_view: metodi, joka palauttaa alkunäkymän
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
@@ -21,7 +20,7 @@ class CreateUserView:
 
         Muuttujat:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
-            user_service (UserService): käyttäjään liityvistä toiminnoista vastaava olio
+            user_service: toiminnoista vastaava olio
             back_to_start_view: metodi, joka palauttaa alkunäkymän
         """
         self._root = root
@@ -51,29 +50,19 @@ class CreateUserView:
     def _hide_error(self):
         self._error_label.grid_remove()
 
-    def _create_user_handle(self):
+    def _create_user_handler(self):
+        self._hide_error()
         username = self._username.get()
         password = self._password.get()
         password_confirm =self._password_confirm.get()
 
-        if len(username) == 0:
-            self._show_error("Käyttäjänimi on liian lyhyt.")
-            return
-        if len(password) < 8:
-            self._show_error("Salasana on liian lyhyt.")
-            return
-        if password_confirm != password:
-            self._show_error("Salasanat eivät täsmää.")
-            return
-        
-        salt = gensalt()
-        bytes = password.encode("utf-8")
-        password_hash = hashpw(bytes, salt)
-
         try:
-            self._user_service.create_user(username, password_hash)
+            self._user_service.create_user(username, password, password_confirm)
             self._back_to_start_view
-        except self._user_service.exceptions.UserAlreadyExists as e:
+        except (self._user_service.get_exceptions().UserAlreadyExists,
+                self._user_service.get_exceptions().UsernameTooShort,
+                self._user_service.get_exceptions().PasswordTooShort,
+                self._user_service.get_exceptions().PasswordsDoNotMatch) as e:
             self._show_error(e.message)
         
     def _initialize_input_field(self, text, secure):
@@ -107,7 +96,7 @@ class CreateUserView:
 
         create_user_button = ttk.Button(master=self._frame,
                                 text="Luo",
-                                command=self._create_user_handle
+                                command=self._create_user_handler
                             )
 
         self._frame.grid_columnconfigure(0, weight=1, minsize=400)

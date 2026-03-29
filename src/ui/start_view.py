@@ -39,5 +39,5 @@ class StartView:
                                 command=self._create_user_view
                             )
         
-        greeting.grid(row=0, column=0)
+        greeting.grid(padx=5, pady=5)
         create_user_button.grid(padx=5, pady=5, sticky=constants.EW)

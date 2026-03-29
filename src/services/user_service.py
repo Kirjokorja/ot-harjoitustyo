@@ -1,4 +1,7 @@
 from entities.user import User
+from exceptions import (exceptions as default_exceptions)
+from repositories.user_repository import (user_repository as default_user_repository)
+from services import (password_service as default_pw_service)
 
 class UserService:
     """Luokka vastaa käyttäjään liittyvistä toiminnoista sovelluksessa.
@@ -6,25 +9,32 @@ class UserService:
         Attribuutit:
             _user_repository (UserRepository): 
                 käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
-            exceptions: käyttäjävirheet
+            _exceptions: käyttäjävirheet
+            _password_service: salasanankäsittelypalvelu
     """
 
-    def __init__(self, user_repository, exceptions):
+    def __init__(self, user_repository = default_user_repository,
+                    exceptions = default_exceptions,
+                    password_service = default_pw_service
+                ):
         """Alusta käyttäjäpalvelu.
     
         Muuttujat:
             user_repository (UserRepository): käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
             exceptions: käyttäjävirheet
+            password_service: salasanankäsittelypalvelu
     """
         self._user_repository = user_repository
-        self.exceptions = exceptions
+        self._exceptions = exceptions
+        self._password_service =password_service
 
-    def create_user(self, username, password):
+    def create_user(self, username, password, password_confirm):
         """Metodi luo uuden käyttäjän.
 
         Muuttujat:
             username (str): käyttäjänimi
             password (str): käyttäjän salasana
+            password_confirm (str): vahvistussalasana
 
         Ilmoittaa:
             UserAlreadyExists: virhe, joka syntyy käyttäjätunnuksen ollessa jo käytössä
@@ -32,9 +42,35 @@ class UserService:
         Palauttaa:
             ueser (User): käyttäjäolio
         """
-        user_check = self._user_repository.find_user_by_name(username)
-        if user_check:
-            message = f"Käyttäjänimi {user_check[0]['username']} on jo käytössä."
-            raise self.exceptions.UserAlreadyExists(message)
-        user = self._user_repository.add_user(User(username=username, password=password))
-        return user
+        if (self._username_acceptable(username) and
+            self._password_acceptable(password, password_confirm)):
+            user_check = self._user_repository.find_user_by_name(username)
+            if user_check:
+                message = f"Käyttäjänimi {user_check[0]['username']} on jo käytössä."
+                raise self._exceptions.UserAlreadyExists(message)
+            user = self._user_repository.add_user(User(username=username, password=password))
+            return user
+        return None
+
+    def _username_acceptable(self, username):
+        if len(username) == 0:
+            message = "Käyttäjänimi on liian lyhyt."
+            raise self._exceptions.UsernameTooShort(message)
+        return True
+
+    def _password_acceptable(self, password, password_confirm):
+        if len(password) < 8:
+            message = "Salasana on liian lyhyt."
+            raise self._exceptions.PasswordTooShort(message)
+        if password != password_confirm:
+            message = "Salasanat eivät täsmää."
+            raise self._exceptions.PasswordsDoNotMatch(message)
+        return True
+
+    def get_exceptions(self):
+        """Antaa palvelun virheilmoitusluokat.
+
+            Palauttaa:
+                _exceptions: palvelun virheilmoitusluokat
+        """
+        return self._exceptions

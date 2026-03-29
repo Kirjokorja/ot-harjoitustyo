@@ -1,4 +1,5 @@
 import sqlite3
+from config import DATABASE_FILE_PATH
 
 class DatabaseInterface:
     """Luokka vastaa tietokantayhteydestä ja -toiminnoista.
@@ -75,3 +76,5 @@ class DatabaseInterface:
         con.executescript(statements)
         con.commit()
         con.close()
+
+database = DatabaseInterface(DATABASE_FILE_PATH)

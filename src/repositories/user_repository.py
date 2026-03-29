@@ -1,3 +1,4 @@
+from database.db import (database as default_db)
 
 class UserRepository:
     """Luokka vastaa käyttäjien tietokantatoiminnoista.
@@ -6,13 +7,13 @@ class UserRepository:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
     """
 
-    def __init__(self, database):
+    def __init__(self, db=default_db):
         """Luo käyttäjärepo.
 
             Muuttujat:
                 database (DatabaseInterface): tietokannan käyttöliittymäolio
         """
-        self._db = database
+        self._db = db
 
     def get_user(self, user_id):
         """Metodi hakee käyttäjää tunnusnumerolla.
@@ -56,3 +57,5 @@ class UserRepository:
         user_id = self._db.execute(sql_users, [user.username, user.password])
         user.id = user_id
         return user
+
+user_repository = UserRepository()

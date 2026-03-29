@@ -1,4 +1,5 @@
-from database.db import DatabaseInterface
+from database.db import (database as default_db)
+from config import (DATABASE_SCHEMA as default_schema, DATABASE_CONTENT as default_content)
 
 class DatabaseInitializer:
     """Luokka vastaa tietokannan alustamisesta.
@@ -8,7 +9,7 @@ class DatabaseInitializer:
             _schema (str): tietokantakaavio
             _content (str): tietokantaan lisättävä sisältö
     """
-    def __init__(self, file_path, schema, content):
+    def __init__(self, database=default_db, schema=default_schema, content = default_content):
         """Luo tietokannan alustusolio.
 
         Muuttujat:
@@ -16,7 +17,7 @@ class DatabaseInitializer:
             schema (str): tietokantakaavio
             content (str): tietokantaan lisättävä sisältö
         """
-        self._db = DatabaseInterface(file_path)
+        self._db = database
         self._schema = schema
         self._content = content
 

@@ -1,5 +1,6 @@
 from ui.start_view import StartView
 from ui.create_user_view import CreateUserView
+from services.services import (services as default_services)
 
 class UI:
     """Luokka huolehtii sovelluksen käyttöliittymästä.
@@ -10,7 +11,7 @@ class UI:
             _service: palvelu, joka vastaa sovellusksen toiminnasta
     """
 
-    def __init__(self, root, service):
+    def __init__(self, root, service=default_services):
         """Alusta uusi käyttöliittymä.
         
         Muuttujat:
