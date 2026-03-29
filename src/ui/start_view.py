@@ -35,7 +35,7 @@ class StartView:
         greeting = ttk.Label(master=self._frame, text="Tervetuloa!")
 
         create_user_button = ttk.Button(master=self._frame,
-                                text="Rekisteröinti",
+                                text="Rekisteröidy",
                                 command=self._create_user_view
                             )
         

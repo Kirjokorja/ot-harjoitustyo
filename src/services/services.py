@@ -5,15 +5,18 @@ class Services:
     
         Attribuutit:
              _repos: tietokantatoiminnoista vastaava olio
+             _exceptions: virhetapaukset
     """
 
-    def __init__(self, repositories):
+    def __init__(self, repositories, exceptions):
         """Alusta palvelut.
         
             Muuttujat:
-                tietokantatoiminnoista vastaava olio
+                repositories: tietokantatoiminnoista vastaava olio
+                exceptions: virhetapaukset
         """
         self._repos = repositories
+        self._exceptions = exceptions
 
     def get_user_service(self):
         """Luo käyttäjätoiminnoista vastaavan olion.
@@ -21,4 +24,4 @@ class Services:
             Palauttaa:
                 UserService: käyttäjäpalveluista vastaava olio
         """
-        return UserService(self._repos.get_user_repository())
+        return UserService(self._repos.get_user_repository(), self._exceptions)

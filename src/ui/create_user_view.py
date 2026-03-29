@@ -1,6 +1,5 @@
 from tkinter import ttk, constants, StringVar
 from bcrypt import gensalt, hashpw
-from user_exceptions import UserAlreadyExists
 
 class CreateUserView:
     """Luokka vastaa sovelluksen käyttäjänluontinäkymästä.
@@ -17,7 +16,7 @@ class CreateUserView:
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
     """
     
-    def __init__(self, root, user_service, back_to_start_view):
+    def __init__(self, root, user_service, back_to_start_view, ):
         """Alusta käyttäjänluontinäkymä.
 
         Muuttujat:
@@ -74,7 +73,7 @@ class CreateUserView:
         try:
             self._user_service.create_user(username, password_hash)
             self._back_to_start_view
-        except UserAlreadyExists as e:
+        except self._user_service.exceptions.UserAlreadyExists as e:
             self._show_error(e.message)
         
     def _initialize_input_field(self, text, secure):
