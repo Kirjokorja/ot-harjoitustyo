@@ -34,6 +34,7 @@ class UserService:
         """
         user_check = self._user_repository.find_user_by_name(username)
         if user_check:
-            raise self.exceptions.UserAlreadyExists(f"Käyttäjänimi {user_check[0]["username"]} on jo käytössä.")
+            message = f"Käyttäjänimi {user_check[0]['username']} on jo käytössä."
+            raise self.exceptions.UserAlreadyExists(message)
         user = self._user_repository.add_user(User(username=username, password=password))
         return user

@@ -4,7 +4,7 @@ from services.services import Services
 from database.db import DatabaseInterface
 from repositories.repositories import Repositories
 from config import DATABASE_FILE_PATH
-import exceptions.exceptions as exceptions
+from exceptions import exceptions
 
 def main():
     window = Tk()
