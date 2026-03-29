@@ -1,22 +1,30 @@
 from tkinter import ttk, constants
 
 class StartView:
-    """Luokka vastaa sovelluksen aloitusnäkymästä."""
+    """Luokka vastaa sovelluksen aloitusnäkymästä.
+        
+        Attribuutit:
+            _root (Tk): Tkinter-osanen, johon näkymä lisätää
+            _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
+            _create_user_view: käyttäjänluontinäkymä
+    """
     
-    def __init__(self, root):
-        """Luokan konstruktori, joka luo aloitusnäkymän.
+    def __init__(self, root, create_user_view):
+        """Luo aloitusnäkymä.
 
-            Args:
-                root: Tkinter-osanen, johon näkymä lisätään
+        Muuttujat:
+            root (Tk): Tkinter-osanen, johon näkymä lisätään
+            create_user_view: käyttäjänluontinäkymä
         """
         self._root = root
         self._frame = None
+        self._create_user_view = create_user_view
 
         self._initialize()
 
     def pack(self):
         """Näyttää näkymän."""
-        self._frame.pack(side=constants.top, fill=constants.X)
+        self._frame.pack(fill=constants.X)
     
     def destroy(self):
         """Poistaa näkymän."""
@@ -26,4 +34,10 @@ class StartView:
         self._frame = ttk.Frame(master=self._root)
         greeting = ttk.Label(master=self._frame, text="Tervetuloa!")
 
+        create_user_button = ttk.Button(master=self._frame,
+                                text="Rekisteröinti",
+                                command=self._create_user_view
+                            )
+        
         greeting.grid(row=0, column=0)
+        create_user_button.grid(padx=5, pady=5, sticky=constants.EW)

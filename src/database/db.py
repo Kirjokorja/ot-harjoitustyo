@@ -1,11 +1,22 @@
 import sqlite3
-from config import DATABASE_FILE_PATH
 
 class DatabaseInterface:
-    """Luokka vastaa tietokantayhteydestä ja -toiminnoista."""
+    """Luokka vastaa tietokantayhteydestä ja -toiminnoista.
+
+        Attribuutit:
+            _file_path (str): tietokannan sijainti
+    """
+
+    def __init__(self, file_path):
+        """Luo tietokannan käyttöliittymää hallinoiva olio.
+        
+            Muuttujat:
+                file_path (str): tietokannan sijainti
+        """
+        self._file_path = file_path
 
     def _get_connection(self):
-        con = sqlite3.connect(DATABASE_FILE_PATH)
+        con = sqlite3.connect(self._file_path)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
         return con
@@ -13,9 +24,12 @@ class DatabaseInterface:
     def query(self, sql, params):
         """Lähettää kyselyn tietokannalle.
         
-            Args:
-                sql: kyselyn lause
-                params: kyselyyn liitettävät lausekkeet
+        Muuttujat:
+            sql (str): kyselyn lause
+            params (list): kyselyyn liitettävät lausekkeet
+        
+        Palauttaa:
+            list: lista kyselyn luoman taulun rivejä
         """
         con = self._get_connection()
         result = con.execute(sql, params).fetchall()
@@ -25,37 +39,39 @@ class DatabaseInterface:
     def execute(self, sql, params):
         """Lähettää komennon tietokannalle.
         
-            Args:
-                sql: komennon lause
-                params: lauseeseen liitettävät lausekkeet
+        Muuttujat:
+            sql (str): komennon lause
+            params (list): lauseeseen liitettävät lausekkeet
+        
+        Palauttaa:
+            int: viimeisimmän tietokantaan lisätyn rivin pääavain
         """
         con = self._get_connection()
         result = con.execute(sql, params)
-        con.commit()
+        row_id = result.lastrowid
+        result = con.commit()
         con.close()
-        return result.lastrowid
+        return row_id
 
     def executemany(self, sql, params):
         """Lähettää useamman kerran saman komennon tietokannalle.
         
-            Args:
-                sql: komennon lause
-                params: lausekkeet kulleekkin komentoajolle
+        Muuttujat:
+            sql (string): komennon lause
+            params (list): lausekkeet kulleekkin komentoajolle
         """
         con = self._get_connection()
-        result = con.executemany(sql, params)
+        con.executemany(sql, params)
         con.commit()
         con.close()
 
-    def executescript(self, sql, params):
+    def executescript(self, statements):
         """Lähettää useamman komennon tietokannalle.
         
-            Args:
-                sql: komentojen lauseet
-                params: lauseisiin liitettävät lausekkeet
+        Muuttujat:
+            statements (str): komentojen lauseet
         """
         con = self._get_connection()
-        result = con.executemany(sql, params)
+        con.executescript(statements)
         con.commit()
         con.close()
-

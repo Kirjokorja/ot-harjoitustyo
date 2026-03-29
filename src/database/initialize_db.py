@@ -1,34 +1,55 @@
-import db
-from config import DATABASE_SCHEMA, DATABASE_INIT
+from database.db import DatabaseInterface
 
-def drop_all_tables():
-    """Metodi tyhjentää tietokannan tauluista."""
+class DatabaseInitializer:
+    """Luokka vastaa tietokannan alustamisesta.
 
-    sql_table_names = """
-            SELECT tbl_name 
-            FROM sqlite_master
-            WHERE type = ?
+        Attribuutit:
+            _db (DatabaseInterface): tietokannan käyttöliittymäolio
+            _schema (str): tietokantakaavio
+            _content (str): tietokantaan lisättävä sisältö
+    """
+    def __init__(self, file_path, schema, content):
+        """Luo tietokannan alustusolio.
+
+        Muuttujat:
+            file_path (str): tietokannan sijainti
+            schema (str): tietokantakaavio
+            content (str): tietokantaan lisättävä sisältö
         """
+        self._db = DatabaseInterface(file_path)
+        self._schema = schema
+        self._content = content
 
-    result = db.query(sql_table_names, ['table'])
+    def _drop_all_tables(self):
+        """Metodi tyhjentää tietokannan tauluista."""
 
-    sql_drop = "DROP TABLE VALUES (?)"
-    db.executemany(sql_drop, result)
-        
-def create_tables():
-    """Metodi luo tietokantaan taulut."""
+        sql_table_names = """
+                SELECT tbl_name 
+                FROM sqlite_master
+                WHERE type = ?
+            """
 
-    sql = """
-            BEGIN; 
-            ?
-            COMMIT;
-        """
+        result = self._db.query(sql_table_names, ['table'])
 
-    db.executescipt(sql, [DATABASE_SCHEMA])
-    db.executescipt(sql, [DATABASE_INIT])
+        if result:
+            sql_drop = "DROP TABLE IF EXISTS "
+            for row in result:
+                sql_drop += row["tbl_name"] + ";"
+            self._db.executescript(sql_drop)
 
-def initialize_database():
-    """Metodi alustaa tietokannan."""
+    def _create_tables(self):
+        """Metodi luo tietokantaan taulut."""
 
-    drop_all_tables()
-    create_tables()
+        self._db.executescript(self._schema)
+
+    def _create_content(self):
+        """Metodi lisää tietokohteita tietokantaan."""
+        self._db.executescript(self._content)
+
+    def initialize_database(self):
+        """Metodi alustaa tietokannan."""
+
+        self._drop_all_tables()
+        self._create_tables()
+        if self._content:
+            self._create_content()
