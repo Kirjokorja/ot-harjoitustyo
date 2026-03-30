@@ -11,3 +11,4 @@
 | 28.3. | 11 t   | käyttäjän lisääminen tietokantaan |
 | 29.3. | 10 t   | käyttäjän lisääminen tietokantaan ja testaamista eri käyttöjärjestelmissä |
 | 30.3. | 2 t    | tietokannan rajapinnan yksikkötestaamista |
+| 30.3. | 3 t    | Invoke-käskyjen kirjoittamista ja testaamista |
