@@ -20,7 +20,4 @@ DATABASE_SCHEMA = os.getenv("DATABASE_SCHEMA") or """
             password_hash TEXT
         );
     """
-DATABASE_CONTENT = os.getenv("DATABASE_INIT") or """
-        INSERT INTO Users (username, password_hash) VALUES ('Unhola', 'testi1');
-        INSERT INTO Users (username, password_hash) VALUES ('Aava', 'testi2');
-    """
+DATABASE_CONTENT = os.getenv("DATABASE_CONTENT") or ""
