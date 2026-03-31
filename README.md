@@ -4,7 +4,7 @@ Sovellus on trakoitettu **maailmanrakentamiseen** _tarinan kirjoittamista ja roo
 
 ## Python-versio
 
-Sovellusta on testattu python 3.12 ja 3.14.
+Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
 
 ## Dokumentaatio
 
