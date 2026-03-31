@@ -37,7 +37,7 @@ poetry install
 poetry run invoke build-start
 ```
 
-*Jos haluat alustaa ja ajaa sovelluksen erikseen, voit käyttää käskyä `poetry run invoke build` alustamiseen ja `poetry run invoke start` käynnistämiseen.
+*Jos haluat alustaa ja ajaa sovelluksen erikseen, voit käyttää käskyä `poetry run invoke build` alustamiseen ja käskyä `poetry run invoke start` käynnistämiseen.
 
 ### Testaus
 
