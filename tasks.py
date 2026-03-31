@@ -11,6 +11,13 @@ def build(ctx):
 
 
 @task(build)
+def build_start(ctx):
+    if platform == "win32":
+        ctx.run("python3 src/index.py")
+    else:
+        ctx.run("python3 src/index.py", pty=True)
+
+@task
 def start(ctx):
     if platform == "win32":
         ctx.run("python3 src/index.py")
