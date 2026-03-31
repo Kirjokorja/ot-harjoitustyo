@@ -4,7 +4,7 @@ Sovellus on trakoitettu **maailmanrakentamiseen** _tarinan kirjoittamista ja roo
 
 ## Käyttöjärjestelmä
 
-Sovellusta on testattu `Ubuntussa` ja `Windows 11:ssä`.
+Sovellusta on testattu `Cubbli Linuxissa` ja `Windows 11:ssä`.
 
 ## Python-versio
 
