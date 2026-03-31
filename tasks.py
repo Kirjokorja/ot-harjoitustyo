@@ -3,6 +3,14 @@ from subprocess import call
 from sys import platform
 
 @task
+def build(ctx):
+    if platform == "win32":
+        ctx.run("python3 src/build.py")
+    else:
+        ctx.run("python3 src/build.py", pty=True)
+
+
+@task(build)
 def start(ctx):
     if platform == "win32":
         ctx.run("python3 src/index.py")
