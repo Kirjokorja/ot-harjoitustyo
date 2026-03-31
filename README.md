@@ -1,6 +1,6 @@
 # Ohjelmistotekniikka, harjoitustyö
 
-Kehitän sovelluksen **_maailmanrakennus- ja roolipelityökaluksi_**.
+Sovellus on trakoitettu **maailmanrakentamiseen** _tarinan kirjoittamista ja roolipelaamista_ varten.
 
 ## Dokumentaatio
 
