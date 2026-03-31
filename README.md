@@ -2,9 +2,13 @@
 
 Sovellus on trakoitettu **maailmanrakentamiseen** _tarinan kirjoittamista ja roolipelaamista_ varten.
 
+## Käyttöjärjestelmä
+
+Sovellusta on testattu `Ubuntussa` ja `Windows 11:ssä`.
+
 ## Python-versio
 
-Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
+Sovellusta on testattu `Python-versioilla` `3.12` ja `3.14`.
 
 ## Dokumentaatio
 
@@ -12,7 +16,7 @@ Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
 - [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 - [Changelog](dokumentaatio/changelog.md)
 
-## Sovelluksen asennus
+## Sovelluksen käyttö
 
 ### Alkutoimet
 
@@ -33,6 +37,22 @@ poetry install
 poetry run invoke build-start
 ```
 
-*Jos haluat alustaa ja ajaa sovelluksen erikseen, voit käyttää käskyä `poetry run invoke build` alustamiseen ja `poetry run invoke start`käynnistämiseen.
+*Jos haluat alustaa ja ajaa sovelluksen erikseen, voit käyttää käskyä `poetry run invoke build` alustamiseen ja `poetry run invoke start` käynnistämiseen.
 
-### Test
+### Testaus
+
+Voit ajaa testit käskyllä:
+
+```bash
+poetry run invoke test
+```
+
+### Testikattavuus
+
+Testikattavuuskertomuksen voi muodostaa käskyllä:
+
+```bash
+poetry run coverage-report
+```
+
+
