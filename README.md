@@ -8,7 +8,7 @@ Sovellusta on testattu `Ubuntussa` ja `Windows 11:ssä`.
 
 ## Python-versio
 
-Sovellusta on testattu `Python-versioilla` `3.12` ja `3.14`.
+Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
 
 ## Dokumentaatio
 
