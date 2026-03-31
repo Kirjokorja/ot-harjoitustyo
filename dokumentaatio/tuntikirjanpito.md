@@ -13,3 +13,4 @@
 | 30.3. | 2 t    | tietokannan rajapinnan yksikkötestaamista |
 | 30.3. | 3 t    | Invoke-käskyjen kirjoittamista ja testaamista |
 | 30.3. | 20 min | muutoslokin kirjoittamista |
+| 31.3. | 30 min | readme-tiedoston päivitystä |
