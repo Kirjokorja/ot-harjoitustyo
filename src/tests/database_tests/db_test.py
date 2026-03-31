@@ -5,7 +5,6 @@ from tests.test_config import DATABASE_FILE_PATH, DATABASE_SCHEMA, DATABASE_CONT
 
 class TestDatabaseInterface(unittest.TestCase):
     def setUp(self):
-        self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
 
         con = sqlite3.connect(DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
@@ -27,6 +26,8 @@ class TestDatabaseInterface(unittest.TestCase):
         
         con.executescript(DATABASE_SCHEMA)
         con.executescript(DATABASE_CONTENT)
+
+        self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
         
     def test_query_palauttaa_listan(self):
         sql = "SELECT id, username FROM Users WHERE username = ?"
