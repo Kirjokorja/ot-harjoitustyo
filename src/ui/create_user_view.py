@@ -1,8 +1,9 @@
 from tkinter import ttk, constants, StringVar
 
+
 class CreateUserView:
     """Luokka vastaa sovelluksen käyttäjänluontinäkymästä.
-        
+
         Attribuutit:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _user_service: toiminnoista vastaava olio
@@ -14,7 +15,7 @@ class CreateUserView:
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
     """
-    
+
     def __init__(self, root, user_service, back_to_start_view, ):
         """Alusta käyttäjänluontinäkymä.
 
@@ -38,7 +39,7 @@ class CreateUserView:
     def pack(self):
         """Näyttää näkymän."""
         self._frame.pack(fill=constants.X)
-    
+
     def destroy(self):
         """Poistaa näkymän."""
         self._frame.destroy()
@@ -46,7 +47,7 @@ class CreateUserView:
     def _show_error(self, message):
         self._error_variable.set(message)
         self._error_label.grid()
-    
+
     def _hide_error(self):
         self._error_label.grid_remove()
 
@@ -54,17 +55,18 @@ class CreateUserView:
         self._hide_error()
         username = self._username.get()
         password = self._password.get()
-        password_confirm =self._password_confirm.get()
+        password_confirm = self._password_confirm.get()
 
         try:
-            self._user_service.create_user(username, password, password_confirm)
+            self._user_service.create_user(
+                username, password, password_confirm)
             self._back_to_start_view
         except (self._user_service.get_exceptions().UserAlreadyExists,
                 self._user_service.get_exceptions().UsernameTooShort,
                 self._user_service.get_exceptions().PasswordTooShort,
                 self._user_service.get_exceptions().PasswordsDoNotMatch) as e:
             self._show_error(e.message)
-        
+
     def _initialize_input_field(self, text, secure):
         label = ttk.Label(master=self._frame, text=text)
 
@@ -72,32 +74,34 @@ class CreateUserView:
             entry = ttk.Entry(master=self._frame, show="*")
         else:
             entry = ttk.Entry(master=self._frame)
-        
+
         label.grid(padx=5, pady=5, sticky=constants.W)
         entry.grid(padx=5, pady=5, sticky=constants.EW)
 
-        return entry 
+        return entry
 
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
-        
+
         self._error_variable = StringVar(self._frame)
 
         self._error_label = ttk.Label(master=self._frame,
-                                textvariable=self._error_variable,
-                                foreground="red"
-                            )
+                                      textvariable=self._error_variable,
+                                      foreground="red"
+                                      )
 
         self._error_label.grid(padx=5, pady=5)
 
         self._username = self._initialize_input_field("Käyttäjänimi", False)
-        self._password = self._initialize_input_field("Salasana (min 8 merkkiä)", True)
-        self._password_confirm = self._initialize_input_field("Salasana uudestaan", True)
+        self._password = self._initialize_input_field(
+            "Salasana (min 8 merkkiä)", True)
+        self._password_confirm = self._initialize_input_field(
+            "Salasana uudestaan", True)
 
         create_user_button = ttk.Button(master=self._frame,
-                                text="Luo",
-                                command=self._create_user_handler
-                            )
+                                        text="Luo",
+                                        command=self._create_user_handler
+                                        )
 
         self._frame.grid_columnconfigure(0, weight=1, minsize=400)
         create_user_button.grid(padx=5, pady=5, sticky=constants.EW)

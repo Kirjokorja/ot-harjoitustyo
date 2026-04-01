@@ -7,9 +7,9 @@ class User:
         password (str): salasana hajautettuna merkkijonona
     """
 
-    def __init__(self, user_id = None, username = None, password = None):
+    def __init__(self, user_id=None, username=None, password=None):
         """Alusta uusi käyttäjä.
-        
+
         Muuttujat:
             id (int): käyttäjän tunnusnumero ja pääavain tietokannassa
             username (str): käyttäjän käyttäjänimi

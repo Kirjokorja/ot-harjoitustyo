@@ -1,6 +1,7 @@
 import sqlite3
 from config import DATABASE_FILE_PATH
 
+
 class DatabaseInterface:
     """Luokka vastaa tietokantayhteydestä ja -toiminnoista.
 
@@ -10,7 +11,7 @@ class DatabaseInterface:
 
     def __init__(self, file_path):
         """Luo tietokannan käyttöliittymää hallinoiva olio.
-        
+
             Muuttujat:
                 file_path (str): tietokannan sijainti
         """
@@ -24,11 +25,11 @@ class DatabaseInterface:
 
     def query(self, sql, params):
         """Lähettää kyselyn tietokannalle.
-        
+
         Muuttujat:
             sql (str): kyselyn lause
             params (list): kyselyyn liitettävät lausekkeet
-        
+
         Palauttaa:
             list: lista kyselyn luoman taulun rivejä
         """
@@ -39,11 +40,11 @@ class DatabaseInterface:
 
     def execute(self, sql, params):
         """Lähettää komennon tietokannalle.
-        
+
         Muuttujat:
             sql (str): komennon lause
             params (list): lauseeseen liitettävät lausekkeet
-        
+
         Palauttaa:
             int: viimeisimmän tietokantaan lisätyn rivin pääavain
         """
@@ -56,7 +57,7 @@ class DatabaseInterface:
 
     def executemany(self, sql, params):
         """Lähettää useamman kerran saman komennon tietokannalle.
-        
+
         Muuttujat:
             sql (string): komennon lause
             params (list): lausekkeet kulleekkin komentoajolle
@@ -68,7 +69,7 @@ class DatabaseInterface:
 
     def executescript(self, statements):
         """Lähettää useamman komennon tietokannalle.
-        
+
         Muuttujat:
             statements (str): komentojen lauseet
         """
@@ -76,5 +77,6 @@ class DatabaseInterface:
         con.executescript(statements)
         con.commit()
         con.close()
+
 
 database = DatabaseInterface(DATABASE_FILE_PATH)

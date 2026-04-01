@@ -46,3 +46,10 @@ def coverage_report(ctx):
     else:
         ctx.run("coverage html", pty=True)
         call(("xdg-open", "htmlcov/index.html"))
+
+@task
+def format(ctx):
+    if platform == "win32":
+        ctx.run("autopep8 --in-place --recursive src")
+    else:
+        ctx.run("autopep8 --in-place --recursive src", pty=True)

@@ -2,6 +2,7 @@ from ui.start_view import StartView
 from ui.create_user_view import CreateUserView
 from services.services import (services as default_services)
 
+
 class UI:
     """Luokka huolehtii sovelluksen käyttöliittymästä.
 
@@ -13,7 +14,7 @@ class UI:
 
     def __init__(self, root, service=default_services):
         """Alusta uusi käyttöliittymä.
-        
+
         Muuttujat:
             root (Tk): Tkinter-osanen, johon käyttöliittymä alustetaan
             service: palvelu, joka vastaa sovellusksen toiminnasta
@@ -21,11 +22,11 @@ class UI:
         self._root = root
         self._current_view = None
         self._service = service
-    
+
     def start(self):
         """Käyttöliittymän käynnistävä metodi"""
         self._show_start_view()
-    
+
     def _hide_current_view(self):
         if self._current_view:
             self._current_view.destroy()
@@ -38,7 +39,7 @@ class UI:
             self._show_create_user_view
         )
         self._current_view.pack()
-    
+
     def _show_create_user_view(self):
         self._hide_current_view()
         self._current_view = CreateUserView(
@@ -47,4 +48,3 @@ class UI:
             self._show_start_view()
         )
         self._current_view.pack()
-        

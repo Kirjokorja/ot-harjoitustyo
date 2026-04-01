@@ -1,5 +1,6 @@
 from bcrypt import gensalt, hashpw, checkpw
 
+
 class PasswordService:
     """Tarjoaa salasanapalveluja."""
 

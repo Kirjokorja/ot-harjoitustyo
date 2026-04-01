@@ -8,11 +8,11 @@ try:
 except FileNotFoundError:
     pass
 
-#Tietokannan sijainti
+# Tietokannan sijainti
 DATABASE_FILENAME = os.getenv("DATABASE_FILENAME") or "database.db"
 DATABASE_FILE_PATH = os.path.join(currentdir, "..", "data", DATABASE_FILENAME)
 
-#Tietokannan alustusarvot
+# Tietokannan alustusarvot
 DATABASE_SCHEMA = os.getenv("DATABASE_SCHEMA") or """
         CREATE TABLE Users (
             id INTEGER PRIMARY KEY,

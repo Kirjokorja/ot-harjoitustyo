@@ -1,11 +1,13 @@
 from entities.user import User
 from exceptions import (exceptions as default_exceptions)
-from repositories.user_repository import (user_repository as default_user_repository)
+from repositories.user_repository import (
+    user_repository as default_user_repository)
 from services import (password_service as default_pw_service)
+
 
 class UserService:
     """Luokka vastaa käyttäjään liittyvistä toiminnoista sovelluksessa.
-    
+
         Attribuutit:
             _user_repository (UserRepository): 
                 käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
@@ -13,12 +15,12 @@ class UserService:
             _password_service: salasanankäsittelypalvelu
     """
 
-    def __init__(self, user_repository = default_user_repository,
-                    exceptions = default_exceptions,
-                    password_service = default_pw_service
-                ):
+    def __init__(self, user_repository=default_user_repository,
+                 exceptions=default_exceptions,
+                 password_service=default_pw_service
+                 ):
         """Alusta käyttäjäpalvelu.
-    
+
         Muuttujat:
             user_repository (UserRepository): käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
             exceptions: käyttäjävirheet
@@ -26,7 +28,7 @@ class UserService:
     """
         self._user_repository = user_repository
         self._exceptions = exceptions
-        self._password_service =password_service
+        self._password_service = password_service
 
     def create_user(self, username, password, password_confirm):
         """Metodi luo uuden käyttäjän.
@@ -43,12 +45,13 @@ class UserService:
             ueser (User): käyttäjäolio
         """
         if (self._username_acceptable(username) and
-            self._password_acceptable(password, password_confirm)):
+                self._password_acceptable(password, password_confirm)):
             user_check = self._user_repository.find_user_by_name(username)
             if user_check:
                 message = f"Käyttäjänimi {user_check[0]['username']} on jo käytössä."
                 raise self._exceptions.UserAlreadyExists(message)
-            user = self._user_repository.add_user(User(username=username, password=password))
+            user = self._user_repository.add_user(
+                User(username=username, password=password))
             return user
         return None
 
