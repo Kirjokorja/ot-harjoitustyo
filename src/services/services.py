@@ -1,5 +1,5 @@
 from services.user_service import UserService
-from services import (password_service as default_pw_service)
+from services.password_service import (password_service as default_pw_service)
 from repositories.repositories import (repository as default_repository)
 from exceptions import (exceptions as default_exceptions)
 

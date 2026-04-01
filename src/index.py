@@ -5,7 +5,6 @@ from services.services import Services
 
 def main():
     window = Tk()
-    window.title("Maailmasampo")
 
     services = Services()
 

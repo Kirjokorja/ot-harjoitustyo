@@ -15,3 +15,4 @@
 | 30.3. | 20 min | muutoslokin kirjoittamista |
 | 31.3. | 30 min | readme-tiedoston päivitystä |
 | 31.3. | 30 min | testaamista |
+| 1.4.  | 1,5 t  | koodin muotoilua ja testaamista |

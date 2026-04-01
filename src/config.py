@@ -21,3 +21,7 @@ DATABASE_SCHEMA = os.getenv("DATABASE_SCHEMA") or """
         );
     """
 DATABASE_CONTENT = os.getenv("DATABASE_CONTENT") or ""
+
+# User configurations
+USERNAME_MIN_LENGHT = 1
+PASSWORD_MIN_LENGHT = 8

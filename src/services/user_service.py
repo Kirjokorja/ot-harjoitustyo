@@ -2,7 +2,8 @@ from entities.user import User
 from exceptions import (exceptions as default_exceptions)
 from repositories.user_repository import (
     user_repository as default_user_repository)
-from services import (password_service as default_pw_service)
+from services.password_service import (password_service as default_pw_service)
+from config import USERNAME_MIN_LENGHT
 
 
 class UserService:
@@ -56,16 +57,17 @@ class UserService:
         return None
 
     def _username_acceptable(self, username):
-        if len(username) == 0:
+        if len(username) < USERNAME_MIN_LENGHT:
             message = "Käyttäjänimi on liian lyhyt."
             raise self._exceptions.UsernameTooShort(message)
         return True
 
     def _password_acceptable(self, password, password_confirm):
-        if len(password) < 8:
+        if not self._password_service.password_long_enough(password):
             message = "Salasana on liian lyhyt."
             raise self._exceptions.PasswordTooShort(message)
-        if password != password_confirm:
+        password_hash = self._password_service.hash_password(password)
+        if not self._password_service.password_match(password_hash, password_confirm):
             message = "Salasanat eivät täsmää."
             raise self._exceptions.PasswordsDoNotMatch(message)
         return True

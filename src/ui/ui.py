@@ -1,6 +1,7 @@
 from ui.start_view import StartView
 from ui.create_user_view import CreateUserView
 from services.services import (services as default_services)
+from ui_config import APP_NAME
 
 
 class UI:
@@ -25,6 +26,12 @@ class UI:
 
     def start(self):
         """Käyttöliittymän käynnistävä metodi"""
+        window_width = int(self._root.winfo_screenwidth() * 0.5)
+        window_height = int(self._root.winfo_screenheight() * 0.5)
+
+        self._root.geometry(f"{window_width}x{window_height}")
+        self._root.title(APP_NAME)
+
         self._show_start_view()
 
     def _hide_current_view(self):
