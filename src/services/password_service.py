@@ -15,11 +15,11 @@ class PasswordService:
                 password: salasana
 
                 Palauttaa:
-                    hash: hajautettu merkkijono
+                    str: hajautettu merkkijono
         """
         salt = gensalt()
-        password_bytes = password.encode("utf-8")
-        return hashpw(password_bytes, salt)
+        password_bytes = password.encode('utf-8')
+        return hashpw(password_bytes, salt).decode('utf-8')
 
     def password_match(self, password_hash, password_compare):
         """Vertaa kahta salasanaa keskenään.
@@ -31,8 +31,9 @@ class PasswordService:
                 Palauttaa:
                     bool: True, jos salasanat täsmäävät, muuten False 
         """
+        password_bytes = password_hash.encode('utf-8')
         compare_bytes = password_compare.encode('utf-8')
-        return checkpw(compare_bytes, password_hash)
+        return checkpw(compare_bytes, password_bytes)
 
     def password_long_enough(self, password):
         """Tarkistaa onko salasana tarpeeksi pitkä.

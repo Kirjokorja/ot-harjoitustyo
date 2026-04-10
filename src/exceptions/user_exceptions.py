@@ -29,3 +29,10 @@ class UsernameTooShort(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
+class InvalidCredentials(Exception):
+    """Luokka käsittelee ilmoituksia poikkeustilanteessa, jossa tunnus tai salasana ei ole oikein."""
+
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)

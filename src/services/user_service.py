@@ -1,5 +1,5 @@
 from entities.user import User
-from exceptions import (exceptions as default_exceptions)
+from exceptions import (user_exceptions as default_exceptions)
 from repositories.user_repository import (
     user_repository as default_user_repository)
 from services.password_service import (password_service as default_pw_service)
@@ -22,38 +22,39 @@ class UserService:
                  ):
         """Alusta käyttäjäpalvelu.
 
-        Muuttujat:
-            user_repository (UserRepository): käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
-            exceptions: käyttäjävirheet
-            password_service: salasanankäsittelypalvelu
-    """
+            Muuttujat:
+                user_repository (UserRepository): käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
+                exceptions: käyttäjävirheet
+                password_service: salasanankäsittelypalvelu
+        """
         self._user_repository = user_repository
         self._exceptions = exceptions
         self._password_service = password_service
+        self._user = None
 
     def create_user(self, username, password, password_confirm):
         """Metodi luo uuden käyttäjän.
 
-        Muuttujat:
-            username (str): käyttäjänimi
-            password (str): käyttäjän salasana
-            password_confirm (str): vahvistussalasana
+            Muuttujat:
+                username (str): käyttäjänimi
+                password (str): käyttäjän salasana
+                password_confirm (str): vahvistussalasana
 
-        Ilmoittaa:
-            UserAlreadyExists: virhe, joka syntyy käyttäjätunnuksen ollessa jo käytössä
+            Ilmoittaa:
+                UserAlreadyExists: virhe, joka syntyy käyttäjätunnuksen ollessa jo käytössä
 
-        Palauttaa:
-            ueser (User): käyttäjäolio
+            Palauttaa:
+                User: käyttäjäolio
         """
         if (self._username_acceptable(username) and
                 self._password_acceptable(password, password_confirm)):
             user_check = self._user_repository.find_user_by_name(username)
             if user_check:
-                message = f"Käyttäjänimi {user_check[0]['username']} on jo käytössä."
+                message = f"Käyttäjänimi {user_check.username} on jo käytössä."
                 raise self._exceptions.UserAlreadyExists(message)
-            user = self._user_repository.add_user(
-                User(username=username, password=password))
-            return user
+            password_hash = self._password_service.hash_password(password)
+            return self._user_repository.add_user(
+                User(username=username, password=password_hash))
         return None
 
     def _username_acceptable(self, username):
@@ -66,11 +67,35 @@ class UserService:
         if not self._password_service.password_long_enough(password):
             message = "Salasana on liian lyhyt."
             raise self._exceptions.PasswordTooShort(message)
-        password_hash = self._password_service.hash_password(password)
-        if not self._password_service.password_match(password_hash, password_confirm):
+        if password != password_confirm:
             message = "Salasanat eivät täsmää."
             raise self._exceptions.PasswordsDoNotMatch(message)
         return True
+    
+    def login(self, username, password):
+        """Metodi kirjaa käyttäjän sisään.
+        
+            Muuttujat:
+                username (str): käyttäjänimi
+                password (str): käyttäjän salasana
+
+            Ilmoittaa:
+                InvalidCredentials: virhe, joka syntyy väärän tunnuksen seurauksena
+        """
+        user = self._user_repository.find_user_by_name(username)
+
+        if not user or not self._password_service.password_match(user.password, password):
+            raise self._exceptions.InvalidCredentials("Väärä käyttäjänimi tai salasana")
+
+        self._user = user
+
+    def get_current_user(self):
+        """Antaa istunnon käyttäjän.
+        
+            Palauttaa:
+                User: käyttäjäolio 
+        """
+        return self._user
 
     def get_exceptions(self):
         """Antaa palvelun virheilmoitusluokat.
@@ -79,3 +104,5 @@ class UserService:
                 _exceptions: palvelun virheilmoitusluokat
         """
         return self._exceptions
+
+user_service = UserService()

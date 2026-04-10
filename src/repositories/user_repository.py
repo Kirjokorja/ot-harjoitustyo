@@ -1,4 +1,5 @@
 from database.db import (database as default_db)
+from entities.user import User
 
 
 class UserRepository:
@@ -15,6 +16,12 @@ class UserRepository:
                 database (DatabaseInterface): tietokannan käyttöliittymäolio
         """
         self._db = db
+    
+    def _get_user_from_row(self, row):
+        return User(row["id"], row["username"], row["password_hash"]) if row else None
+
+    def _get_users_from_rows(self, rows):
+        return list(map(self._get_user_from_row, rows))
 
     def get_user(self, user_id):
         """Metodi hakee käyttäjää tunnusnumerolla.
@@ -23,7 +30,7 @@ class UserRepository:
             user_id: käyttäjän tunnusnumero tietokannassa
 
         Palauttaa:
-            tuple: monikko, joka sisältää yhden käyttäjän tunnusnumeron ja käyttäjänimen
+            User: käyttäjäolio
         """
         sql = """SELECT Users.id,
                     Users.username
@@ -31,7 +38,7 @@ class UserRepository:
             AND Users.id = ?"""
 
         result = self._db.query(sql, [user_id])
-        return result[0]
+        return self._get_user_from_row(result[0])
 
     def find_user_by_name(self, username):
         """Metodi etsii käyttäjää käyttäjänimellä.
@@ -40,10 +47,15 @@ class UserRepository:
             username (string): käyttäjän tunnusnumero tietokannassa
 
         Palauttaa:
-            lista: lista käyttäjänimiä monikkojen sisällä
+            User: käyttäjäolio
         """
-        sql = "SELECT username FROM Users WHERE username = ?"
-        return self._db.query(sql, [username])
+        user = None
+        sql = "SELECT id, username, password_hash FROM Users WHERE username = ?"
+        query_list = self._db.query(sql, [username])
+        if query_list:
+            user = self._get_users_from_rows(query_list)[0]
+        return user
+
 
     def add_user(self, user):
         """Metodi lisää käyttäjän tietokantaan.
