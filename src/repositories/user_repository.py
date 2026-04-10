@@ -16,7 +16,7 @@ class UserRepository:
                 database (DatabaseInterface): tietokannan käyttöliittymäolio
         """
         self._db = db
-    
+
     def _get_user_from_row(self, row):
         return User(row["id"], row["username"], row["password_hash"]) if row else None
 
@@ -55,7 +55,6 @@ class UserRepository:
         if query_list:
             user = self._get_users_from_rows(query_list)[0]
         return user
-
 
     def add_user(self, user):
         """Metodi lisää käyttäjän tietokantaan.

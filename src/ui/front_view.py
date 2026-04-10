@@ -34,13 +34,13 @@ class FrontView:
     def destroy(self):
         """Poistaa näkymän."""
         self._frame.destroy()
-    
+
     def _show_error(self, message):
         self._error_variable.set(message)
         self._error_label.grid()
 
     def _hide_error(self):
-        self._error_label.grid_remove() 
+        self._error_label.grid_remove()
 
     def _initialize(self):
         self._error_variable = StringVar(self._frame)
@@ -49,12 +49,13 @@ class FrontView:
                                       textvariable=self._error_variable,
                                       foreground="red"
                                       )
-        
+
         if self._service.get_user_service().get_current_user():
             self._frame = ttk.Frame(master=self._root)
 
-            greeting = ttk.Label(master=self._frame, text=f"Tervetuloa {self._service.get_user_service().get_current_user().username}!")
-            
+            greeting = ttk.Label(
+                master=self._frame, text=f"Tervetuloa {self._service.get_user_service().get_current_user().username}!")
+
             greeting.grid(padx=5, pady=5)
         else:
             self._show_error("Istuntoa ei löydy.")

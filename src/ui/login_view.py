@@ -51,7 +51,7 @@ class LoginView:
         self._error_label.grid()
 
     def _hide_error(self):
-        self._error_label.grid_remove() 
+        self._error_label.grid_remove()
 
     def _login_handler(self):
         self._hide_error()
@@ -66,7 +66,7 @@ class LoginView:
 
     def _initialize(self):
         self._frame = ttk.Frame(master=self._root)
-        
+
         greeting = ttk.Label(master=self._frame, text="Tervetuloa!")
 
         self._frame = ttk.Frame(master=self._root)
@@ -80,14 +80,16 @@ class LoginView:
 
         self._error_label.grid(padx=5, pady=5)
 
-        self._username = constructs.initialize_input_field(frame=self._frame, text="Käyttäjänimi", secure=False)
-        self._password = constructs.initialize_input_field(frame=self._frame, text="Salasana", secure=True)
-        
+        self._username = constructs.initialize_input_field(
+            frame=self._frame, text="Käyttäjänimi", secure=False)
+        self._password = constructs.initialize_input_field(
+            frame=self._frame, text="Salasana", secure=True)
+
         login_button = ttk.Button(master=self._frame,
-                                        text="Kirjaudu",
-                                        command=self._login_handler
-                                        )
-         
+                                  text="Kirjaudu",
+                                  command=self._login_handler
+                                  )
+
         create_user_button = ttk.Button(master=self._frame,
                                         text="Rekisteröidy",
                                         command=self._create_user_view

@@ -1,5 +1,6 @@
 from services.user_service import (user_service as default_user_service)
 
+
 class Services:
     """Kokoaa palvelut yhteen.
 

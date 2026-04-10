@@ -1,6 +1,7 @@
 from tkinter import ttk, constants, StringVar
 import ui.ui_constructs as constructs
 
+
 class CreateUserView:
     """Luokka vastaa sovelluksen käyttäjänluontinäkymästä.
 
@@ -79,11 +80,12 @@ class CreateUserView:
 
         self._error_label.grid(padx=5, pady=5)
 
-        self._username = constructs.initialize_input_field(frame=self._frame, text="Käyttäjänimi", secure=False)
+        self._username = constructs.initialize_input_field(
+            frame=self._frame, text="Käyttäjänimi", secure=False)
         self._password = constructs.initialize_input_field(frame=self._frame,
-            text="Salasana (min 8 merkkiä)", secure=True)
+                                                           text="Salasana (min 8 merkkiä)", secure=True)
         self._password_confirm = constructs.initialize_input_field(frame=self._frame,
-            text="Salasana uudestaan", secure=True)
+                                                                   text="Salasana uudestaan", secure=True)
 
         create_user_button = ttk.Button(master=self._frame,
                                         text="Luo",

@@ -23,7 +23,8 @@ class UserService:
         """Alusta käyttäjäpalvelu.
 
             Muuttujat:
-                user_repository (UserRepository): käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
+                user_repository (UserRepository): 
+                    käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
                 password_service: salasanankäsittelypalvelu
         """
@@ -71,10 +72,10 @@ class UserService:
             message = "Salasanat eivät täsmää."
             raise self._exceptions.PasswordsDoNotMatch(message)
         return True
-    
+
     def login(self, username, password):
         """Metodi kirjaa käyttäjän sisään.
-        
+
             Muuttujat:
                 username (str): käyttäjänimi
                 password (str): käyttäjän salasana
@@ -85,13 +86,14 @@ class UserService:
         user = self._user_repository.find_user_by_name(username)
 
         if not user or not self._password_service.password_match(user.password, password):
-            raise self._exceptions.InvalidCredentials("Väärä käyttäjänimi tai salasana")
+            raise self._exceptions.InvalidCredentials(
+                "Väärä käyttäjänimi tai salasana")
 
         self._user = user
 
     def get_current_user(self):
         """Antaa istunnon käyttäjän.
-        
+
             Palauttaa:
                 User: käyttäjäolio 
         """
@@ -104,5 +106,6 @@ class UserService:
                 _exceptions: palvelun virheilmoitusluokat
         """
         return self._exceptions
+
 
 user_service = UserService()
