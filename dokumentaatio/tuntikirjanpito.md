@@ -18,3 +18,4 @@
 | 1.4.  | 1,5 t  | koodin muotoilua ja testaamista |
 | 7.4.  | 3,5 t  | sisäänkirjautumisen ja käyttöliittymän kehitystä |
 | 8.4.  | 5 t    | sisäänkirjautumisen ja käyttöliittymän kehitystä |
+| 10.4. | 1 t    | sisäänkirjautumisen ja käyttöliittymän kehitystä |
