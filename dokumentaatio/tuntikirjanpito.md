@@ -19,3 +19,4 @@
 | 7.4.  | 3,5 t  | sisäänkirjautumisen ja käyttöliittymän kehitystä |
 | 8.4.  | 5 t    | sisäänkirjautumisen ja käyttöliittymän kehitystä |
 | 10.4. | 1 t    | sisäänkirjautumisen ja käyttöliittymän kehitystä |
+| 10.4. | 4 t    | käyttöliittymän kehitystä |
