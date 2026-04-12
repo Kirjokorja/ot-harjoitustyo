@@ -48,5 +48,13 @@ class PasswordService:
             return False
         return True
 
+    def get_min_password_lenght(self):
+        """Antaa palveluun asetetun salasanan minimipituuden.
+
+            Palauttaa:
+                PASSWORD_MIN_LENGHT (int): salasanan minimipituus
+        """
+        return PASSWORD_MIN_LENGHT
+
 
 password_service = PasswordService()

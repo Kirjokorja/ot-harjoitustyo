@@ -107,5 +107,8 @@ class UserService:
         """
         return self._exceptions
 
+    def get_min_password_lenght(self):
+        return self._password_service.get_min_password_lenght()
+
 
 user_service = UserService()
