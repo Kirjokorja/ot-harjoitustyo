@@ -24,3 +24,4 @@
 - UserService-luokka sai kirjautumistoiminnallisuutta:
     - login-metodi
     - get_current_user-metodi
+- Käyttäjä voi säätä fontin kokoa Ctrl+ArrowUp ja Ctrl+ArrowDown komennoilla
