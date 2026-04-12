@@ -15,13 +15,13 @@
 
 ## Viikko 4
 
-- Käyttäjä pystyy kirjautumaan sovellukseen
-- PasswordService-luokka on varsinaiseti käytössä
+- Käyttäjä pystyy kirjautumaan sovellukseen.
+- PasswordService-luokka on varsinaiseti käytössä.
 - UserRepository-luokka sai uusia metodeita:
     - _get_user_from_row
     - _get_users_from_rows
-- UserRepository-luokan julkiset metodit palauttavat User-olioita tietokannan rivien sijaan
+- UserRepository-luokan julkiset metodit palauttavat User-olioita tietokannan rivien sijaan.
 - UserService-luokka sai kirjautumistoiminnallisuutta:
     - login-metodi
     - get_current_user-metodi
-- Käyttäjä voi säätä fontin kokoa Ctrl+ArrowUp ja Ctrl+ArrowDown komennoilla
+- Käyttäjä voi säätä fontin kokoa Ctrl+ArrowUp ja Ctrl+ArrowDown komennoilla.
