@@ -6,10 +6,12 @@ from database.db import DatabaseInterface
 from database.initialize_db import DatabaseInitializer
 from tests.test_config import DATABASE_FILE_PATH, DATABASE_SCHEMA_PATH, DATABASE_SEED_PATH
 
+
 class TestDatabaseInitializer(unittest.TestCase):
     def setUp(self):
         self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
-        self.initializer = DatabaseInitializer(self.test_db, DATABASE_SCHEMA_PATH, DATABASE_SEED_PATH)
+        self.initializer = DatabaseInitializer(
+            self.test_db, DATABASE_SCHEMA_PATH, DATABASE_SEED_PATH)
 
     def test_initialize_database_creates_tables_from_schema(self):
         self.initializer.initialize_database()
@@ -26,7 +28,7 @@ class TestDatabaseInitializer(unittest.TestCase):
 
         with open(DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
             sql_schema = file.read()
-        
+
         tables = list()
 
         regex = re.compile('(?<= TABLE )[a-zA-Z]+')

@@ -14,6 +14,7 @@ class UserService:
                 käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
             _exceptions: käyttäjävirheet
             _password_service: salasanankäsittelypalvelu
+            _user: istunnon käyttäjäolio
     """
 
     def __init__(self, user_repository=default_user_repository,
