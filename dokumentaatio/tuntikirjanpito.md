@@ -23,3 +23,4 @@
 | 12.4. | 5 t    | käyttöliittymän kehitystä |
 | 13.4. | 30 min | käyttöliittymän kehitystä |
 | 14.4. | 2 t    | sovelluksen alustamisen parantelua |
+| 14.4. | 3 t    | testausta |
