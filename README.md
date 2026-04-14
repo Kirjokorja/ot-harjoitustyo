@@ -62,3 +62,11 @@ Lähdekoodin voi muotoilla käskyllä:
 ```bash
 poetry run invoke format
 ```
+
+### Koodin laaduntarkastus
+
+Koodin laadun voi tarkistaa käskyllä:
+
+```bash
+poetry run invoke lint
+```

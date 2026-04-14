@@ -53,3 +53,10 @@ def format(ctx):
         ctx.run("autopep8 --in-place --recursive src")
     else:
         ctx.run("autopep8 --in-place --recursive src", pty=True)
+
+@task
+def lint(ctx):
+    if platform == "win32":
+        ctx.run("pylint src")
+    else:
+        ctx.run("pylint src", pty=True)
