@@ -36,7 +36,7 @@ class TestDatabaseInterface(unittest.TestCase):
 
         self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
 
-    def test_query_palauttaa_listan(self):
+    def test_query_returns_list(self):
         sql = "SELECT id, username FROM Users WHERE username = ?"
         result = self.test_db.query(sql, ["Aava"])
 
