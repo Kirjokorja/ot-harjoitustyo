@@ -52,7 +52,7 @@ poetry run invoke test
 Testikattavuuskertomuksen voi muodostaa käskyllä:
 
 ```bash
-poetry run coverage-report
+poetry run invoke coverage-report
 ```
 
 ### Koodin muotoileminen
