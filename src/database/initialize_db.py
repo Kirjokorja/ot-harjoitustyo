@@ -1,6 +1,7 @@
+import locale
 from database.db import (database as default_db)
-from config import (DATABASE_SCHEMA as default_schema,
-                    DATABASE_CONTENT as default_content)
+from config import (DATABASE_SCHEMA_PATH as default_schema,
+                    DATABASE_SEED_PATH as default_seed)
 
 
 class DatabaseInitializer:
@@ -8,21 +9,21 @@ class DatabaseInitializer:
 
         Attribuutit:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
-            _schema (str): tietokantakaavio
-            _content (str): tietokantaan lisättävä sisältö
+            _schema (str): sql tietokantakaaviotiedosto
+            _seed (str): tietokannan alustussisältötiedosto
     """
 
-    def __init__(self, database=default_db, schema=default_schema, content=default_content):
+    def __init__(self, database=default_db, schema=default_schema, seed=default_seed):
         """Luo tietokannan alustusolio.
 
         Muuttujat:
             file_path (str): tietokannan sijainti
-            schema (str): tietokantakaavio
-            content (str): tietokantaan lisättävä sisältö
+            schema (str): sql tietokantakaaviotiedosto
+            seed (str): tietokannan alustussisältötiedosto
         """
         self._db = database
         self._schema = schema
-        self._content = content
+        self._seed = seed
 
     def _drop_all_tables(self):
         """Metodi tyhjentää tietokannan tauluista."""
@@ -44,16 +45,21 @@ class DatabaseInitializer:
     def _create_tables(self):
         """Metodi luo tietokantaan taulut."""
 
-        self._db.executescript(self._schema)
+        with open(self._schema, encoding=locale.getencoding()) as file:
+            sql = file.read()
+        self._db.executescript(sql)
 
     def _create_content(self):
         """Metodi lisää tietokohteita tietokantaan."""
-        self._db.executescript(self._content)
+
+        with open(self._seed, encoding=locale.getencoding()) as file:
+            sql = file.read()
+        self._db.executescript(sql)
 
     def initialize_database(self):
         """Metodi alustaa tietokannan."""
 
         self._drop_all_tables()
         self._create_tables()
-        if self._content:
+        if self._seed:
             self._create_content()

@@ -1,7 +1,8 @@
 import unittest
 import sqlite3
+import locale
 from database.db import DatabaseInterface
-from tests.test_config import DATABASE_FILE_PATH, DATABASE_SCHEMA, DATABASE_CONTENT
+from tests.test_config import DATABASE_FILE_PATH, DATABASE_SCHEMA_PATH, DATABASE_SEED_PATH
 
 
 class TestDatabaseInterface(unittest.TestCase):
@@ -25,8 +26,13 @@ class TestDatabaseInterface(unittest.TestCase):
                 sql_drop += row["tbl_name"] + ";"
             con.executescript(sql_drop)
 
-        con.executescript(DATABASE_SCHEMA)
-        con.executescript(DATABASE_CONTENT)
+        with open(DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
+            sql_schema = file.read()
+        con.executescript(sql_schema)
+
+        with open(DATABASE_SEED_PATH, encoding=locale.getencoding()) as file:
+            sql_seed = file.read()
+        con.executescript(sql_seed)
 
         self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
 

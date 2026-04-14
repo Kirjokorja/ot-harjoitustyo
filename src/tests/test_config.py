@@ -13,17 +13,10 @@ DATABASE_FILENAME = os.getenv("DATABASE_FILENAME") or "test_database.db"
 DATABASE_FILE_PATH = os.path.join(
     currentdir, "..", "..", "data", DATABASE_FILENAME)
 
-# Tietokannan alustusarvot
-DATABASE_SCHEMA = os.getenv("DATABASE_SCHEMA") or """
-        CREATE TABLE Users (
-            id INTEGER PRIMARY KEY,
-            username TEXT UNIQUE,
-            password_hash TEXT
-        );
-    """
-DATABASE_CONTENT = os.getenv("DATABASE_CONTENT") or """
-        INSERT INTO Users (username, password_hash) VALUES ('Unhola', 'testi1');
-        INSERT INTO Users (username, password_hash) VALUES ('Aava', 'testi2');
-        INSERT INTO Users (username, password_hash) VALUES ('Pekka', 'testi3');
-        INSERT INTO Users (username, password_hash) VALUES ('Tindeus', 'testi4');
-    """
+# Tietokannan alustuskäskyt
+DATABASE_SCHEMA_FILENAME = os.getenv(
+    "DATABASE_SCHEMA_FILENAME") or "schema.sql"
+DATABASE_SCHEMA_PATH = os.path.join(currentdir, "..", DATABASE_SCHEMA_FILENAME)
+DATABASE_SEED_FILENAME = os.getenv("DATABASE_SEED_FILENAME") or "seed.sql"
+DATABASE_SEED_PATH = os.path.join(
+    currentdir, "..", DATABASE_SEED_FILENAME)
