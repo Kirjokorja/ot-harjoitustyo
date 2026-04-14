@@ -21,3 +21,5 @@
 | 10.4. | 1 t    | sisäänkirjautumisen ja käyttöliittymän kehitystä |
 | 10.4. | 4 t    | käyttöliittymän kehitystä |
 | 12.4. | 5 t    | käyttöliittymän kehitystä |
+| 13.4. | 30 min | käyttöliittymän kehitystä |
+| 14.4. | 2 t    | sovelluksen alustamisen parantelua |
