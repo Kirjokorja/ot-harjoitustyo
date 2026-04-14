@@ -15,6 +15,7 @@ Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
 - [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 - [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 - [Changelog](dokumentaatio/changelog.md)
+- [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
 
 ## Sovelluksen käyttö
 
