@@ -25,4 +25,6 @@
 | 14.4. | 2 t       | sovelluksen alustamisen parantelua |
 | 14.4. | 3 t       | testausta |
 | 14.4. | 2 t       | luokkakaavion piirtämistä |
-| Summa | 73 t 5 min|
+| 18.4. | 1 t       | virhekäsittelyä |
+| 18.4. | 1 t       | käyttöliittymän kehitystä ja uloskirjautuminen |
+| Summa | 75 t 5 min|
