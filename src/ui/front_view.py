@@ -45,26 +45,35 @@ class FrontView:
     def _initialize_error(self):
         self._error_variable = StringVar(self._frame)
 
-        self._error_label = ttk.Label(master=self._frame,
-                                      textvariable=self._error_variable,
-                                      foreground="red"
-                                      )
+        self._error_label = ttk.Label(
+            master=self._frame,
+            textvariable=self._error_variable,
+            foreground="red"
+        )
         self._error_label.grid(padx=5, pady=5)
 
     def _initialize(self):
         self._initialize_error()
 
-        self._frame = ttk.Frame(master=self._root, style="TFrame")
+        self._frame = ttk.Frame(master=self._root)
 
-        if self._service.get_user_service().get_current_user():
+        try:
+            user = self._service.get_user_service().get_current_user()
             greeting = ttk.Label(
-                master=self._frame, text=f"Tervetuloa {self._service.get_user_service().get_current_user().username}!", anchor="center")
+                master=self._frame, 
+                text=f"Tervetuloa {user.username}!", 
+                anchor="center"
+            )
 
             self._frame.grid_columnconfigure(1, weight=1)
 
-            greeting.grid(column=1, padx=5, pady=5,
-                          sticky=(constants.NS, constants.EW))
-        else:
-            self._show_error("Istuntoa ei löydy.")
+            greeting.grid(
+                column=1, 
+                padx=5, 
+                pady=5,
+                sticky=(constants.NS, constants.EW)
+            )
+        except self._service.get_user_service().get_exceptions().NoSessionFound as e:
+            self._show_error(e.message)
 
         self._hide_error()

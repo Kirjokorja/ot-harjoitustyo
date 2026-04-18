@@ -66,16 +66,17 @@ class LoginView:
     def _initialize_error(self):
         self._error_variable = StringVar(self._frame)
 
-        self._error_label = ttk.Label(master=self._frame,
-                                      textvariable=self._error_variable,
-                                      foreground="red",
-                                      anchor="center"
-                                      )
+        self._error_label = ttk.Label(
+            master=self._frame,
+            textvariable=self._error_variable,
+            foreground="red",
+            anchor="center"
+        )
         self._error_label.grid(row=2, column=1, padx=5,
                                pady=5, sticky=(constants.NS, constants.EW))
 
     def _initialize_frame(self):
-        self._frame = ttk.Frame(master=self._root, style="TFrame")
+        self._frame = ttk.Frame(master=self._root)
 
         self._frame.grid_rowconfigure(0, weight=30)
         self._frame.grid_rowconfigure(1, weight=1)
@@ -93,44 +94,93 @@ class LoginView:
         self._frame.grid_columnconfigure(2, weight=5)
 
     def _initialize_login_fields(self):
-        username_label = ttk.Label(master=self._frame, text="Käyttäjänimi:")
-        username_label.grid(row=3, column=1, padx=5, pady=5,
-                            sticky=(constants.NS, constants.W))
+        username_label = ttk.Label(
+            master=self._frame, 
+            text="Käyttäjänimi:"
+        )
+        username_label.grid(
+            row=3, 
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.W)
+        )
         self._username = ttk.Entry(master=self._frame)
-        self._username.grid(row=4, column=1, padx=5, pady=5,
-                            sticky=(constants.NS, constants.EW))
+        self._username.grid(
+            row=4,
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
 
-        password_label = ttk.Label(master=self._frame, text="Salasana:")
-        password_label.grid(row=5, column=1, padx=5, pady=5,
-                            sticky=(constants.NS, constants.W))
+        password_label = ttk.Label(
+            master=self._frame, 
+            text="Salasana:"
+        )
+        password_label.grid(
+            row=5, 
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.W)
+        )
         self._password = ttk.Entry(master=self._frame, show="*")
-        self._password.grid(row=6, column=1, padx=5, pady=5,
-                            sticky=(constants.NS, constants.EW))
+        self._password.grid(
+            row=6, 
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
 
-        login_button = ttk.Button(master=self._frame,
-                                  text="Kirjaudu",
-                                  command=self._login_handler
-                                  )
-        login_button.grid(row=7, column=1, padx=5, pady=5,
-                          sticky=(constants.NS, constants.EW))
+        login_button = ttk.Button(
+            master=self._frame,
+            text="Kirjaudu",
+            command=self._login_handler
+        )
+        login_button.grid(
+            row=7, 
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+
+    def _initialize_create_user(self):
+        create_user_button = ttk.Button(
+            master=self._frame,
+            text="Rekisteröidy",
+            command=self._create_user_view
+        )
+        create_user_button.grid(
+            row=8, 
+            column=1, 
+            padx=5,
+            pady=5, 
+            sticky=(constants.NS, constants.EW)
+        )
 
     def _initialize(self):
         self._initialize_frame()
 
         self._initialize_error()
 
-        greeting = ttk.Label(master=self._frame,
-                             text="Tervetuloa!", anchor="center")
-        greeting.grid(row=1, column=1, padx=5, pady=5,
-                      sticky=(constants.NS, constants.EW))
+        greeting = ttk.Label(
+            master=self._frame,
+            text="Tervetuloa!", 
+            anchor="center"
+        )
+        greeting.grid(
+            row=1, 
+            column=1, 
+            padx=5, 
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
 
         self._initialize_login_fields()
 
-        create_user_button = ttk.Button(master=self._frame,
-                                        text="Rekisteröidy",
-                                        command=self._create_user_view
-                                        )
-        create_user_button.grid(row=8, column=1, padx=5,
-                                pady=5, sticky=(constants.NS, constants.EW))
+        self._initialize_create_user()
 
         self._hide_error()

@@ -1,7 +1,7 @@
 from ui.login_view import LoginView
 from ui.create_user_view import CreateUserView
 from ui.front_view import FrontView
-from tkinter import ttk, font
+from tkinter import ttk, font, constants
 from services.services import (services as default_services)
 from ui_config import APP_NAME
 
@@ -43,7 +43,7 @@ class UI:
 
         self._root.title(APP_NAME)
 
-        self._style.configure("TFrame", foreground="black")
+        #self._style.configure("TFrame", foreground="black", background="blue")
         self._font.configure(size=12)
 
         self._root.bind_all('<Control-Up>', self._upsize_event)
@@ -60,6 +60,30 @@ class UI:
         if self._font["size"] > 8 and self._current_view != None:
             self._font.configure(size=self._font["size"]-2)
             self._current_view.pack()
+
+    def _logout_handler(self):
+        self._service.get_user_service().logout()
+
+
+    def initialize_header(self, frame, text):
+        user_label = ttk.Label(
+            master=frame,
+            text=text
+        )
+
+        logout_button = ttk.Button(
+            master=frame,
+            text="Kirjaudu ulos",
+            command=self._show_login_view
+        )
+
+        user_label.grid(padx=5, pady=5, sticky=constants.W)
+
+        logout_button.grid(
+            padx=5,
+            pady=5,
+            sticky=constants.EW
+        )
 
     def _hide_current_view(self):
         if self._current_view:

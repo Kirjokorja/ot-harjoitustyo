@@ -95,9 +95,15 @@ class UserService:
     def get_current_user(self):
         """Antaa istunnon käyttäjän.
 
+            Ilmoittaa:
+                NoSessionFound: virhe, joka syntyy, kun käyttäjä ei ole kirjautuneena sisään
+
             Palauttaa:
                 User: käyttäjäolio 
         """
+        if not self._user:
+            raise self._exceptions.NoSessionFound("Istuntoa ei ole olemassa.")
+
         return self._user
 
     def get_exceptions(self):
