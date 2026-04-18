@@ -72,8 +72,13 @@ class LoginView:
             foreground="red",
             anchor="center"
         )
-        self._error_label.grid(row=2, column=1, padx=5,
-                               pady=5, sticky=(constants.NS, constants.EW))
+        self._error_label.grid(
+            row=2, 
+            column=1, 
+            padx=5,
+            pady=5, 
+            sticky=(constants.NS, constants.EW)
+        )
 
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)

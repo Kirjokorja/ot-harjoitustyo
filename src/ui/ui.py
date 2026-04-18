@@ -61,30 +61,6 @@ class UI:
             self._font.configure(size=self._font["size"]-2)
             self._current_view.pack()
 
-    def _logout_handler(self):
-        self._service.get_user_service().logout()
-
-
-    def initialize_header(self, frame, text):
-        user_label = ttk.Label(
-            master=frame,
-            text=text
-        )
-
-        logout_button = ttk.Button(
-            master=frame,
-            text="Kirjaudu ulos",
-            command=self._show_login_view
-        )
-
-        user_label.grid(padx=5, pady=5, sticky=constants.W)
-
-        logout_button.grid(
-            padx=5,
-            pady=5,
-            sticky=constants.EW
-        )
-
     def _hide_current_view(self):
         if self._current_view:
             self._current_view.destroy()
@@ -115,5 +91,6 @@ class UI:
         self._current_view = FrontView(
             self._root,
             self._service,
+            self._show_login_view
         )
         self._current_view.pack()

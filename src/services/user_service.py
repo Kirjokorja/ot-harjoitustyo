@@ -92,6 +92,11 @@ class UserService:
 
         self._user = user
 
+    def logout(self):
+        """Metodi kirjaa käyttäjän ulos."""
+
+        self._user = None
+
     def get_current_user(self):
         """Antaa istunnon käyttäjän.
 
