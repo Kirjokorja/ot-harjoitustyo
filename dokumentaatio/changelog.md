@@ -7,7 +7,6 @@
     - DatabaseInterface-luokka, joka halinnoi tietokantakutsuja.
     - Users-luokka, joka määrittelee käyttäjäolion.
     - UserRepository-luokka, joka hallitsee käyttäjiin liittyviä tietokantatoimintoja.
-    - Repositories-luokka, joka kokoaa eri tietokantatoimintopalvelut yhdeksi.
     - UserService-luokka, joka vastaa käyttäjiin liittyvästä sovelluslogiikasta.
     - PasswordService-luokka, joka tarjoaa metodeja salasanojen käsittelyyn.
     - Services-luokka, joka kokoaa eri palvelut yhdeksi.
@@ -29,3 +28,11 @@
 ## Viikko 5
 
 - Käyttäjä pystyy kirjautumaan ulos.
+- Käyttäjä pystyy luomaan maailman/hankkeen.
+- Sovellukseen lisätyt luokat:
+    - Projects, joka määrittelee hankeolion.
+    - TypeClass, joka määrittelee tietokohteiden luokkaolion.
+    - RepositoryBase, joka toimii emoluokkana erikoistuneimmille tietokantatoimintaluokille
+    - ProjectRepository, joka vastaa hankkeiden tietokantatoiminnoista
+    - ServiceBase, joka toimii emoluokkana erikoistuneemmille sovelluslogiikan luokille
+    -  ProjectService, joka vastaa hankkeiden toiminnoista sovelluksessa
