@@ -29,4 +29,5 @@
 | 18.4. | 1 t        | käyttöliittymän kehitystä ja uloskirjautuminen |
 | 18.4. | 9,5 t      | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
 | 19.4. | 3,5 t      | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
-| Summa | 88 t 5 min |
+| 19.4. | 7 t        | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
+| Summa | 95 t 5 min |
