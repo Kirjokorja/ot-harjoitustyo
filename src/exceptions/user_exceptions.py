@@ -40,9 +40,10 @@ class InvalidCredentials(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class NoSessionFound(Exception):
     """Luokka käsittelee ilmoituksia poikkeustilanteessa, 
-        jossa käyttäjä ei ole kirjautuneena.
+        jossa käyttäjä ei ole kirjautuneena sisään.
     """
 
     def __init__(self, message):

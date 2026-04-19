@@ -51,7 +51,7 @@ class DatabaseInterface:
         con = self._get_connection()
         result = con.execute(sql, params)
         row_id = result.lastrowid
-        result = con.commit()
+        con.commit()
         con.close()
         return row_id
 

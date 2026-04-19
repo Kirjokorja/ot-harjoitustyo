@@ -13,7 +13,7 @@ class CreateUserView:
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 
             _password_confirm (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan tarkistusta varten
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
-            _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
+            _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
     """
 
     def __init__(self, root, user_service, back_to_start_view, ):
@@ -77,10 +77,10 @@ class CreateUserView:
             anchor="center"
         )
         self._error_label.grid(
-            row=1, 
-            column=1, 
+            row=1,
+            column=1,
             padx=5,
-            pady=5, 
+            pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
@@ -104,62 +104,62 @@ class CreateUserView:
 
     def _initialize_login_fields(self):
         username_label = ttk.Label(
-            master=self._frame, 
+            master=self._frame,
             text="Käyttäjänimi:"
         )
         username_label.grid(
-            row=2, 
-            column=1, 
-            padx=5, 
+            row=2,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._username = ttk.Entry(master=self._frame)
         self._username.grid(
-            row=3, 
-            column=1, 
-            padx=5, 
+            row=3,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
-          )
+        )
 
         password_label = ttk.Label(
-            master=self._frame, 
+            master=self._frame,
             text=f"Salasana (min {self._user_service.get_min_password_lenght()} merkkiä):"
         )
         password_label.grid(
-            row=4, 
-            column=1, 
-            padx=5, 
+            row=4,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._password = ttk.Entry(master=self._frame, show="*")
         self._password.grid(
-            row=5, 
-            column=1, 
-            padx=5, 
+            row=5,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
         password_confirm_label = ttk.Label(
-            master=self._frame, 
+            master=self._frame,
             text="Salasana uudestaan:"
         )
         password_confirm_label.grid(
-            row=6, 
-            column=1, 
-            padx=5, 
-            pady=5, 
+            row=6,
+            column=1,
+            padx=5,
+            pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._password_confirm = ttk.Entry(master=self._frame, show="*")
         self._password_confirm.grid(
-            row=7, 
-            column=1, 
-            padx=5, 
-            pady=5, 
+            row=7,
+            column=1,
+            padx=5,
+            pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
@@ -169,8 +169,8 @@ class CreateUserView:
             command=self._create_user_handler
         )
         create_user_button.grid(
-            row=8, 
-            column=1, 
+            row=8,
+            column=1,
             padx=5,
             pady=5, sticky=(constants.NS, constants.EW)
         )

@@ -1,8 +1,9 @@
-from database.db import (database as default_db)
 from entities.user import User
+from database.db import (database as default_db)
+from repositories.repository import RepositoryBase
 
 
-class UserRepository:
+class UserRepository(RepositoryBase):
     """Luokka vastaa käyttäjien tietokantatoiminnoista.
 
         Attribuutit:
@@ -10,15 +11,12 @@ class UserRepository:
     """
 
     def __init__(self, db=default_db):
-        """Luo käyttäjärepo.
-
-            Muuttujat:
-                database (DatabaseInterface): tietokannan käyttöliittymäolio
-        """
-        self._db = db
+        super().__init__(db)
 
     def _get_user_from_row(self, row):
-        return User(row["id"], row["username"], row["password_hash"]) if row else None
+        if row:
+            return User(u_id=row["id"], username=row["username"], password=row["password_hash"])
+        return None
 
     def _get_users_from_rows(self, rows):
         return list(map(self._get_user_from_row, rows))
@@ -71,4 +69,4 @@ class UserRepository:
         return user
 
 
-user_repository = UserRepository()
+default_user_repository = UserRepository()

@@ -2,19 +2,19 @@ class User:
     """Luokka kuvaa yksittäistä käyttäjää.
 
     Attribuutit:
-        id (int): käyttäjän tunnusnumero ja pääavain tietokannassa
-        username (str): käyttäjän käyttäjänimi
+        u_id (int): käyttäjän tunnusluku ja pääavain tietokannassa
+        username (str): käyttäjänimi
         password (str): salasana hajautettuna merkkijonona
     """
 
-    def __init__(self, user_id=None, username=None, password=None):
+    def __init__(self, u_id=None, username=None, password=None):
         """Alusta uusi käyttäjä.
 
         Muuttujat:
-            id (int): käyttäjän tunnusnumero ja pääavain tietokannassa
+            u_id (int): käyttäjän tunnusnumero ja pääavain tietokannassa
             username (str): käyttäjän käyttäjänimi
             password (str): salasana hajautettuna merkkijonona
         """
-        self.id = user_id
+        self.u_id = u_id
         self.username = username
         self.password = password

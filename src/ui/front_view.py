@@ -7,26 +7,31 @@ class FrontView:
         Attribuutit:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
-            _service: toiminnoista vastaava olio
+            _services: toiminnoista vastaava olio
+            _new_project: uuden hankkeen luomisnäkymä
             _back_to_login: metodi, joka palauttaa kirjautumisnäkymän
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
-            _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
+            _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
+            _user (User): istunnon haltijan käyttäjäolio
     """
 
-    def __init__(self, root, service, back_to_login):
+    def __init__(self, root, services, back_to_login, new_project):
         """Luo kirjautuneen etusivu.
 
         Muuttujat:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
-            service: toiminnoista vastaava olio
+            services: toiminnoista vastaava olio
             back_to_login: metodi, joka palauttaa kirjautumisnäkymän
+            new_project: uuden hankkeen luomisnäkymä
         """
         self._root = root
-        self._service = service
+        self._services = services
         self._back_to_login = back_to_login
+        self._new_project = new_project
         self._frame = None
         self._error_variable = None
         self._error_label = None
+        self._user = None
 
         self._initialize()
 
@@ -54,19 +59,19 @@ class FrontView:
             foreground="red"
         )
         self._error_label.grid(padx=5, pady=5)
-    
+
     def _logout_handler(self):
-        self._service.get_user_service().logout()
+        self._services.get_user_service().logout()
         self._back_to_login()
 
-    def _initialize_header(self, text):
+    def _initialize_header(self):
         user_label = ttk.Label(
             master=self._frame,
-            text=text
+            text=f"Olet kirjautunut sisään nimellä {self._user.username}."
         )
         user_label.grid(
-            padx=5, 
-            pady=10, 
+            padx=5,
+            pady=5,
             sticky=constants.W
         )
 
@@ -77,36 +82,46 @@ class FrontView:
         )
         logout_button.grid(
             padx=5,
-            pady=5,
+            pady=10,
+            sticky=constants.EW
+        )
+
+        new_project_button = ttk.Button(
+            master=self._frame,
+            text="Luo maailma",
+            command=self._new_project
+        )
+        new_project_button.grid(
+            padx=5,
+            pady=10,
             sticky=constants.EW
         )
 
     def _initialize(self):
+        self._frame = ttk.Frame(master=self._root)
 
         self._initialize_error()
 
-        self._frame = ttk.Frame(master=self._root)
-
         try:
-            user = self._service.get_user_service().get_current_user()
+            self._user = self._services.get_user_service().get_current_user()
 
-            self._initialize_header(f"Olet kirjautunut nimellä {user.username}.")
+            self._initialize_header()
 
             greeting = ttk.Label(
-                master=self._frame, 
-                text=f"Tervetuloa {user.username}!", 
+                master=self._frame,
+                text=f"Tervetuloa {self._user.username}!",
                 anchor="center"
             )
 
             self._frame.grid_columnconfigure(1, weight=1)
 
             greeting.grid(
-                column=1, 
-                padx=5, 
+                column=1,
+                padx=5,
                 pady=5,
                 sticky=(constants.NS, constants.EW)
             )
-        except self._service.get_user_service().get_exceptions().NoSessionFound as e:
+        except self._services.get_user_service().get_exceptions().NoSessionFound as e:
             self._show_error(e.message)
-        
+
         self._hide_error()

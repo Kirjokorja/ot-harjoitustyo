@@ -13,7 +13,7 @@ class LoginView:
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
-            _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
+            _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
     """
 
     def __init__(self, root, user_service, create_user_view, front_view):
@@ -73,10 +73,10 @@ class LoginView:
             anchor="center"
         )
         self._error_label.grid(
-            row=2, 
-            column=1, 
+            row=2,
+            column=1,
             padx=5,
-            pady=5, 
+            pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
@@ -100,41 +100,41 @@ class LoginView:
 
     def _initialize_login_fields(self):
         username_label = ttk.Label(
-            master=self._frame, 
+            master=self._frame,
             text="Käyttäjänimi:"
         )
         username_label.grid(
-            row=3, 
-            column=1, 
-            padx=5, 
+            row=3,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._username = ttk.Entry(master=self._frame)
         self._username.grid(
             row=4,
-            column=1, 
-            padx=5, 
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
         password_label = ttk.Label(
-            master=self._frame, 
+            master=self._frame,
             text="Salasana:"
         )
         password_label.grid(
-            row=5, 
-            column=1, 
-            padx=5, 
+            row=5,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._password = ttk.Entry(master=self._frame, show="*")
         self._password.grid(
-            row=6, 
-            column=1, 
-            padx=5, 
+            row=6,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
         )
@@ -145,9 +145,9 @@ class LoginView:
             command=self._login_handler
         )
         login_button.grid(
-            row=7, 
-            column=1, 
-            padx=5, 
+            row=7,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
         )
@@ -159,10 +159,10 @@ class LoginView:
             command=self._create_user_view
         )
         create_user_button.grid(
-            row=8, 
-            column=1, 
+            row=8,
+            column=1,
             padx=5,
-            pady=5, 
+            pady=5,
             sticky=(constants.NS, constants.EW)
         )
 
@@ -173,13 +173,13 @@ class LoginView:
 
         greeting = ttk.Label(
             master=self._frame,
-            text="Tervetuloa!", 
+            text="Tervetuloa!",
             anchor="center"
         )
         greeting.grid(
-            row=1, 
-            column=1, 
-            padx=5, 
+            row=1,
+            column=1,
+            padx=5,
             pady=5,
             sticky=(constants.NS, constants.EW)
         )

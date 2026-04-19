@@ -36,10 +36,12 @@ class DatabaseInitializer:
 
         result = self._db.query(sql_table_names, ['table'])
 
+        statement = "DROP TABLE IF EXISTS "
+
         if result:
-            sql_drop = "DROP TABLE IF EXISTS "
-            for row in result:
-                sql_drop += row["tbl_name"] + ";"
+            sql_drop = ""
+            for table in result:
+                sql_drop += statement + table['tbl_name'] + ";"
             self._db.executescript(sql_drop)
 
     def _create_tables(self):

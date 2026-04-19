@@ -57,4 +57,4 @@ class PasswordService:
         return PASSWORD_MIN_LENGHT
 
 
-password_service = PasswordService()
+default_pw_service = PasswordService()

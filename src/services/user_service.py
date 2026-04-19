@@ -1,36 +1,37 @@
 from entities.user import User
+from services.service import ServiceBase
+from services.password_service import default_pw_service
 from exceptions import (user_exceptions as default_exceptions)
-from repositories.user_repository import (
-    user_repository as default_user_repository)
-from services.password_service import (password_service as default_pw_service)
+from repositories.user_repository import default_user_repository
 from config import USERNAME_MIN_LENGHT
 
 
-class UserService:
+class UserService(ServiceBase):
     """Luokka vastaa käyttäjään liittyvistä toiminnoista sovelluksessa.
 
         Attribuutit:
-            _user_repository (UserRepository): 
-                käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
+            _repository (Repository): 
+                käyttäjien tietokantatoiminnoista vastaava olio
             _exceptions: käyttäjävirheet
             _password_service: salasanankäsittelypalvelu
             _user: istunnon käyttäjäolio
     """
 
-    def __init__(self, user_repository=default_user_repository,
-                 exceptions=default_exceptions,
-                 password_service=default_pw_service
-                 ):
+    def __init__(
+        self,
+        repository=default_user_repository,
+        exceptions=default_exceptions,
+        password_service=default_pw_service
+    ):
         """Alusta käyttäjäpalvelu.
 
             Muuttujat:
-                user_repository (UserRepository): 
-                    käyttäjkäyttäjien tietokantatoiminnoista vastaava olio
+                repository (Repository): 
+                    käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
                 password_service: salasanankäsittelypalvelu
         """
-        self._user_repository = user_repository
-        self._exceptions = exceptions
+        super().__init__(repository=repository, exceptions=exceptions)
         self._password_service = password_service
         self._user = None
 
@@ -50,12 +51,12 @@ class UserService:
         """
         if (self._username_acceptable(username) and
                 self._password_acceptable(password, password_confirm)):
-            user_check = self._user_repository.find_user_by_name(username)
+            user_check = self._repository.find_user_by_name(username)
             if user_check:
                 message = f"Käyttäjänimi {user_check.username} on jo käytössä."
                 raise self._exceptions.UserAlreadyExists(message)
             password_hash = self._password_service.hash_password(password)
-            return self._user_repository.add_user(
+            return self._repository.add_user(
                 User(username=username, password=password_hash))
         return None
 
@@ -84,7 +85,7 @@ class UserService:
             Ilmoittaa:
                 InvalidCredentials: virhe, joka syntyy väärän tunnuksen seurauksena
         """
-        user = self._user_repository.find_user_by_name(username)
+        user = self._repository.find_user_by_name(username)
 
         if not user or not self._password_service.password_match(user.password, password):
             raise self._exceptions.InvalidCredentials(
@@ -111,16 +112,8 @@ class UserService:
 
         return self._user
 
-    def get_exceptions(self):
-        """Antaa palvelun virheilmoitusluokat.
-
-            Palauttaa:
-                _exceptions: palvelun virheilmoitusluokat
-        """
-        return self._exceptions
-
     def get_min_password_lenght(self):
         return self._password_service.get_min_password_lenght()
 
 
-user_service = UserService()
+default_user_service = UserService()

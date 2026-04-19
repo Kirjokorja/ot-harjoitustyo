@@ -20,10 +20,12 @@ class TestDatabaseInterface(unittest.TestCase):
 
         result = con.execute(sql_table_names, ['table']).fetchall()
 
+        statement = "DROP TABLE IF EXISTS "
+
         if result:
-            sql_drop = "DROP TABLE IF EXISTS "
-            for row in result:
-                sql_drop += row["tbl_name"] + ";"
+            sql_drop = ""
+            for table in result:
+                sql_drop += statement + table['tbl_name'] + ";"
             con.executescript(sql_drop)
 
         with open(DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:

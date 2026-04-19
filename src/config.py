@@ -19,6 +19,6 @@ DATABASE_SCHEMA_PATH = os.path.join(currentdir, DATABASE_SCHEMA_FILENAME)
 DATABASE_SEED_FILENAME = os.getenv("DATABASE_SEED_FILENAME") or "seed.sql"
 DATABASE_SEED_PATH = os.path.join(currentdir, DATABASE_SEED_FILENAME)
 
-# User configurations
+# Käyttäjän asetuksia
 USERNAME_MIN_LENGHT = 1
 PASSWORD_MIN_LENGHT = 8

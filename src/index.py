@@ -1,6 +1,6 @@
 from tkinter import Tk
 from ui.ui import UI
-from services.services import Services
+from services.complete_services import Services
 
 
 def main():
