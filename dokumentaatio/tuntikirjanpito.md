@@ -32,5 +32,5 @@
 | 19.4. | 7 t | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
 | 20.4. | 11 t | käyttöliittymän kehitystä |
 | 21.4. | 5 t | käyttöliittymän kehitystä |
-| 21.4. | 5 t | testausta
+| 21.4. | 5 t | testausta |
 | Summa | 116 t 5 min |
