@@ -1,15 +1,15 @@
 # Työaikakirjanpito
 
-| päivä | aika       | mitä tein  |
-| :----:|:-----------| :----------|
-| 16.3. | 3 t        | vaatimusmäärittelyä |
-| 20.3. | 15 min     | vaatimusmäärittelyä |
-| 24.3. | 4 t        | Tkinteriin tutustumista |
-| 25.3. | 3 t        | graafisen käyttöliittymän kehitystä |
-| 26.3. | 4,5 t      | tietokannan kehitystä |
-| 27.3. | 3,5 t      | tietokannan ja käyttäjän hallinnan kehitystä |
-| 28.3. | 11 t       | käyttäjän lisääminen tietokantaan |
-| 29.3. | 10 t       | käyttäjän lisääminen tietokantaan ja testaamista eri käyttöjärjestelmissä |
+| päivä | aika | mitä tein  |
+| :----:|:-----| :----------|
+| 16.3. | 3 t         | vaatimusmäärittelyä |
+| 20.3. | 15 min      | vaatimusmäärittelyä |
+| 24.3. | 4 t         | Tkinteriin tutustumista |
+| 25.3. | 3 t         | graafisen käyttöliittymän kehitystä |
+| 26.3. | 4,5 t       | tietokannan kehitystä |
+| 27.3. | 3,5 t       | tietokannan ja käyttäjän hallinnan kehitystä |
+| 28.3. | 11 t        | käyttäjän lisääminen tietokantaan |
+| 29.3. | 10 t        | käyttäjän lisääminen tietokantaan ja testaamista eri käyttöjärjestelmissä |
 | 30.3. | 2 t        | tietokannan rajapinnan yksikkötestaamista |
 | 30.3. | 3 t        | Invoke-käskyjen kirjoittamista ja testaamista |
 | 30.3. | 20 min     | muutoslokin kirjoittamista |
@@ -25,9 +25,11 @@
 | 14.4. | 2 t        | sovelluksen alustamisen parantelua |
 | 14.4. | 3 t        | testausta |
 | 14.4. | 2 t        | luokkakaavion piirtämistä |
-| 18.4. | 1 t        | virhekäsittelyä |
-| 18.4. | 1 t        | käyttöliittymän kehitystä ja uloskirjautuminen |
-| 18.4. | 9,5 t      | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
-| 19.4. | 3,5 t      | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
-| 19.4. | 7 t        | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
-| Summa | 95 t 5 min |
+| 18.4. | 1 t | virhekäsittelyä |
+| 18.4. | 1 t         | käyttöliittymän kehitystä ja uloskirjautuminen |
+| 18.4. | 9,5 t       | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
+| 19.4. | 3,5 t | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
+| 19.4. | 7 t | hankkeen/maailman luomisen ja käyttöliittymän kehitystä |
+| 20.4. | 11 t | käyttöliittymän kehitystä |
+| 21.4. | 5 t | käyttöliittymän kehitystä |
+| Summa | 111 t 5 min |
