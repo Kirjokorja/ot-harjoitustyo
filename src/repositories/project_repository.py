@@ -24,7 +24,7 @@ class ProjectRepository(RepositoryBase):
         sql = """INSERT INTO Projects (title, type, description, owner)
                     VALUES (?, ?, ?, ?)"""
 
-        project.id = self._db.execute(
+        project.p_id = self._db.execute(
             sql,
             [project.title, project.p_type.t_id,
                 project.description, project.owner.u_id]

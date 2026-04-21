@@ -6,6 +6,7 @@ from database.db import DatabaseInterface
 from repositories.user_repository import UserRepository
 from entities.user import User
 
+
 class TestUserRepository(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
@@ -35,7 +36,7 @@ class TestUserRepository(unittest.TestCase):
                 sql_drop += statement + table['tbl_name'] + ";"
             con.executescript(sql_drop)
             con.commit()
-        
+
         with open(TEST_DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
             sql_schema = file.read()
         con.executescript(sql_schema)
@@ -50,27 +51,14 @@ class TestUserRepository(unittest.TestCase):
 
     def test_find_user_by_name_returns_correct_user(self):
         user = self.userRepo.find_user_by_name("Aava")
-        
-        print(user.u_id)
-        print(user.username)
-
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
-        con.execute("PRAGMA foreign_keys = ON")
-        con.row_factory = sqlite3.Row
-
-        sql_found_user = """SELECT Users.id,
-                                    Users.username,
-                                    Users.password_hash
-                            FROM Users
-                        """
-
-        result = con.execute(sql_found_user).fetchall()
-        con.close()
-        for name in result:
-            print(f"{name["id"]} {name["username"]}")
 
         self.assertEqual(user.u_id, 4)
-    
+
+    def test_find_user_by_name_returns_none_when_username_is_not_in_database(self):
+        user = self.userRepo.find_user_by_name("ei-tietokannassa")
+
+        self.assertEqual(user, None)
+
     def test_add_user_adds_user_to_database(self):
         user = User(username="Pohjolan isäntä", password="moro!")
 
@@ -87,7 +75,8 @@ class TestUserRepository(unittest.TestCase):
                             WHERE Users.id = ?
                         """
 
-        result = con.execute(sql_found_user, [str(added_user.u_id)]).fetchall()[0]
+        result = con.execute(
+            sql_found_user, [str(added_user.u_id)]).fetchall()[0]
 
         con.close()
 

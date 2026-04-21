@@ -76,7 +76,7 @@ class TestDatabaseInterface(unittest.TestCase):
         sql = """INSERT INTO Users (username, password_hash) 
                             VALUES (?, ?);
                 """
-        
+
         row_id = self.test_db.execute(sql, ['Louhi', 'testi3'])
 
         self.assertEqual(row_id, 1)

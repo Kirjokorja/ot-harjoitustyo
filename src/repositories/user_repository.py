@@ -5,7 +5,7 @@ from repositories.repository import RepositoryBase
 
 class UserRepository(RepositoryBase):
     """Luokka vastaa käyttäjien tietokantatoiminnoista.
-    
+
         Attribuutit:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
     """
@@ -14,9 +14,7 @@ class UserRepository(RepositoryBase):
         super().__init__(db)
 
     def _get_user_from_row(self, row):
-        if row:
-            return User(u_id=row["id"], username=row["username"], password=row["password_hash"])
-        return None
+        return User(u_id=row["id"], username=row["username"], password=row["password_hash"])
 
     def _get_users_from_rows(self, rows):
         return list(map(self._get_user_from_row, rows))

@@ -33,4 +33,5 @@
 | 20.4. | 11 t | käyttöliittymän kehitystä |
 | 21.4. | 5 t | käyttöliittymän kehitystä |
 | 21.4. | 5 t | testausta |
-| Summa | 116 t 5 min |
+| 22.4. | 30 min | testausta |
+| Summa | 116 t 35 min |

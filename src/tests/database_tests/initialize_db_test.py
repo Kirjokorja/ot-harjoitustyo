@@ -73,14 +73,14 @@ class TestDatabaseInitializer(unittest.TestCase):
                             title TEXT,
                             value TEXT
                         );"""
-        )
+                          )
         con.commit()
         con.close()
-        
+
         initializer = DatabaseInitializer(
             self.test_db, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH)
         initializer.initialize_database()
-        
+
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
@@ -100,7 +100,6 @@ class TestDatabaseInitializer(unittest.TestCase):
 
         print("regex:")
         for user in regex.finditer(sql_seed):
-            # print(sql_seed[user.start():user.end()])
             users.append(sql_seed[user.start():user.end()])
         users.sort()
         for x in users:
