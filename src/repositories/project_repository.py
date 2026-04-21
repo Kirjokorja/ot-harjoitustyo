@@ -26,7 +26,8 @@ class ProjectRepository(RepositoryBase):
 
         project.id = self._db.execute(
             sql,
-            [project.title, project.p_type.t_id, project.description, project.owner.u_id]
+            [project.title, project.p_type.t_id,
+                project.description, project.owner.u_id]
         )
         return project
 

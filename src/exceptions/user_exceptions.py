@@ -41,7 +41,7 @@ class InvalidCredentials(Exception):
         super().__init__(self.message)
 
 
-class NoSessionFound(Exception):
+class SessionNotFound(Exception):
     """Luokka käsittelee ilmoituksia poikkeustilanteessa, 
         jossa käyttäjä ei ole kirjautuneena sisään.
     """

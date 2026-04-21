@@ -89,7 +89,7 @@ class UserService(ServiceBase):
 
         if not user or not self._password_service.password_match(user.password, password):
             raise self._exceptions.InvalidCredentials(
-                "Väärä käyttäjänimi tai salasana")
+                "Käyttäjänimi tai salasana on virheellinen.")
 
         self._user = user
 
@@ -102,13 +102,13 @@ class UserService(ServiceBase):
         """Antaa istunnon käyttäjän.
 
             Ilmoittaa:
-                NoSessionFound: virhe, joka syntyy, kun käyttäjä ei ole kirjautuneena sisään
+                SessionNotFound: virhe, joka syntyy, kun käyttäjä ei ole kirjautuneena sisään
 
             Palauttaa:
                 User: käyttäjäolio 
         """
         if not self._user:
-            raise self._exceptions.NoSessionFound("Istuntoa ei ole olemassa.")
+            raise self._exceptions.SessionNotFound("Istuntoa ei ole olemassa.")
 
         return self._user
 

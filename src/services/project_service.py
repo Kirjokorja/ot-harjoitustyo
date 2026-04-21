@@ -5,7 +5,13 @@ from entities.project import Project
 
 
 class ProjectService(ServiceBase):
-    """Luokka vastaa hankkeisiin liittyvistä toiminnoista sovelluksessa."""
+    """Luokka vastaa hankkeisiin liittyvistä toiminnoista sovelluksessa.
+
+        Attribuutit:
+            _repository (Repository): 
+                tietokantatoiminnoista vastaava olio
+            _exceptions: virheluokat
+    """
 
     def __init__(
         self,
@@ -58,10 +64,10 @@ class ProjectService(ServiceBase):
         """
 
         project = Project({
-            "id": None, 
-            "title": title, 
-            "type": p_type, 
-            "description": description, 
+            "id": None,
+            "title": title,
+            "type": p_type,
+            "description": description,
             "owner": owner
         })
         if self._project_acceptable(title, p_type, owner):

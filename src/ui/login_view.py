@@ -1,56 +1,43 @@
-from tkinter import ttk, constants, StringVar
+from tkinter import ttk, constants
+from ui.view import ViewBase
 
 
-class LoginView:
+class LoginView(ViewBase):
     """Luokka vastaa sovelluksen kirjautumisnäkymästä.
 
         Attribuutit:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
-            _user_service: käyttäjätoiminnoista vastaava olio
+            _service: käyttäjätoiminnoista vastaava olio
             _create_user_view: käyttäjänluontinäkymä
-            _front_view: seovelluksen etusivu kirjauduttua
+            _front_view: sovelluksen etusivu kirjauduttua
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
-            _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 
-            _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
-            _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
+            _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan
+            _header (Header): yläviitekenttä
+            _footer (Footer): alaviitekenttä
+            _margin_left (MarginLeft): vasen viitekenttä
+            _margin_right (MarginRight): oikea viitekenttä
     """
 
-    def __init__(self, root, user_service, create_user_view, front_view):
+    def __init__(self, root, service, margins, create_user_view, front_view):
         """Luo kirjautumisnäkymä.
 
         Muuttujat:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
-            user_service: käyttäjätoiminnoista vastaava olio
+            service: käyttäjätoiminnoista vastaava olio
+            margins (dict): viitekentät hajautustaulussa:
+                header (HeaderFrame): näkymän yläviitekenttä
+                footer (MarginFrame): näkymän alaviitekenttä
+                left_margin (MarginFrame): näkymän vasen viitekenttä
+                right_margin (MarginFrame): näkymän oikea viitekenttä
             create_user_view: käyttäjänluontinäkymä
-            front_view: seovelluksen etusivu kirjauduttua
+            front_view: sevelluksen etusivu kirjauduttua
         """
-        self._root = root
-        self._user_service = user_service
         self._create_user_view = create_user_view
         self._front_view = front_view
-        self._frame = None
         self._username = None
         self._password = None
-        self._error_variable = None
-        self._error_label = None
-
-        self._initialize()
-
-    def pack(self):
-        """Näyttää näkymän."""
-        self._frame.pack(fill="both", expand=True)
-
-    def destroy(self):
-        """Poistaa näkymän."""
-        self._frame.destroy()
-
-    def _show_error(self, message):
-        self._error_variable.set(message)
-        self._error_label.grid()
-
-    def _hide_error(self):
-        self._error_label.grid_remove()
+        super().__init__(root=root, service=service, margins=margins)
 
     def _login_handler(self):
         self._hide_error()
@@ -58,45 +45,10 @@ class LoginView:
         password = self._password.get()
 
         try:
-            self._user_service.login(username, password)
+            self._service.get_user_service().login(username, password)
             self._front_view()
-        except self._user_service.get_exceptions().InvalidCredentials as e:
+        except self._service.get_user_service().get_exceptions().InvalidCredentials as e:
             self._show_error(e.message)
-
-    def _initialize_error(self):
-        self._error_variable = StringVar(self._frame)
-
-        self._error_label = ttk.Label(
-            master=self._frame,
-            textvariable=self._error_variable,
-            foreground="red",
-            anchor="center"
-        )
-        self._error_label.grid(
-            row=2,
-            column=1,
-            padx=5,
-            pady=5,
-            sticky=(constants.NS, constants.EW)
-        )
-
-    def _initialize_frame(self):
-        self._frame = ttk.Frame(master=self._root)
-
-        self._frame.grid_rowconfigure(0, weight=30)
-        self._frame.grid_rowconfigure(1, weight=1)
-        self._frame.grid_rowconfigure(2, weight=1)
-        self._frame.grid_rowconfigure(3, weight=1)
-        self._frame.grid_rowconfigure(4, weight=1)
-        self._frame.grid_rowconfigure(5, weight=1)
-        self._frame.grid_rowconfigure(6, weight=1)
-        self._frame.grid_rowconfigure(7, weight=1)
-        self._frame.grid_rowconfigure(8, weight=1)
-        self._frame.grid_rowconfigure(9, weight=30)
-
-        self._frame.grid_columnconfigure(0, weight=5)
-        self._frame.grid_columnconfigure(1, weight=2)
-        self._frame.grid_columnconfigure(2, weight=5)
 
     def _initialize_login_fields(self):
         username_label = ttk.Label(
@@ -104,18 +56,16 @@ class LoginView:
             text="Käyttäjänimi:"
         )
         username_label.grid(
-            row=3,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.W)
         )
         self._username = ttk.Entry(master=self._frame)
         self._username.grid(
-            row=4,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -124,18 +74,15 @@ class LoginView:
             text="Salasana:"
         )
         password_label.grid(
-            row=5,
-            column=1,
             padx=5,
             pady=5,
             sticky=(constants.NS, constants.W)
         )
         self._password = ttk.Entry(master=self._frame, show="*")
         self._password.grid(
-            row=6,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -145,10 +92,9 @@ class LoginView:
             command=self._login_handler
         )
         login_button.grid(
-            row=7,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -159,16 +105,21 @@ class LoginView:
             command=self._create_user_view
         )
         create_user_button.grid(
-            row=8,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
-    def _initialize(self):
+    def initialize(self):
+        """Alusta näkymä."""
         self._initialize_frame()
-
+        self._margins["header"].configure(
+            {"row": 0,
+             "column": 0,
+             "rowspan": 2,
+             "columnspan": self._root.grid_size()[0]}
+        )
         self._initialize_error()
 
         greeting = ttk.Label(
@@ -177,15 +128,13 @@ class LoginView:
             anchor="center"
         )
         greeting.grid(
-            row=1,
-            column=1,
             padx=5,
             pady=5,
+            columnspan=3,
             sticky=(constants.NS, constants.EW)
         )
 
         self._initialize_login_fields()
-
         self._initialize_create_user()
 
         self._hide_error()
