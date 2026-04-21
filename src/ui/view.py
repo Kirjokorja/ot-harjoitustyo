@@ -32,7 +32,7 @@ class ViewBase:
         """
         self._root = root
         self._service = service
-        self._frame =None
+        self._frame = None
         self._error_variable = None
         self._error_label = None
         self._grid_size = None
@@ -100,10 +100,10 @@ class ViewBase:
         """Alusta näkymä."""
         self._initialize_frame()
         self._margins["header"].configure(
-            {"row":0,
-            "column":0,
-            "rowspan":2,
-            "columnspan":self._root.grid_size()[0]}
+            {"row": 0,
+             "column": 0,
+             "rowspan": 2,
+             "columnspan": self._root.grid_size()[0]}
         )
         self._initialize_error()
         self._hide_error()

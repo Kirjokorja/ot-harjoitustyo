@@ -73,6 +73,6 @@ class MarginFrame:
 
         for i in range(self._columnspan):
             self._frame.grid_columnconfigure(i, weight=1)
-    
+
     def _initialize(self):
         self._initialize_frame()

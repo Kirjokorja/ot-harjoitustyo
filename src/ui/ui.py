@@ -31,7 +31,7 @@ class UI:
         self._current_view = None
         self._service = service
         self._font = font.nametofont("TkDefaultFont")
-    
+
     def start(self):
         """Käyttöliittymän käynnistävä metodi"""
         window_width = int(self._root.winfo_screenwidth() * 0.6)

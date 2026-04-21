@@ -1,14 +1,13 @@
 import unittest
 import sqlite3
-import locale
 from database.db import DatabaseInterface
-from tests.test_config import DATABASE_FILE_PATH, DATABASE_SCHEMA_PATH, DATABASE_SEED_PATH
+from tests.test_config import TEST_DATABASE_FILE_PATH
 
 
 class TestDatabaseInterface(unittest.TestCase):
     def setUp(self):
 
-        con = sqlite3.connect(DATABASE_FILE_PATH)
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
@@ -28,18 +27,56 @@ class TestDatabaseInterface(unittest.TestCase):
                 sql_drop += statement + table['tbl_name'] + ";"
             con.executescript(sql_drop)
 
-        with open(DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
-            sql_schema = file.read()
+        sql_schema = """CREATE TABLE Users (
+                        id INTEGER PRIMARY KEY,
+                        username TEXT UNIQUE,
+                        password_hash TEXT
+                    );"""
         con.executescript(sql_schema)
+        con.commit()
+        con.close()
 
-        with open(DATABASE_SEED_PATH, encoding=locale.getencoding()) as file:
-            sql_seed = file.read()
-        con.executescript(sql_seed)
-
-        self.test_db = DatabaseInterface(DATABASE_FILE_PATH)
+        self.test_db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
 
     def test_query_returns_list(self):
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        sql_seed = """INSERT INTO Users (username, password_hash) 
+                            VALUES ('Pekka', 'testi1');
+                    """
+        con.executescript(sql_seed)
+        con.commit()
+        con.close()
+
+        sql = "SELECT id, username FROM Users WHERE username = ?"
+        result = self.test_db.query(sql, ["Pekka"])
+
+        self.assertEqual(type(result), type(list()))
+
+    def test_query_list_contains_sqlite_rows(self):
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        sql_seed = """INSERT INTO Users (username, password_hash) 
+                            VALUES ('Aava', 'testi2');
+                    """
+        con.executescript(sql_seed)
+        con.commit()
+        con.close()
+
         sql = "SELECT id, username FROM Users WHERE username = ?"
         result = self.test_db.query(sql, ["Aava"])
 
-        self.assertEqual(type(result), type(list()))
+        self.assertEqual(type(result[0]), sqlite3.Row)
+
+    def test_execute_returns_last_inserted_row_id(self):
+        sql = """INSERT INTO Users (username, password_hash) 
+                            VALUES (?, ?);
+                """
+        
+        row_id = self.test_db.execute(sql, ['Louhi', 'testi3'])
+
+        self.assertEqual(row_id, 1)

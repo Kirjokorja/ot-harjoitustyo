@@ -42,7 +42,7 @@ class FrontView(SessionView):
             user = self._service.get_user_service().get_current_user()
             self._margins["header"].configure(
                 {"row": 0,
-                 "column": 0, 
+                 "column": 0,
                  "rowspan": 2,
                  "columnspan": self._root.grid_size()[0]}
             )

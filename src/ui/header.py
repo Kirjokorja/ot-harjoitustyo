@@ -106,7 +106,8 @@ class HeaderFrame(MarginFrame):
         self._frame = ttk.Frame(master=self._root)
 
         style = ttk.Style()
-        style.configure("Header.TFrame", foreground="black", background="green")
+        style.configure("Header.TFrame", foreground="black",
+                        background="green")
 
         self._frame.configure(style="Header.TFrame")
 
@@ -119,7 +120,7 @@ class HeaderFrame(MarginFrame):
     def _initialize(self):
         self._initialize_frame()
         try:
-            user=self._service.get_user_service().get_current_user()
+            user = self._service.get_user_service().get_current_user()
             self._initialize_header(user)
         except self._service.get_user_service().get_exceptions().SessionNotFound:
             self._back_to_front_view = self._back_to_login_view

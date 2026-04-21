@@ -36,9 +36,8 @@ class DatabaseInitializer:
 
         result = self._db.query(sql_table_names, ['table'])
 
-        statement = "DROP TABLE IF EXISTS "
-
         if result:
+            statement = "DROP TABLE IF EXISTS "
             sql_drop = ""
             for table in result:
                 sql_drop += statement + table['tbl_name'] + ";"
