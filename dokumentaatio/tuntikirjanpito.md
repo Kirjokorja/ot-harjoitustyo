@@ -34,4 +34,5 @@
 | 21.4. | 5 t | käyttöliittymän kehitystä |
 | 21.4. | 5 t | testausta |
 | 22.4. | 30 min | testausta |
-| Summa | 116 t 35 min |
+| 23.4. | 2 t | sekvenssikaavio |
+| Summa | 118 t 35 min |

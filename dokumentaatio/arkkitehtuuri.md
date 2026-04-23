@@ -1,3 +1,7 @@
+# Arrkkitehtuurin kuvaus
+
+## Luokkakaavio
+
 ```mermaid
 classDiagram
     Services "1" o-- "1" UserService
@@ -46,11 +50,10 @@ classDiagram
         +get_user(user_id: int) User
         +find_user_by_name(username: String) User
         +add_user(user: User) User
-
     }
     class DatabaseInterface{
         -_file_path: String
-        +DatabaseInterface(file_path: String)        
+        +DatabaseInterface(file_path: String)
         -_get_connection() sqlite3.Connection
         +query(sql: String, params: List~String~) List~sqlite3.Row~
         +execute(sql: String, params: List~String~) int
@@ -58,3 +61,59 @@ classDiagram
         +executescript(statments: String) void
     }
 ```
+
+## Käyttäjän luonnin sekvenssikaavio
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant UI
+    participant Services
+    participant UserService
+    participant aino
+    participant UserRepository
+    participant DatabaseInterface
+
+    User->>UI: painaa "Luo" painiketta
+
+    activate UI
+    UI->>Services: get_user_service()
+
+    activate Services
+    Services->>UserService: create_user("Aino", "HaeTurvapaikkaaAhtolasta!!!!", "HaeTurvapaikkaaAhtolasta!!!!")
+    
+    activate UserService
+    UserService->>UserRepository: find_user_by_name("Aino")
+    
+    activate UserRepository
+    UserRepository->>DatabaseInterface: query("SELECT id, username, password_hash FROM Users WHERE username = ?", ["Aino"])
+    
+    activate DatabaseInterface
+    DatabaseInterface-->>UserRepository: list(None)
+    deactivate DatabaseInterface
+
+    UserRepository-->>UserService: None
+    deactivate UserRepository
+
+    UserService->>aino: User("Aino", "HaeTurvapaikkaaAhtolasta!!!!")UserService->>UserRepository: add_user(aino)
+    
+    activate UserRepository
+    UserRepository->>DatabaseInterface: execute("INSERT INTO Users (username, password_hash) VALUES (?, ?)", ["Aino", "HaeTurvapaikkaaAhtolasta!!!!"])
+    
+    activate DatabaseInterface
+    DatabaseInterface-->>UserRepository: id
+    deactivate DatabaseInterface
+
+    UserRepository->>aino: id
+    UserRepository-->>UserService: aino
+    deactivate UserRepository
+
+    UserService-->>Services: aino
+    deactivate UserService
+
+    Services-->>UI: aino
+    deactivate Services
+
+    UI-->>User: _show_login_view()
+    deactivate UI
+  ```
