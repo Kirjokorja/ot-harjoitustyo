@@ -20,29 +20,29 @@ Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamis
 
 - [x] Käyttäjä pystyy kirjautumaan ulos.
 - [x] Käyttäjä pystyy luomaan maailman.
-- [] Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
-- [] Käyttäjä pystyy hakemaan luomiaan maailmoja ja tietokohteita.
-- [] Käyttäjä pystyy poistamaan luomiaan maailmoja ja tietokohteita.
-- [] Käyttäjä pystyy muokaamaan luomiaan maailmoja ja tietokohteita.
-- [] Käyttäjä pystyy tarkastelemaan omia tietojaan.
+- [ ] Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
+- [ ] Käyttäjä pystyy hakemaan luomiaan maailmoja ja tietokohteita.
+- [ ] Käyttäjä pystyy poistamaan luomiaan maailmoja ja tietokohteita.
+- [ ] Käyttäjä pystyy muokaamaan luomiaan maailmoja ja tietokohteita.
+- [ ] Käyttäjä pystyy tarkastelemaan omia tietojaan.
 
 ## Jatkotoiminnallisuutta
 
-- [] Käyttäjä pystyy asettamaan luomiaan maailmoja ja tietokohteita yksityisiksi tai julkisiksi.
+- [ ] Käyttäjä pystyy asettamaan luomiaan maailmoja ja tietokohteita yksityisiksi tai julkisiksi.
     * Julkinen maailma tai tietokohde on kaikkien käyttäjien näkyvillä.
     * Yksityinen maailma tai tietokohde näkyy vain haltijalleen.
-- [] Käyttäjä pystyy jakamaan maailmojaan ja tietokohteitaan yksityisesti.
+- [ ] Käyttäjä pystyy jakamaan maailmojaan ja tietokohteitaan yksityisesti.
     * Ykityisesti jaetut tietokohteet näkyvät vain käyttäjille, joille ne on jaettu.
-- [] Käyttäjä pystyy jakamaan käyttöoikeukisa luomiinsa maailmoihin ja tietokohteisiin. Käyttöoikeuksia:
+- [ ] Käyttäjä pystyy jakamaan käyttöoikeukisa luomiinsa maailmoihin ja tietokohteisiin. Käyttöoikeuksia:
     * maailman muokkaaminen
     * tietokohteen luominen maailmaan
     * tietokohteen muokaaminen
     * tietokohteen poistaminen
-- [] Käyttäjä pystyy muokkaamaan maailmoja ja tietokohteita sekä poistamaan tietokohteita, joihin hänellä on asianmukaiset käyttöoikeudet.
-- [] Käyttäjä pystyy hakemaan julkisia maailmoja ja tietokohteita.
-- [] Käyttäjä pystyy hakemaan itselleen jaettuja maailmoja ja tietokohteita.
-- [] Käyttäjä pystyy valitsemaan tietokohteelle luokan.
-- [] Käyttäjä pystyy hakemaan tietokohteita luokan perusteella.
-- [] Käyttäjä pystyy luomaan itsemäärittelemänsä luokan tietokohteille.
-- [] Ennen kirjautumista käyttäjä näkee sovelluksen alkunäkymässä listauksen viimeisimmistä julkisista maailmoista ja tietokohteista.
-- [] Kirjautumisen jälkeen käyttäjä näkee kotinäkymässään listauksen viimeisimmistä maailmoista ja tietkohteista, jotka käyttäjälle on jaettu, jotka käyttäjä on itse luonut tai jotka ovat julkisia.
+- [ ] Käyttäjä pystyy muokkaamaan maailmoja ja tietokohteita sekä poistamaan tietokohteita, joihin hänellä on asianmukaiset käyttöoikeudet.
+- [ ] Käyttäjä pystyy hakemaan julkisia maailmoja ja tietokohteita.
+- [ ] Käyttäjä pystyy hakemaan itselleen jaettuja maailmoja ja tietokohteita.
+- [ ] Käyttäjä pystyy valitsemaan tietokohteelle luokan.
+- [ ] Käyttäjä pystyy hakemaan tietokohteita luokan perusteella.
+- [ ] Käyttäjä pystyy luomaan itsemäärittelemänsä luokan tietokohteille.
+- [ ] Ennen kirjautumista käyttäjä näkee sovelluksen alkunäkymässä listauksen viimeisimmistä julkisista maailmoista ja tietokohteista.
+- [ ] Kirjautumisen jälkeen käyttäjä näkee kotinäkymässään listauksen viimeisimmistä maailmoista ja tietkohteista, jotka käyttäjälle on jaettu, jotka käyttäjä on itse luonut tai jotka ovat julkisia.
