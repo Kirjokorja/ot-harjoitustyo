@@ -87,7 +87,7 @@ classDiagram
         -_get_class_from_row(row: sqlite3.Row) TypeClass
         -_get_classes_from_rows(list~sqlite3.row~) list~sqlite3.Row~
         +RepositoryBase(db: DatabaseInterface)
-        +get_classes(title. String) list~TypeClass~
+        +get_classes(title: String) list~TypeClass~
     }
     class UserRepository{
         ^-_db: DatabaseInterface
