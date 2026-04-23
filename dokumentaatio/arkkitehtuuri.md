@@ -96,7 +96,8 @@ sequenceDiagram
     deactivate UserRepository
 
     UserService->>aino: User("Aino", "HaeTurvapaikkaaAhtolasta!!!!")UserService->>UserRepository: add_user(aino)
-    
+    UserService->>UserRepository: add_user(aino)
+
     activate UserRepository
     UserRepository->>DatabaseInterface: execute("INSERT INTO Users (username, password_hash) VALUES (?, ?)", ["Aino", "HaeTurvapaikkaaAhtolasta!!!!"])
     
