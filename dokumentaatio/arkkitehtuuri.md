@@ -5,6 +5,7 @@
 ```mermaid
 classDiagram
     Services "1" o-- "1" UserService
+    Services "1" o-- "1" ProjectService
     ServiceBase <|-- UserService
     ServiceBase <|-- ProjectService
     UserService "1" o-- "1" PasswordService
