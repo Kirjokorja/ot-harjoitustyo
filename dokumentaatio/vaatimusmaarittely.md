@@ -13,18 +13,18 @@ Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamis
 
 ### Ennen kirjautumista
 
-1. Käyttäjä pystyy rekisteröitymään järjestelmään
-2. Käyttäjä pystyy kirjautumaan järjestelmään
+1. [x] Käyttäjä pystyy rekisteröitymään järjestelmään
+2. [x] Käyttäjä pystyy kirjautumaan järjestelmään
 
 ### Kirjautumisen jälkeen
 
-1. Käyttäjä pystyy kirjautumaan ulos. 
-2. Käyttäjä pystyy luomaan maailman.
-3. Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
-4. Käyttäjä pystyy hakemaan luomiaan maailmoja ja tietokohteita.
-5. Käyttäjä pystyy poistamaan luomiaan maailmoja ja tietokohteita.
-7. Käyttäjä pystyy muokaamaan luomiaan maailmoja ja tietokohteita.
-10. Käyttäjä pystyy tarkastelemaan omia tietojaan.
+1. [x] Käyttäjä pystyy kirjautumaan ulos.
+2. [x] Käyttäjä pystyy luomaan maailman.
+3. [] Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
+4. [] Käyttäjä pystyy hakemaan luomiaan maailmoja ja tietokohteita.
+5. [] Käyttäjä pystyy poistamaan luomiaan maailmoja ja tietokohteita.
+7. [] Käyttäjä pystyy muokaamaan luomiaan maailmoja ja tietokohteita.
+10. [] Käyttäjä pystyy tarkastelemaan omia tietojaan.
 
 ## Jatkotoiminnallisuutta
 
