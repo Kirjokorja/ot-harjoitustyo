@@ -8,7 +8,7 @@ class ProjectService(ServiceBase):
     """Luokka vastaa hankkeisiin liittyvistä toiminnoista sovelluksessa.
 
         Attribuutit:
-            _repository (Repository): 
+            _repository (ProjectRepository): 
                 tietokantatoiminnoista vastaava olio
             _exceptions: virheluokat
     """
@@ -21,7 +21,7 @@ class ProjectService(ServiceBase):
         """Alusta hankepalvelut.
 
             Muuttujat:
-                repository (Repository): 
+                repository (ProjectRepository):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
         """

@@ -10,7 +10,7 @@ class UserService(ServiceBase):
     """Luokka vastaa käyttäjään liittyvistä toiminnoista sovelluksessa.
 
         Attribuutit:
-            _repository (Repository): 
+            _repository (UserRepository):
                 käyttäjien tietokantatoiminnoista vastaava olio
             _exceptions: käyttäjävirheet
             _password_service: salasanankäsittelypalvelu
@@ -26,7 +26,7 @@ class UserService(ServiceBase):
         """Alusta käyttäjäpalvelu.
 
             Muuttujat:
-                repository (Repository): 
+                repository (UserRepository):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
                 password_service: salasanankäsittelypalvelu

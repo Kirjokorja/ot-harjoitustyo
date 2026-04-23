@@ -5,19 +5,38 @@
 ```mermaid
 classDiagram
     Services "1" o-- "1" UserService
+    ServiceBase <|-- UserService
+    ServiceBase <|-- ProjectService
     UserService "1" o-- "1" PasswordService
     UserService "1" o-- "1" User
     UserService "1" o-- "1" UserRepository
+    ProjectService "1" o-- "1" ProjectRepository
+    RepositoryBase <|-- UserRepository
+    RepositoryBase <|-- ProjectRepository
     UserRepository "1" o-- "1" DatabaseInterface
+    Project o-- User
+    Project o-- TypeClass
     User <.. UserRepository
+    User <.. UserService
+    Project <.. ProjectRepository
+    Project <.. ProjectService
+    TypeClass <.. ProjectService
     class Services{
         -_user_service: UserService
-        +Services(user_service: UserService)
+        -_project_service: ProjectService
+        +Services(user_service: UserService, project_service: ProjectService)
         +get_user_service() UserService
+        +get_project_service() ProjectService
+    }
+    class ServiceBase{
+        -_repository: RepositoryBase
+        ~_exceptions: exceptions
+        +ServiceBase(repository: RepositoryBase, exceptions)
+        +get_exceptions() exceptions
     }
     class UserService{
-        -_user_repository: UserRepository
-        -_exceptions
+        ^-_repository: UserRepository
+        ^~_exceptions: exceptions
         -_password_service: PasswordService
         -_user: User
         -_username_acceptable(username: String) bool
@@ -26,8 +45,15 @@ classDiagram
         +create_user(username: String, password: String, password_confirm: String) User
         +login(username: String, password: String) void
         +get_current_user() User
-        +get_exceptions() exceptions
         +get_min_password_lenght() String
+    }
+    class ProjectService{
+        ^-_repository: ProjectRepository
+        ^~_exceptions: exceptions
+        -_project_acceptable(title: String, p_type: TypeClass, owner: User) bool
+        +ProjectService(repository: ProjectRepository, exceptions)
+        +get_project_classes(title: String) list~TypeClass~
+        +create_project(title: String, p_type: TypeClass, description: String, owner: User) Project
     }
     class PasswordService{
         +PasswordService()
@@ -37,19 +63,43 @@ classDiagram
         +get_min_password_lenght()
     }
     class User{
-        +id: int
+        +u_id: int
         +username: String
         +password: String
         +User(user_id: int, username: String, password: String)
     }
-    class UserRepository{
+    class Project{
+        +p_id: int
+        +title: String
+        +p_type: TypeClass
+        +description: String
+        +owner: User
+        +Project(params: dict~String, value~)
+    }
+    class TypeClass{
+        +t_id: int
+        +title: String
+        +value: String
+    }
+    class RepositoryBase{
         -_db: DatabaseInterface
+        -_get_class_from_row(row: sqlite3.Row) TypeClass
+        -_get_classes_from_rows(list~sqlite3.row~) list~sqlite3.Row~
+        +RepositoryBase(db: DatabaseInterface)
+        +get_classes(title. String) list~TypeClass~
+    }
+    class UserRepository{
+        ^-_db: DatabaseInterface
         -_get_user_from_row(row: sqlite3.Row) User
-        -_get_users_from_rows(rows: List~sqlite3.Row~) List~sqlite3.Row~ 
+        -_get_users_from_rows(rows: List~sqlite3.Row~) List~User~ 
         +UserRepository(db: DatabaseInterface)
-        +get_user(user_id: int) User
         +find_user_by_name(username: String) User
         +add_user(user: User) User
+    }
+    class ProjectRepository{
+        ^-_db: DatabaseInterface
+        +ProjectRepository(db: DatbaseInterface)
+        +add_project(project: Project) Project
     }
     class DatabaseInterface{
         -_file_path: String

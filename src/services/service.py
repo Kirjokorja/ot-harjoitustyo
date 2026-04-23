@@ -12,7 +12,7 @@ class ServiceBase:
         """Alusta palvelut.
 
             Muuttujat:
-                repository (Repository): 
+                repository (RepositoryBase): 
                     tietokantatoiminnoista vastaava olio
                 exceptions: virheluokat
         """
