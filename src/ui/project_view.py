@@ -82,12 +82,13 @@ class ProjectView(SessionView):
             row=3,
             padx=5,
             pady=5,
-            sticky=(constants.NS, constants.W)
+            sticky=(constants.N, constants.W)
         )
 
-        description = stext.ScrolledText(master=self._frame)
-        description.insert(END, self._project.description)
-        description.grid(
+        description_text = stext.ScrolledText(master=self._frame)
+        description_text.insert(END, self._project.description)
+        description_text.configure(state ='disabled')
+        description_text.grid(
             column=self._grid_size[0]//2,
             row=3,
             padx=5,

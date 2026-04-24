@@ -99,7 +99,8 @@ class NewProjectView(SessionView):
 
         self._project_class = ttk.Combobox(
             master=self._frame,
-            values=[type.value for type in self._classes]
+            values=[type.value for type in self._classes],
+            state="readonly"
         )
         self._project_class.set("Valitse luokka.")
         self._project_class.grid(

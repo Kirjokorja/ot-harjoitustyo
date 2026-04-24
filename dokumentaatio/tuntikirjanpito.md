@@ -35,4 +35,6 @@
 | 21.4. | 5 t | testausta |
 | 22.4. | 30 min | testausta |
 | 23.4. | 2 t | sekvenssikaavio |
-| Summa | 118 t 35 min |
+| 23.4. | 1 t | luokkakaavion päivitystä |
+| 24.4. | 30 min | käyttöliittymän päivitystä |
+| Summa | 119 t 5 min |
