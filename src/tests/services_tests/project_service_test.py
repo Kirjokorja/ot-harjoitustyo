@@ -256,7 +256,9 @@ class TestProjectService(unittest.TestCase):
             exc = e
 
         self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoTitle)
+            type(exc),
+            self.p_service.get_exceptions().ProjectHasNoTitle
+        )
 
     def test_save_project_raises_project_has_no_type_exception(self):
 
@@ -273,7 +275,9 @@ class TestProjectService(unittest.TestCase):
             exc = e
 
         self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoType)
+            type(exc),
+            self.p_service.get_exceptions().ProjectHasNoType
+        )
 
     def test_save_project_raises_project_has_no_owner_exception(self):
 
@@ -290,4 +294,6 @@ class TestProjectService(unittest.TestCase):
             exc = e
 
         self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoOwner)
+            type(exc),
+            self.p_service.get_exceptions().ProjectHasNoOwner
+        )

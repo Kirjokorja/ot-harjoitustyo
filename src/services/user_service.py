@@ -49,22 +49,25 @@ class UserService(ServiceBase):
             Palauttaa:
                 User: käyttäjäolio
         """
-        if (self._username_acceptable(username) and
-                self._password_acceptable(password, password_confirm)):
-            user_check = self._repository.find_user_by_name(username)
-            if user_check:
-                message = f"Käyttäjänimi {user_check.username} on jo käytössä."
-                raise self._exceptions.UserAlreadyExists(message)
-            password_hash = self._password_service.hash_password(password)
-            return self._repository.add_user(
-                User(username=username, password=password_hash))
-        return None
+        self._username_acceptable(username=username)
+        self._password_acceptable(
+            password=password, password_confirm=password_confirm)
+        self._user_exists(username=username)
+        password_hash = self._password_service.hash_password(password)
+        user = self._repository.add_user(
+            User(username=username, password=password_hash))
+        return user
+
+    def _user_exists(self, username):
+        user_check = self._repository.find_user_by_name(username)
+        if user_check:
+            message = f"Käyttäjänimi {user_check.username} on jo käytössä."
+            raise self._exceptions.UserAlreadyExists(message)
 
     def _username_acceptable(self, username):
         if len(username) < USERNAME_MIN_LENGHT:
             message = "Käyttäjänimi on liian lyhyt."
             raise self._exceptions.UsernameTooShort(message)
-        return True
 
     def _password_acceptable(self, password, password_confirm):
         if not self._password_service.password_long_enough(password):
@@ -73,7 +76,6 @@ class UserService(ServiceBase):
         if password != password_confirm:
             message = "Salasanat eivät täsmää."
             raise self._exceptions.PasswordsDoNotMatch(message)
-        return True
 
     def login(self, username, password):
         """Metodi kirjaa käyttäjän sisään.
@@ -84,6 +86,9 @@ class UserService(ServiceBase):
 
             Ilmoittaa:
                 InvalidCredentials: virhe, joka syntyy väärän tunnuksen seurauksena
+
+            Palauttaa:
+                _user (User): istunnon käyttäjäolio
         """
         user = self._repository.find_user_by_name(username)
 
@@ -92,6 +97,8 @@ class UserService(ServiceBase):
                 "Käyttäjänimi tai salasana on virheellinen.")
 
         self._user = user
+
+        return self._user
 
     def logout(self):
         """Metodi kirjaa käyttäjän ulos."""
