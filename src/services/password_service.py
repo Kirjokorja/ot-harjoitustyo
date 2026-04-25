@@ -5,8 +5,8 @@ from config import PASSWORD_MIN_LENGHT
 class PasswordService:
     """Tarjoaa salasanapalveluja."""
 
-    def __init__(self):
-        pass
+    def __init__(self, pw_min_lenght=PASSWORD_MIN_LENGHT):
+        self._pw_min_lenght = pw_min_lenght
 
     def hash_password(self, password):
         """Salaa salasanan luomalla siitä uuden merkkijonon hajauttamalla.
@@ -15,7 +15,7 @@ class PasswordService:
                 password: salasana
 
                 Palauttaa:
-                    str: hajautettu merkkijono
+                    String: hajautettu merkkijono
         """
         salt = gensalt()
         password_bytes = password.encode('utf-8')
@@ -44,7 +44,7 @@ class PasswordService:
                 Palauttaa:
                     bool: True, jos salasana on riittävän pitkä, muuten False 
         """
-        if len(password) < PASSWORD_MIN_LENGHT:
+        if len(password) < self._pw_min_lenght:
             return False
         return True
 
@@ -54,7 +54,7 @@ class PasswordService:
             Palauttaa:
                 PASSWORD_MIN_LENGHT (int): salasanan minimipituus
         """
-        return PASSWORD_MIN_LENGHT
+        return self._pw_min_lenght
 
 
 default_pw_service = PasswordService()

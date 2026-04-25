@@ -14,10 +14,6 @@ class TestDatabaseInitializer(unittest.TestCase):
             os.remove(TEST_DATABASE_FILE_PATH)
         self.test_db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
 
-        print(TEST_DATABASE_FILE_PATH)
-        print(TEST_DATABASE_SCHEMA_PATH)
-        print(TEST_DATABASE_SEED_PATH)
-
     def test_initialize_database_creates_tables_from_schema(self):
         initializer = DatabaseInitializer(
             self.test_db, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH)
@@ -40,10 +36,10 @@ class TestDatabaseInitializer(unittest.TestCase):
 
         tables = list()
 
-        regex = re.compile('(?<= TABLE )[a-zA-Z]+')
+        regex = re.compile(' TABLE (.+?) ')
 
         for table in regex.finditer(sql_schema):
-            tables.append(sql_schema[table.start():table.end()])
+            tables.append(table.group(1))
         i = 0
         for row in table_names:
             self.assertEqual(row['tbl_name'], tables[i])
@@ -92,22 +88,17 @@ class TestDatabaseInitializer(unittest.TestCase):
         with open(TEST_DATABASE_SEED_PATH, encoding=locale.getencoding()) as file:
             sql_seed = file.read()
 
-        print(sql_seed)
-
         users = list()
 
-        regex = re.compile('(?<= password_hash\\) VALUES \\(\')[a-zA-Z0-9]+')
+        regex = re.compile('Users \\(username, password_hash\\) VALUES \\(\'(.+?)\'')
 
-        print("regex:")
         for user in regex.finditer(sql_seed):
-            users.append(sql_seed[user.start():user.end()])
+            users.append(user.group(1))
         users.sort()
         for x in users:
             print(x)
         i = 0
-        print("Kysely:")
         for row in db_users:
-            print(row['username'])
             self.assertEqual(row['username'], users[i])
             i += 1
 
