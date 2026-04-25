@@ -14,10 +14,11 @@ class FrontView(SessionView):
             _back_to_login: metodi, joka palauttaa kirjautumisnäkymän
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
-            _header (Header): yläviitekenttä
-            _footer (Footer): alaviitekenttä
-            _margin_left (MarginLeft): vasen viitekenttä
-            _margin_right (MarginRight): oikea viitekenttä
+            _margins (dict): viitekentät hajautustaulussa:
+                header (HeaderFrame): näkymän yläviitekenttä 
+                footer (MarginFrame): näkymän alaviitekenttä
+                left_margin (MarginFrame): näkymän vasen viitekenttä
+                right_margin (MarginFrame): näkymän oikea viitekenttä
     """
 
     def __init__(self, root, service, margins):

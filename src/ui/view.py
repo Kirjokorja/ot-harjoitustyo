@@ -8,6 +8,8 @@ class ViewBase:
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: käyttäjätoiminnoista vastaava olio
+            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
@@ -33,6 +35,8 @@ class ViewBase:
         self._root = root
         self._service = service
         self._frame = None
+        self._message_variable = None
+        self._message_label = None
         self._error_variable = None
         self._error_label = None
         self._grid_size = None
@@ -54,6 +58,28 @@ class ViewBase:
         """Poistaa näkymän."""
         self._margins["header"].destroy()
         self._frame.destroy()
+
+    def _show_message(self, message):
+        self._message_variable.set(message)
+        self._message_label.grid()
+
+    def _hide_message(self):
+        self._message_label.grid_remove()
+
+    def _initialize_message(self):
+        self._message_variable = StringVar(self._frame)
+
+        self._message_label = ttk.Label(
+            master=self._frame,
+            textvariable=self._message_variable,
+            anchor="center"
+        )
+        self._message_label.grid(
+            padx=5,
+            pady=5,
+            columnspan=self._grid_size[0],
+            sticky=(constants.NS, constants.EW)
+        )
 
     def _show_error(self, message):
         self._error_variable.set(message)

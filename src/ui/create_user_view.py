@@ -9,14 +9,17 @@ class CreateUserView(ViewBase):
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: käyttäjätoiminnoista vastaava olio
+            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _header (Header): yläviitekenttä
-            _footer (Footer): alaviitekenttä
-            _margin_left (MarginLeft): vasen viitekenttä
-            _margin_right (MarginRight): oikea viitekenttä
+            _margins (dict): viitekentät hajautustaulussa:
+                header (HeaderFrame): näkymän yläviitekenttä 
+                footer (MarginFrame): näkymän alaviitekenttä
+                left_margin (MarginFrame): näkymän vasen viitekenttä
+                right_margin (MarginFrame): näkymän oikea viitekenttä
             _back_to_start_view: metodi, joka palauttaa alkunäkymän
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 

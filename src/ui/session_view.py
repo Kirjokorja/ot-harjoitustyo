@@ -13,15 +13,11 @@ class SessionView(ViewBase):
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _header (Header): yläviitekenttä
-            _footer (Footer): alaviitekenttä
-            _margin_left (MarginLeft): vasen viitekenttä
-            _margin_right (MarginRight): oikea viitekenttä
-            _back_to_front_view: metodi, joka paluttaa käyttäjän etusivun
-            _back_to_login: metodi, joka palauttaa kirjautumisnäkymän
-            _new_project: hankkeen luomisnäkymä
-            _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
-            _error_label (Label): virheilmoituksen näyttämisestä vastaava Label-olio
+            _margins (dict): viitekentät hajautustaulussa:
+                header (HeaderFrame): näkymän yläviitekenttä 
+                footer (MarginFrame): näkymän alaviitekenttä
+                left_margin (MarginFrame): näkymän vasen viitekenttä
+                right_margin (MarginFrame): näkymän oikea viitekenttä
     """
 
     def __init__(self, root, service, margins):
@@ -51,7 +47,7 @@ class SessionView(ViewBase):
         self._initialize_frame()
 
         try:
-            user = self._service.get_user_service().get_current_user()
+            self._service.get_user_service().get_current_user()
             self._header.configure(
                 {"row": 0,
                  "column": 0,

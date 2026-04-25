@@ -50,6 +50,19 @@ class ProjectService(ServiceBase):
         """
         return self._repository.get_classes(title)
 
+    def save_project(self, project):
+        """Muokkaa hanketta.
+
+            Muuttujat:
+                project (Project): hankeolio
+
+            Palauttaa:
+                project (Project): hankeolio
+        """
+        if self._project_acceptable(project.title, project.p_type, project.owner):
+            project = self._repository.edit_project(project)
+        return project
+
     def create_project(self, title, p_type, description, owner):
         """Luo uuden hankkeen.
 

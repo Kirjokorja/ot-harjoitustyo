@@ -9,19 +9,22 @@ class ProjectView(SessionView):
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
+            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _header (Header): yläviitekenttä
-            _footer (Footer): alaviitekenttä
-            _margin_left (MarginLeft): vasen viitekenttä
-            _margin_right (MarginRight): oikea viitekenttä
-            _user (User): istunnon haltijan käyttäjäolio
+            _margins (dict): viitekentät hajautustaulussa:
+                header (HeaderFrame): näkymän yläviitekenttä 
+                footer (MarginFrame): näkymän alaviitekenttä
+                left_margin (MarginFrame): näkymän vasen viitekenttä
+                right_margin (MarginFrame): näkymän oikea viitekenttä
             _project (Project): näytettävä hanke
+            _edit_project_view: metodi, vie hankkeen muokkausnäkymään
     """
 
-    def __init__(self, root, service, project, margins):
+    def __init__(self, root, service, project, margins, edit_project_view):
         """Näytä hanke.
 
         Muuttujat:
@@ -33,9 +36,14 @@ class ProjectView(SessionView):
                 footer (MarginFrame): näkymän alaviitekenttä
                 left_margin (MarginFrame): näkymän vasen viitekenttä
                 right_margin (MarginFrame): näkymän oikea viitekenttä
+            edit_project_view: metodi, vie hankkeen muokkausnäkymään
         """
         super().__init__(root=root, service=service, margins=margins)
         self._project = project
+        self._edit_project_view = edit_project_view
+
+    def _edit_project_handler(self):
+        self._edit_project_view(self._project)
 
     def _initialize_project_fields(self):
         name_label = ttk.Label(
@@ -43,6 +51,7 @@ class ProjectView(SessionView):
             text=self._project.title
         )
         name_label.grid(
+            column=self._grid_size[0]//2,
             row=1,
             padx=5,
             pady=5,
@@ -87,7 +96,7 @@ class ProjectView(SessionView):
 
         description_text = stext.ScrolledText(master=self._frame)
         description_text.insert(END, self._project.description)
-        description_text.configure(state ='disabled')
+        description_text.configure(state='disabled')
         description_text.grid(
             column=self._grid_size[0]//2,
             row=3,
@@ -120,6 +129,19 @@ class ProjectView(SessionView):
             sticky=(constants.NS, constants.EW)
         )
 
+        edit_button = ttk.Button(
+            master=self._frame,
+            text="Muokkaa",
+            command=self._edit_project_handler
+        )
+        edit_button.grid(
+            column=self._grid_size[0]//2,
+            row=5,
+            padx=5,
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
@@ -127,6 +149,7 @@ class ProjectView(SessionView):
         self._frame.grid_rowconfigure(1, weight=1)
         self._frame.grid_rowconfigure(2, weight=1)
         self._frame.grid_rowconfigure(3, weight=1)
+        self._frame.grid_rowconfigure(4, weight=1)
         self._frame.grid_columnconfigure(0, weight=1)
         self._frame.grid_columnconfigure(1, weight=1)
 

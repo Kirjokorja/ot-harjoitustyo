@@ -1,7 +1,8 @@
 from ui.login_view import LoginView
 from ui.create_user_view import CreateUserView
 from ui.front_view import FrontView
-from ui.new_project_view import NewProjectView
+from ui.create_project_view import CreateProjectView
+from ui.edit_project_view import EditProjectView
 from ui.project_view import ProjectView
 from ui.margin import MarginFrame
 from ui.header import HeaderFrame
@@ -93,7 +94,7 @@ class UI:
                 service=self._service,
                 back_to_front_view=self._show_front_view,
                 back_to_login_view=self._show_login_view,
-                new_project_view=self._show_new_project_view
+                new_project_view=self._show_create_project_view
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -117,7 +118,7 @@ class UI:
                 service=self._service,
                 back_to_front_view=self._show_front_view,
                 back_to_login_view=self._show_login_view,
-                new_project_view=self._show_new_project_view
+                new_project_view=self._show_create_project_view
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -140,7 +141,7 @@ class UI:
                 service=self._service,
                 back_to_front_view=self._show_front_view,
                 back_to_login_view=self._show_login_view,
-                new_project_view=self._show_new_project_view
+                new_project_view=self._show_create_project_view
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -154,7 +155,7 @@ class UI:
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_new_project_view(self):
+    def _show_create_project_view(self):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -162,17 +163,17 @@ class UI:
                 service=self._service,
                 back_to_front_view=self._show_front_view,
                 back_to_login_view=self._show_login_view,
-                new_project_view=self._show_new_project_view
+                new_project_view=self._show_create_project_view
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
             "right_margin": MarginFrame(root=self._root)
         }
-        self._current_view = NewProjectView(
+        self._current_view = CreateProjectView(
             root=self._root,
             service=self._service,
             margins=margins,
-            project_view=self._show_project_view
+            project_view=self._show_project_view,
         )
         self._current_view.initialize()
         self._current_view.pack()
@@ -185,7 +186,7 @@ class UI:
                 service=self._service,
                 back_to_front_view=self._show_front_view,
                 back_to_login_view=self._show_login_view,
-                new_project_view=self._show_new_project_view
+                new_project_view=self._show_create_project_view
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -195,7 +196,32 @@ class UI:
             root=self._root,
             service=self._service,
             project=project,
-            margins=margins
+            margins=margins,
+            edit_project_view=self._show_edit_project_view
+        )
+        self._current_view.initialize()
+        self._current_view.pack()
+
+    def _show_edit_project_view(self, project):
+        self._hide_current_view()
+        margins = {
+            "header": HeaderFrame(
+                root=self._root,
+                service=self._service,
+                back_to_front_view=self._show_front_view,
+                back_to_login_view=self._show_login_view,
+                new_project_view=self._show_create_project_view
+            ),
+            "footer": MarginFrame(root=self._root),
+            "left_margin": MarginFrame(root=self._root),
+            "right_margin": MarginFrame(root=self._root)
+        }
+        self._current_view = EditProjectView(
+            root=self._root,
+            service=self._service,
+            margins=margins,
+            project_view=self._show_project_view,
+            project=project
         )
         self._current_view.initialize()
         self._current_view.pack()

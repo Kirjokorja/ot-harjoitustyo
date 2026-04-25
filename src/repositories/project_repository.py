@@ -31,5 +31,26 @@ class ProjectRepository(RepositoryBase):
         )
         return project
 
+    def edit_project(self, project):
+        """Muokkaa hanketta tietokannassa.
+
+            Muuttujat:
+                project (Project): hankeolio
+
+            Palauttaa:
+                project (Project): hankeolio
+        """
+        sql = """UPDATE Projects SET title = ?,
+                            type = ?,
+                            description = ?
+                            WHERE id = ?"""
+
+        project.p_id = self._db.execute(
+            sql,
+            [project.title, project.p_type.t_id,
+                project.description, project.p_id]
+        )
+        return project
+
 
 default_project_repository = ProjectRepository()
