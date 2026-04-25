@@ -79,7 +79,9 @@ class ProjectService(ServiceBase):
             "description": description,
             "owner": owner
         })
-        return self.save_project(project)
+        self._project_acceptable(project.title, project.p_type, project.owner)
+        project = self._repository.add_project(project)
+        return project
 
 
 default_project_service = ProjectService()

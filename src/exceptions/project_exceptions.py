@@ -1,12 +1,3 @@
-class FailedToCreateProject(Exception):
-    """Luokka käsittelee ilmoituksia poikkeustilanteessa, 
-        jossa hanketta ei kyetty luomaan.
-    """
-
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
-
 
 class ProjectHasNoTitle(Exception):
     """Luokka käsittelee ilmoituksia poikkeustilanteessa, 

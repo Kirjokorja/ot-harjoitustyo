@@ -90,7 +90,8 @@ class TestDatabaseInitializer(unittest.TestCase):
 
         users = list()
 
-        regex = re.compile('Users \\(username, password_hash\\) VALUES \\(\'(.+?)\'')
+        regex = re.compile(
+            'Users \\(username, password_hash\\) VALUES \\(\'(.+?)\'')
 
         for user in regex.finditer(sql_seed):
             users.append(user.group(1))

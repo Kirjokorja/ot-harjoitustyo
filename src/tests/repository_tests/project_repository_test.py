@@ -54,7 +54,7 @@ class TestProjectRepository(unittest.TestCase):
         self.user_result = con.execute(sql_user).fetchall()
 
         self.user = User(
-            u_id=self.user_result[0]["id"], 
+            u_id=self.user_result[0]["id"],
             username=self.user_result[0]["username"],
             password=self.user_result[0]["password_hash"]
         )
@@ -67,8 +67,8 @@ class TestProjectRepository(unittest.TestCase):
         con.close()
 
         self.p_type = TypeClass(
-            t_id=self.class_result[0]["id"], 
-            title=self.class_result[0]["title"], 
+            t_id=self.class_result[0]["id"],
+            title=self.class_result[0]["title"],
             value=self.class_result[0]["value"]
         )
 
@@ -111,26 +111,26 @@ class TestProjectRepository(unittest.TestCase):
 
     def test_edit_project_modifies_project_in_database(self):
         p_type = TypeClass(
-            t_id=self.class_result[1]["id"], 
-            title=self.class_result[1]["title"], 
+            t_id=self.class_result[1]["id"],
+            title=self.class_result[1]["title"],
             value=self.class_result[1]["value"]
         )
 
         user = User(
-            u_id=self.user_result[1]["id"], 
+            u_id=self.user_result[1]["id"],
             username=self.user_result[1]["username"],
             password=self.user_result[1]["password_hash"]
         )
 
         sql = """INSERT INTO Projects (title, type, description, owner) 
-                    VALUES (?, ?, ?, ?)""" 
-        
+                    VALUES (?, ?, ?, ?)"""
+
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
         result = con.execute(
-            sql, 
+            sql,
             [self.project.title,
              self.project.p_type.t_id,
              self.project.description,
@@ -147,4 +147,5 @@ class TestProjectRepository(unittest.TestCase):
             "owner": user
         })
 
-        self.assertEqual(self.project_repo.edit_project(project_mod), project_mod)
+        self.assertEqual(self.project_repo.edit_project(
+            project_mod), project_mod)
