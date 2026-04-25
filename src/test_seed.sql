@@ -5,6 +5,8 @@ INSERT INTO Users (username, password_hash) VALUES ('Aava', 'testi1');
 INSERT INTO Users (username, password_hash) VALUES ('AavaAava', 'testi1');
 
 INSERT INTO Classes (title, value) VALUES ('Hanke', 'maailma');
+INSERT INTO Classes (title, value) VALUES ('Hanke', 'maailma_muokkaus');
+INSERT INTO Classes (title, value) VALUES ('Hanke', 'maailma tallennus');
 
 INSERT INTO Classes (title, value) VALUES ('Luokka', 'alue');
 INSERT INTO Classes (title, value) VALUES ('Luokka', 'ympäristö');

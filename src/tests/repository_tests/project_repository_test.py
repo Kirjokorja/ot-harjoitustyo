@@ -12,7 +12,7 @@ from entities.type_class import TypeClass
 class TestProjectRepository(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
-        self.projectRepo = ProjectRepository(self.db)
+        self.project_repo = ProjectRepository(self.db)
 
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
@@ -44,12 +44,6 @@ class TestProjectRepository(unittest.TestCase):
             sql_seed = file.read()
         con.executescript(sql_seed)
         con.commit()
-        con.close()
-
-    def test_add_project_adds_project_to_database(self):
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
-        con.execute("PRAGMA foreign_keys = ON")
-        con.row_factory = sqlite3.Row
 
         sql_user = """SELECT Users.id,
                             Users.username,
@@ -57,27 +51,41 @@ class TestProjectRepository(unittest.TestCase):
                         FROM Users
                     """
 
-        user_result = con.execute(sql_user).fetchall()[0]
-        user = User(u_id=user_result["id"], username=user_result["username"],
-                    password=user_result["password_hash"])
+        self.user_result = con.execute(sql_user).fetchall()
+
+        self.user = User(
+            u_id=self.user_result[0]["id"], 
+            username=self.user_result[0]["username"],
+            password=self.user_result[0]["password_hash"]
+        )
 
         sql_class = """SELECT id, title, value FROM Classes
                         WHERE title = ?
                         ORDER BY id
                     """
-        class_result = con.execute(sql_class, ["Hanke"]).fetchall()[0]
-        p_type = TypeClass(
-            t_id=class_result["id"], title=class_result["title"], value=class_result["value"])
+        self.class_result = con.execute(sql_class, ["Hanke"]).fetchall()
+        con.close()
 
-        project = Project({
+        self.p_type = TypeClass(
+            t_id=self.class_result[0]["id"], 
+            title=self.class_result[0]["title"], 
+            value=self.class_result[0]["value"]
+        )
+
+        self.project = Project({
             "id": None,
             "title": "Maailma_testi",
-            "type": p_type,
+            "type": self.p_type,
             "description": "kuvaus",
-            "owner": user
+            "owner": self.user
         })
 
-        added_project = self.projectRepo.add_project(project=project)
+    def test_add_project_adds_project_to_database(self):
+        added_project = self.project_repo.add_project(self.project)
+
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
 
         sql_found_project = """SELECT Projects.id,
                                     Projects.title,
@@ -88,13 +96,55 @@ class TestProjectRepository(unittest.TestCase):
                             WHERE Projects.id = ?
                         """
 
-        result = con.execute(sql_found_project, [
-                             str(added_project.p_id)]).fetchall()[0]
+        result = con.execute(
+            sql_found_project,
+            [str(added_project.p_id)]
+        ).fetchall()[0]
 
         con.close()
 
         self.assertEqual(result["id"], added_project.p_id)
-        self.assertEqual(result["title"], project.title)
-        self.assertEqual(result["type"], project.p_type.t_id)
-        self.assertEqual(result["description"], project.description)
-        self.assertEqual(result["owner"], project.owner.u_id)
+        self.assertEqual(result["title"], self.project.title)
+        self.assertEqual(result["type"], self.project.p_type.t_id)
+        self.assertEqual(result["description"], self.project.description)
+        self.assertEqual(result["owner"], self.project.owner.u_id)
+
+    def test_edit_project_modifies_project_in_database(self):
+        p_type = TypeClass(
+            t_id=self.class_result[1]["id"], 
+            title=self.class_result[1]["title"], 
+            value=self.class_result[1]["value"]
+        )
+
+        user = User(
+            u_id=self.user_result[1]["id"], 
+            username=self.user_result[1]["username"],
+            password=self.user_result[1]["password_hash"]
+        )
+
+        sql = """INSERT INTO Projects (title, type, description, owner) 
+                    VALUES (?, ?, ?, ?)""" 
+        
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        result = con.execute(
+            sql, 
+            [self.project.title,
+             self.project.p_type.t_id,
+             self.project.description,
+             self.project.owner.u_id]
+        )
+
+        con.commit()
+
+        project_mod = Project({
+            "id": result.lastrowid,
+            "title": "Maailma_muokkaus",
+            "type": p_type,
+            "description": "muokattu kuvaus",
+            "owner": user
+        })
+
+        self.assertEqual(self.project_repo.edit_project(project_mod), project_mod)

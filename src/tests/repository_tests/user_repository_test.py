@@ -10,11 +10,7 @@ from entities.user import User
 class TestUserRepository(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
-        self.userRepo = UserRepository(self.db)
-
-        print(TEST_DATABASE_FILE_PATH)
-        print(TEST_DATABASE_SCHEMA_PATH)
-        print(TEST_DATABASE_SEED_PATH)
+        self.user_repo = UserRepository(self.db)
 
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
@@ -50,19 +46,19 @@ class TestUserRepository(unittest.TestCase):
         con.close()
 
     def test_find_user_by_name_returns_correct_user(self):
-        user = self.userRepo.find_user_by_name("Aava")
+        user = self.user_repo.find_user_by_name("Aava")
 
         self.assertEqual(user.u_id, 4)
 
     def test_find_user_by_name_returns_none_when_username_is_not_in_database(self):
-        user = self.userRepo.find_user_by_name("ei-tietokannassa")
+        user = self.user_repo.find_user_by_name("ei-tietokannassa")
 
         self.assertEqual(user, None)
 
     def test_add_user_adds_user_to_database(self):
         user = User(username="Pohjolan isäntä", password="moro!")
 
-        added_user = self.userRepo.add_user(user=user)
+        added_user = self.user_repo.add_user(user=user)
 
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")

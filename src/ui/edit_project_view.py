@@ -46,7 +46,7 @@ class EditProjectView(SessionView):
         self._project_description = None
         self._project = project
         super().__init__(root=root, service=service, margins=margins)
-        self._classes = self._service.get_project_service().get_project_classes("Hanke")
+        self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
         for type_class in self._classes:

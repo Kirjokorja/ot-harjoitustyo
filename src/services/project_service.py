@@ -37,18 +37,14 @@ class ProjectService(ServiceBase):
         if not owner:
             raise self._exceptions.ProjectHasNoOwner(
                 "Hankkeelta puuttu haltija.")
-        return True
 
-    def get_project_classes(self, title):
+    def get_project_classes(self):
         """Antaa hankkeiden luokat.
-
-            Muuttujat:
-                title (str):  
 
             Palauttaa:
                 list<TypeClass>: lista luokkaolioita
         """
-        return self._repository.get_classes(title)
+        return self._repository.get_classes("Hanke")
 
     def save_project(self, project):
         """Muokkaa hanketta.
@@ -59,8 +55,8 @@ class ProjectService(ServiceBase):
             Palauttaa:
                 project (Project): hankeolio
         """
-        if self._project_acceptable(project.title, project.p_type, project.owner):
-            project = self._repository.edit_project(project)
+        self._project_acceptable(project.title, project.p_type, project.owner)
+        project = self._repository.edit_project(project)
         return project
 
     def create_project(self, title, p_type, description, owner):
@@ -83,9 +79,7 @@ class ProjectService(ServiceBase):
             "description": description,
             "owner": owner
         })
-        if self._project_acceptable(title, p_type, owner):
-            project = self._repository.add_project(project)
-        return project
+        return self.save_project(project)
 
 
 default_project_service = ProjectService()
