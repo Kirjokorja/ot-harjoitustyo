@@ -86,10 +86,15 @@ class UserService(ServiceBase):
 
             Ilmoittaa:
                 InvalidCredentials: virhe, joka syntyy väärän tunnuksen seurauksena
+                ASessionAlreadyExists: virhe, joka syntyy jonkun ollessa jo kirjautuneena
 
             Palauttaa:
                 _user (User): istunnon käyttäjäolio
         """
+        if self._user:
+            raise self._exceptions.ASessionAlreadyExists(
+                "Istunto on jo käynnissä.")
+
         user = self._repository.find_user_by_name(username)
 
         if not user or not self._password_service.password_match(user.password, password):

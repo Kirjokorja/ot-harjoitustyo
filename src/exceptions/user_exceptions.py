@@ -7,6 +7,16 @@ class UserAlreadyExists(Exception):
         super().__init__(self.message)
 
 
+class ASessionAlreadyExists(Exception):
+    """Luokka käsittelee ilmoituksia poikkeustilanteessa, 
+        jossa jokin käyttäjä on jo kirjautuneena.
+    """
+
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
 class PasswordTooShort(Exception):
     """Luokka käsittelee ilmoituksia poikkeustilanteessa, jossa salasana on liian lyhyt."""
 

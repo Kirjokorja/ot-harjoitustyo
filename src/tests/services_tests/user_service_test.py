@@ -14,7 +14,8 @@ class TestUserService(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
         self.u_repo = UserRepository(self.db)
-        self.pw_service = PasswordService(6)
+        self.pw_lenght = 6
+        self.pw_service = PasswordService(self.pw_lenght)
         self.u_service = UserService(
             repository=self.u_repo,
             exceptions=exceptions,
@@ -51,15 +52,37 @@ class TestUserService(unittest.TestCase):
             sql_seed = file.read()
         con.executescript(sql_seed)
 
+        self.log_username = "Väinämöinen"
+        self.log_pw = "OlisiPitänytNaidaNuorena."
+        salt = gensalt()
+        self.log_pw_bytes = self.log_pw.encode('utf-8')
+        self.log_pw_hash = hashpw(self.log_pw_bytes, salt).decode('utf-8')
+
+        sql_log_set = """INSERT INTO Users (username, password_hash) 
+                        VALUES (?, ?)"""
+        self.user_log_id = con.execute(
+            sql_log_set,
+            [self.log_username,
+             self.log_pw_hash]
+        ).lastrowid
         con.commit()
+
+        sql_get = "SELECT id, username, password_hash FROM Users WHERE id = ?"
+        self.result_get_log = con.execute(
+            sql_get,
+            [self.user_log_id]
+        ).fetchall()[0]
         con.close()
+
+        self.create_username = "Sampo"
+        self.create_pw = "Taivaanlaki"
 
     def test_create_user_creates_user_into_database(self):
 
         created_user = self.u_service.create_user(
-            "Sampo",
-            "Taivaanlaki",
-            "Taivaanlaki"
+            self.create_username,
+            self.create_pw,
+            self.create_pw
         )
 
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
@@ -86,18 +109,18 @@ class TestUserService(unittest.TestCase):
 
     def test_create_user_raises_user_already_exists_exception(self):
         self.u_service.create_user(
-            "Sampo",
-            "Taivaanlaki",
-            "Taivaanlaki"
+            self.create_username,
+            self.create_pw,
+            self.create_pw
         )
 
         exc = None
 
         try:
             self.u_service.create_user(
-                "Sampo",
-                "Taivaanlaki",
-                "Taivaanlaki"
+                self.create_username,
+                self.create_pw,
+                self.create_pw
             )
         except Exception as e:
             exc = e
@@ -113,7 +136,7 @@ class TestUserService(unittest.TestCase):
 
         try:
             self.u_service.create_user(
-                "Sampo",
+                "Joukahainen",
                 "Moi",
                 "Moi"
             )
@@ -126,22 +149,17 @@ class TestUserService(unittest.TestCase):
         )
 
     def test_create_user_raises_psswords_do_not_macth_exception(self):
-
         exc = None
-
         try:
             self.u_service.create_user(
-                "Sampo",
-                "Taivaanlaki",
-                "Moi"
+                "Joukahainen",
+                self.log_pw,
+                self.create_pw
             )
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.u_service.get_exceptions().PasswordsDoNotMatch
-        )
+        self.assertEqual(type(exc), exceptions.PasswordsDoNotMatch)
 
     def test_create_user_raises_username_too_short_exception(self):
 
@@ -150,8 +168,8 @@ class TestUserService(unittest.TestCase):
         try:
             self.u_service.create_user(
                 "",
-                "Taivaanlaki",
-                "Taivaanlaki"
+                self.create_pw,
+                self.create_pw
             )
         except Exception as e:
             exc = e
@@ -162,59 +180,78 @@ class TestUserService(unittest.TestCase):
         )
 
     def test_login_returns_user_as_object_on_succsessful_login(self):
-        password = "Taivaanlaki"
-        salt = gensalt()
-        password_bytes = password.encode('utf-8')
-        pw_hash = hashpw(password_bytes, salt).decode('utf-8')
+        logged_in_user = self.u_service.login(self.log_username, self.log_pw)
 
+        self.assertEqual(logged_in_user.u_id, self.result_get_log["id"])
+        self.assertEqual(logged_in_user.username,
+                         self.result_get_log["username"])
+        self.assertEqual(logged_in_user.password,
+                         self.result_get_log["password_hash"])
+
+    def test_login_raises_session_already_exists_exception_if_a_user_is_logged_in(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
-        sql_set = """INSERT INTO Users (username, password_hash) 
+        salt = gensalt()
+        pw_bytes = self.create_pw.encode('utf-8')
+        pw_hash = hashpw(pw_bytes, salt).decode('utf-8')
+
+        sql_log_set = """INSERT INTO Users (username, password_hash) 
                         VALUES (?, ?)"""
-        user_db_id = con.execute(sql_set, ["Sampo", pw_hash]).lastrowid
+        con.execute(sql_log_set, [self.create_username, pw_hash]).lastrowid
         con.commit()
 
-        sql_get = "SELECT id, username, password_hash FROM Users WHERE id = ?"
-        result_get = con.execute(sql_get, [user_db_id]).fetchall()[0]
-        con.close()
-
-        logged_in_user = self.u_service.login("Sampo", password)
-
-        self.assertEqual(logged_in_user.u_id, result_get["id"])
-        self.assertEqual(logged_in_user.username, "Sampo")
-        self.assertEqual(logged_in_user.password, result_get["password_hash"])
-
-    def test_login_raises_invalid_credentials_exception_if_user_is_not_in_database(self):
-        password = "Taivaanlaki"
+        self.u_service.login(self.create_username, self.create_pw)
         exc = None
         try:
-            self.u_service.login("Sampo", password)
+            self.u_service.login(self.log_username, self.log_pw)
+        except Exception as e:
+            exc = e
+        self.assertEqual(type(exc), exceptions.ASessionAlreadyExists)
+
+    def test_login_raises_invalid_credentials_exception_if_user_is_not_in_database(self):
+        exc = None
+        try:
+            self.u_service.login(self.create_username, self.create_pw)
         except Exception as e:
             exc = e
         self.assertEqual(type(exc), exceptions.InvalidCredentials)
 
     def test_login_raises_invalid_credentials_exception_if_password_is_incorrect(self):
-        password_wrong = "Kirjokansi"
-        password = "Taivaanlaki"
-
-        salt = gensalt()
-        password_bytes = password.encode('utf-8')
-        pw_hash = hashpw(password_bytes, salt).decode('utf-8')
-
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
-        con.execute("PRAGMA foreign_keys = ON")
-        con.row_factory = sqlite3.Row
-
-        sql_set = """INSERT INTO Users (username, password_hash) 
-                        VALUES (?, ?)"""
-        con.execute(sql_set, ["Sampo", pw_hash]).lastrowid
-        con.commit()
-
         exc = None
         try:
-            self.u_service.login("Sampo", password_wrong)
+            self.u_service.login(self.log_username, self.create_pw)
         except Exception as e:
             exc = e
         self.assertEqual(type(exc), exceptions.InvalidCredentials)
+
+    def test_get_current_user_gets_logged_in_user(self):
+        logged_in_user = self.u_service.login(self.log_username, self.log_pw)
+
+        self.assertEqual(self.u_service.get_current_user(), logged_in_user)
+
+    def test_get_current_user_raises_session_not_found_if_user_is_not_logged_in(self):
+        exc = None
+        try:
+            self.u_service.get_current_user()
+        except Exception as e:
+            exc = e
+
+        self.assertEqual(type(exc), exceptions.SessionNotFound)
+
+    def test_logout_logs_out_user(self):
+        self.u_service.login(self.log_username, self.log_pw)
+        self.u_service.logout()
+
+        exc = None
+        try:
+            self.u_service.get_current_user()
+        except Exception as e:
+            exc = e
+
+        self.assertEqual(type(exc), exceptions.SessionNotFound)
+
+    def test_get_min_password_lenght_returns_password_lenght(self):
+        self.assertEqual(
+            self.u_service.get_min_password_lenght(), self.pw_lenght)
