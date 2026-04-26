@@ -14,7 +14,7 @@ from ui_config import APP_NAME
 class UI:
     """Luokka huolehtii sovelluksen käyttöliittymästä.
 
-    Attribuutit:
+    Attributes:
             _root (Tk): Tkinter-osanen, johon käyttöliittymä alustetaan
             _current_view: käyttöliittymän näyttämä näkymä
             _service: palvelu, joka vastaa sovellusksen toiminnasta
@@ -24,7 +24,7 @@ class UI:
     def __init__(self, root, service=default_services):
         """Alusta uusi käyttöliittymä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon käyttöliittymä alustetaan
             service: palvelu, joka vastaa sovellusksen toiminnasta
         """

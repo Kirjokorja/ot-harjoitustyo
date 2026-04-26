@@ -5,7 +5,7 @@ from ui.session_view import SessionView
 class ProjectView(SessionView):
     """Luokka vastaa hankenäkymästä.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
@@ -16,10 +16,11 @@ class ProjectView(SessionView):
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
             _margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
             _project (Project): näytettävä hanke
             _edit_project_view: metodi, vie hankkeen muokkausnäkymään
     """
@@ -27,15 +28,16 @@ class ProjectView(SessionView):
     def __init__(self, root, service, project, margins, edit_project_view):
         """Näytä hanke.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
             project (Project): näytettävä hanke
             margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
             edit_project_view: metodi, vie hankkeen muokkausnäkymään
         """
         super().__init__(root=root, service=service, margins=margins)

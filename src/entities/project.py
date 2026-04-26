@@ -1,7 +1,7 @@
 class Project:
     """Luokka kuvaa yksittäistä hanketta.
 
-    Attribuutit:
+    Attributes:
             p_id (int): hankkeen tunnusluku ja pääavain tietokannassa
             title (str): hankkeen nimi
             p_type (TypeClass): hankkeen luokka
@@ -12,8 +12,14 @@ class Project:
     def __init__(self, params):
         """Alusta hanke.
 
-        Muuttujat:
+        Args:
             params (dict): hajautustaulu, joka sisältää luokan jäsenien arvot
+                keys:
+                    ip_id (int): hankkeen tunnusluku ja pääavain tietokannassa
+                    title (str): hankkeen nimi
+                    type (TypeClass): hankkeen luokka
+                    description (str): hankkeen kuvaus
+                    owner (User): hankkeen omistava käyttäjä
         """
         self.p_id = params["id"]
         self.title = params["title"]

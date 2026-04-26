@@ -5,7 +5,7 @@ from ui.session_view import SessionView
 class CreateProjectView(SessionView):
     """Luokka vastaa uuden hankkeen luomisnäkymästä.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
@@ -16,10 +16,11 @@ class CreateProjectView(SessionView):
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
             _margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
             _project_view: hankenäkymä
             _project_name (Entry): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen nimen
             _project_class (Combobox): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen luokan
@@ -31,14 +32,15 @@ class CreateProjectView(SessionView):
     def __init__(self, root, service, margins, project_view):
         """Luo hankkeenluontinäkymä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
             margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
         """
         self._project_view = project_view
         self._project_name = None

@@ -9,7 +9,7 @@ from config import USERNAME_MIN_LENGHT
 class UserService(ServiceBase):
     """Luokka vastaa käyttäjään liittyvistä toiminnoista sovelluksessa.
 
-        Attribuutit:
+        Attributes:
             _repository (UserRepository):
                 käyttäjien tietokantatoiminnoista vastaava olio
             _exceptions: käyttäjävirheet
@@ -25,7 +25,7 @@ class UserService(ServiceBase):
     ):
         """Alusta käyttäjäpalvelu.
 
-            Muuttujat:
+            Args:
                 repository (UserRepository):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
@@ -38,15 +38,15 @@ class UserService(ServiceBase):
     def create_user(self, username, password, password_confirm):
         """Metodi luo uuden käyttäjän.
 
-            Muuttujat:
+            Args:
                 username (str): käyttäjänimi
                 password (str): käyttäjän salasana
                 password_confirm (str): vahvistussalasana
 
-            Ilmoittaa:
+            Raises:
                 UserAlreadyExists: virhe, joka syntyy käyttäjätunnuksen ollessa jo käytössä
 
-            Palauttaa:
+            Returns:
                 User: käyttäjäolio
         """
         self._username_acceptable(username=username)
@@ -80,15 +80,15 @@ class UserService(ServiceBase):
     def login(self, username, password):
         """Metodi kirjaa käyttäjän sisään.
 
-            Muuttujat:
+            Args:
                 username (str): käyttäjänimi
                 password (str): käyttäjän salasana
 
-            Ilmoittaa:
+            Raises:
                 InvalidCredentials: virhe, joka syntyy väärän tunnuksen seurauksena
                 ASessionAlreadyExists: virhe, joka syntyy jonkun ollessa jo kirjautuneena
 
-            Palauttaa:
+            Returns:
                 _user (User): istunnon käyttäjäolio
         """
         if self._user:
@@ -113,10 +113,10 @@ class UserService(ServiceBase):
     def get_current_user(self):
         """Antaa istunnon käyttäjän.
 
-            Ilmoittaa:
+            Raises:
                 SessionNotFound: virhe, joka syntyy, kun käyttäjä ei ole kirjautuneena sisään
 
-            Palauttaa:
+            Returns:
                 User: käyttäjäolio 
         """
         if not self._user:

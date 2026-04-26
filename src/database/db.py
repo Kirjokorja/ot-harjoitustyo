@@ -5,14 +5,14 @@ from config import DATABASE_FILE_PATH
 class DatabaseInterface:
     """Luokka vastaa tietokantayhteydestä ja -toiminnoista.
 
-        Attribuutit:
+        Attributes:
             _file_path (str): tietokannan sijainti
     """
 
     def __init__(self, file_path):
         """Luo tietokannan käyttöliittymää hallinoiva olio.
 
-            Muuttujat:
+            Args:
                 file_path (str): tietokannan sijainti
         """
         self._file_path = file_path
@@ -26,11 +26,11 @@ class DatabaseInterface:
     def query(self, sql, params):
         """Lähettää kyselyn tietokannalle.
 
-        Muuttujat:
+        Args:
             sql (str): kyselyn lause
             params (list): kyselyyn liitettävät lausekkeet
 
-        Palauttaa:
+        Returns:
             list: lista kyselyn luoman taulun rivejä
         """
         con = self._get_connection()
@@ -41,11 +41,11 @@ class DatabaseInterface:
     def execute(self, sql, params):
         """Lähettää komennon tietokannalle.
 
-        Muuttujat:
+        Args:
             sql (str): komennon lause
             params (list): lauseeseen liitettävät lausekkeet
 
-        Palauttaa:
+        Returns:
             int: viimeisimmän tietokantaan lisätyn rivin pääavain
         """
         con = self._get_connection()
@@ -58,7 +58,7 @@ class DatabaseInterface:
     def executemany(self, sql, params):
         """Lähettää useamman kerran saman komennon tietokannalle.
 
-        Muuttujat:
+        Args:
             sql (string): komennon lause
             params (list): lausekkeet kulleekkin komentoajolle
         """
@@ -70,7 +70,7 @@ class DatabaseInterface:
     def executescript(self, statements):
         """Lähettää useamman komennon tietokannalle.
 
-        Muuttujat:
+        Args:
             statements (str): komentojen lauseet
         """
         con = self._get_connection()

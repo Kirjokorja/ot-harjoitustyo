@@ -7,7 +7,7 @@ from entities.project import Project
 class ProjectService(ServiceBase):
     """Luokka vastaa hankkeisiin liittyvistä toiminnoista sovelluksessa.
 
-        Attribuutit:
+        Attributes:
             _repository (ProjectRepository): 
                 tietokantatoiminnoista vastaava olio
             _exceptions: virheluokat
@@ -20,7 +20,7 @@ class ProjectService(ServiceBase):
     ):
         """Alusta hankepalvelut.
 
-            Muuttujat:
+            Args:
                 repository (ProjectRepository):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
@@ -41,7 +41,7 @@ class ProjectService(ServiceBase):
     def get_project_classes(self):
         """Antaa hankkeiden luokat.
 
-            Palauttaa:
+            Returns:
                 list<TypeClass>: lista luokkaolioita
         """
         return self._repository.get_classes("Hanke")
@@ -49,10 +49,15 @@ class ProjectService(ServiceBase):
     def save_project(self, project):
         """Muokkaa hanketta.
 
-            Muuttujat:
+            Args:
                 project (Project): hankeolio
 
-            Palauttaa:
+            Raises:
+                ProjectHasNoTitle: virhe, joka syntyy hankkeen nimikkeen puuttuessa
+                ProjectHasNoType: virhe, joka syntyy hankkeen luokan puuttuessa
+                ProjectHasNoOwner: virhe, joka syntyy hankkeen haltijan puuttuessa
+
+            Returns:
                 project (Project): hankeolio
         """
         self._project_acceptable(project.title, project.p_type, project.owner)
@@ -62,13 +67,18 @@ class ProjectService(ServiceBase):
     def create_project(self, title, p_type, description, owner):
         """Luo uuden hankkeen.
 
-            Muuttujat:
+            Args:
                 title (str): hankkeen nimi
                 p_type (TypeClass): hankkeen luokka
                 description (str): hankkeen kuvaus
                 owner (User): hankkeen haltija
 
-            Palauttaa:
+            Raises:
+                ProjectHasNoTitle: virhe, joka syntyy hankkeen nimikkeen puuttuessa
+                ProjectHasNoType: virhe, joka syntyy hankkeen luokan puuttuessa
+                ProjectHasNoOwner: virhe, joka syntyy hankkeen haltijan puuttuessa
+
+            Returns:
                 project (Project): hankeolio
         """
 

@@ -6,7 +6,7 @@ from repositories.repository import RepositoryBase
 class UserRepository(RepositoryBase):
     """Luokka vastaa käyttäjien tietokantatoiminnoista.
 
-        Attribuutit:
+        Attributes:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
     """
 
@@ -22,10 +22,10 @@ class UserRepository(RepositoryBase):
     def find_user_by_name(self, username):
         """Metodi etsii käyttäjää käyttäjänimellä.
 
-        Muuttujat:
+        Args:
             username (string): käyttäjän tunnusnumero tietokannassa
 
-        Palauttaa:
+        Returns:
             User: käyttäjäolio
         """
         user = None
@@ -38,10 +38,10 @@ class UserRepository(RepositoryBase):
     def add_user(self, user):
         """Metodi lisää käyttäjän tietokantaan.
 
-        Muuttujat:
+        Args:
             user (User): käyttäjäolio
 
-        Palauttaa:
+        Returns:
             user (User): käyttäjäolio
         """
         sql_users = "INSERT INTO Users (username, password_hash) VALUES (?, ?)"

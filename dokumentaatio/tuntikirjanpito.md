@@ -39,4 +39,5 @@
 | 24.4. | 5,5 min | käyttöliittymän päivitystä ja hankkeen muokkausominaisuuden kehitystä |
 | 25.4. | 2 t | hankkeen muokkausominaisuuden kehitystä |
 | 26.4. | 7 t | testaamista |
-| Summa | 133 t 5 min |
+| 27.4. | 3,5 t | testaamista |
+| Summa | 136 t 35 min |

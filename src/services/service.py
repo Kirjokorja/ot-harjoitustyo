@@ -2,7 +2,7 @@
 class ServiceBase:
     """Palveluiden emoluokka.
 
-        Attribuutit:
+        Attributes:
             _repository (Repository): 
                 tietokantatoiminnoista vastaava olio
             _exceptions: virheluokat
@@ -11,7 +11,7 @@ class ServiceBase:
     def __init__(self, repository, exceptions):
         """Alusta palvelut.
 
-            Muuttujat:
+            Args:
                 repository (RepositoryBase): 
                     tietokantatoiminnoista vastaava olio
                 exceptions: virheluokat
@@ -22,7 +22,7 @@ class ServiceBase:
     def get_exceptions(self):
         """Antaa palvelun virheilmoitusluokat.
 
-            Palauttaa:
+            Returns:
                 _exceptions: palvelun virheilmoitusluokat
         """
         return self._exceptions

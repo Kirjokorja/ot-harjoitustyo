@@ -4,7 +4,7 @@ from tkinter import ttk, constants
 class MarginFrame:
     """Luokka kuvaa viitekenttäkehystä.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _row (int): rivi, jolle kehys sijoitetaan ikkunassa
@@ -16,7 +16,7 @@ class MarginFrame:
     def __init__(self, root):
         """Luo viitekenttäkehys.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
         """
         self._root = root
@@ -43,7 +43,7 @@ class MarginFrame:
     def configure(self, values):
         """Muokkaa viitekehyksen asetuksia.
 
-            Muuttujat:
+            Args:
                 values (dict): asetusten arvot hajautustaulussa:
                     row (int): rivi, jolle kehys sijoitetaan ikkunassa
                     column (int): sarake, johon kehys sijoitetaan ikkunassa

@@ -5,7 +5,7 @@ from ui.margin import MarginFrame
 class HeaderFrame(MarginFrame):
     """Luokka kuvaa yläviitekenttäkehystä.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _row (int): rivi, jolle kehys sijoitetaan ikkunassa
@@ -28,7 +28,7 @@ class HeaderFrame(MarginFrame):
     ):
         """Luo ylväviitekenttä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
             back_to_front_view: metodi, joka palauttaa alkunäkymän

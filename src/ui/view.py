@@ -4,7 +4,7 @@ from tkinter import ttk, constants, StringVar
 class ViewBase:
     """Luokka kuvaa käyttöliittymänäkymää.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: käyttäjätoiminnoista vastaava olio
@@ -14,23 +14,25 @@ class ViewBase:
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
     """
 
     def __init__(self, root, service, margins):
         """Luo näkymä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
             margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
         """
         self._root = root
         self._service = service

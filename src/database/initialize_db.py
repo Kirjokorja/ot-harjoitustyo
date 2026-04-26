@@ -7,7 +7,7 @@ from config import (DATABASE_SCHEMA_PATH as default_schema,
 class DatabaseInitializer:
     """Luokka vastaa tietokannan alustamisesta.
 
-        Attribuutit:
+        Attributes:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
             _schema (str): sql tietokantakaaviotiedosto
             _seed (str): tietokannan alustussisältötiedosto
@@ -16,7 +16,7 @@ class DatabaseInitializer:
     def __init__(self, database=default_db, schema=default_schema, seed=default_seed):
         """Luo tietokannan alustusolio.
 
-        Muuttujat:
+        Args:
             file_path (str): tietokannan sijainti
             schema (str): sql tietokantakaaviotiedosto
             seed (str): tietokannan alustussisältötiedosto

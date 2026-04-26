@@ -5,7 +5,7 @@ from ui.view import ViewBase
 class CreateUserView(ViewBase):
     """Luokka vastaa sovelluksen käyttäjänluontinäkymästä.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: käyttäjätoiminnoista vastaava olio
@@ -16,10 +16,11 @@ class CreateUserView(ViewBase):
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
             _margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
             _back_to_start_view: metodi, joka palauttaa alkunäkymän
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 
@@ -29,14 +30,15 @@ class CreateUserView(ViewBase):
     def __init__(self, root, service, margins, back_to_start_view):
         """Luo käyttäjänluontinäkymä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
             margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
             back_to_start_view: metodi, joka palauttaa alkunäkymän
         """
         self._username = None

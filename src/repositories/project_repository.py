@@ -5,7 +5,7 @@ from database.db import (database as default_db)
 class ProjectRepository(RepositoryBase):
     """Luokka vastaa hankkeiden tietokantatoiminnoista.
 
-        Attribuutit:
+        Attributes:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
     """
 
@@ -15,10 +15,10 @@ class ProjectRepository(RepositoryBase):
     def add_project(self, project):
         """Lisää uuden hankkeen tietokantaan.
 
-            Muuttujat:
+            Args:
                 project (Project): hankeolio
 
-            Palauttaa:
+            Returns:
                 project (Project): hankeolio
         """
         sql = """INSERT INTO Projects (title, type, description, owner)
@@ -34,10 +34,10 @@ class ProjectRepository(RepositoryBase):
     def edit_project(self, project):
         """Muokkaa hanketta tietokannassa.
 
-            Muuttujat:
+            Args:
                 project (Project): hankeolio
 
-            Palauttaa:
+            Returns:
                 project (Project): hankeolio
         """
         sql = """UPDATE Projects SET title = ?,

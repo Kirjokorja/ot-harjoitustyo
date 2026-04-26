@@ -4,14 +4,14 @@ from entities.type_class import TypeClass
 class RepositoryBase:
     """Luokka vastaa tietokantatoiminnoista.
 
-        Attribuutit:
+        Attributes:
             _db (DatabaseInterface): tietokannan käyttöliittymäolio
     """
 
     def __init__(self, db):
         """Luo repo.
 
-            Muuttujat:
+            Args:
                 db (DatabaseInterface): tietokannan käyttöliittymäolio
         """
         self._db = db
@@ -25,10 +25,10 @@ class RepositoryBase:
     def get_classes(self, title):
         """Hakee luokan arvot.
 
-            Muuttujat:
+            Args:
                 title (str): luokan nimi
 
-            Palauttaa:
+            Returns:
                 list: lista luokkaolioita        
         """
         sql = """SELECT id, title, value FROM Classes

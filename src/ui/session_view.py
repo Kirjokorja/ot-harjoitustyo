@@ -5,32 +5,36 @@ from ui.view import ViewBase
 class SessionView(ViewBase):
     """Luokka kuvaa käyttöliittymänäkymää istunnon aikana.
 
-        Attribuutit:
+        Attributes:
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
+            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
             _margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
     """
 
     def __init__(self, root, service, margins):
         """Luo kirjautuneen näkymä.
 
-        Muuttujat:
+        Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
             margins (dict): viitekentät hajautustaulussa:
-                header (HeaderFrame): näkymän yläviitekenttä 
-                footer (MarginFrame): näkymän alaviitekenttä
-                left_margin (MarginFrame): näkymän vasen viitekenttä
-                right_margin (MarginFrame): näkymän oikea viitekenttä
+                keys:
+                    header (HeaderFrame): näkymän yläviitekenttä 
+                    footer (MarginFrame): näkymän alaviitekenttä
+                    left_margin (MarginFrame): näkymän vasen viitekenttä
+                    right_margin (MarginFrame): näkymän oikea viitekenttä
         """
         super().__init__(root=root, service=service, margins=margins)
 
