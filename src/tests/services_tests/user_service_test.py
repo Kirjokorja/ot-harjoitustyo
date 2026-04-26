@@ -173,11 +173,11 @@ class TestUserService(unittest.TestCase):
 
         sql_set = """INSERT INTO Users (username, password_hash) 
                         VALUES (?, ?)"""
-        con.execute(sql_set, ["Sampo", pw_hash])
+        user_db_id = con.execute(sql_set, ["Sampo", pw_hash]).lastrowid
         con.commit()
 
-        sql_get = "SELECT id, username, password_hash FROM Users WHERE username = ?"
-        result_get = con.execute(sql_get, ["Sampo"]).fetchall()[0]
+        sql_get = "SELECT id, username, password_hash FROM Users WHERE id = ?"
+        result_get = con.execute(sql_get, [user_db_id]).fetchall()[0]
         con.close()
 
         logged_in_user = self.u_service.login("Sampo", password)
