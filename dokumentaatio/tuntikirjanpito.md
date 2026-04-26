@@ -40,4 +40,5 @@
 | 25.4. | 2 t | hankkeen muokkausominaisuuden kehitystä |
 | 26.4. | 7 t | testaamista |
 | 27.4. | 3,5 t | testaamista |
-| Summa | 136 t 35 min |
+| 27.4. | 4 t | hankkeen poistamisominaisuuden kehitystä |
+| Summa | 140 t 35 min |
