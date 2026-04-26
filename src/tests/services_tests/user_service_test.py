@@ -185,3 +185,36 @@ class TestUserService(unittest.TestCase):
         self.assertEqual(logged_in_user.u_id, result_get["id"])
         self.assertEqual(logged_in_user.username, "Sampo")
         self.assertEqual(logged_in_user.password, result_get["password_hash"])
+
+    def test_login_raises_invalid_credentials_exception_if_user_is_not_in_database(self):
+        password = "Taivaanlaki"
+        exc = None
+        try:
+            self.u_service.login("Sampo", password)
+        except Exception as e:
+            exc = e
+        self.assertEqual(type(exc), exceptions.InvalidCredentials)
+
+    def test_login_raises_invalid_credentials_exception_if_password_is_incorrect(self):
+        password_wrong = "Kirjokansi"
+        password = "Taivaanlaki"
+
+        salt = gensalt()
+        password_bytes = password.encode('utf-8')
+        pw_hash = hashpw(password_bytes, salt).decode('utf-8')
+
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        sql_set = """INSERT INTO Users (username, password_hash) 
+                        VALUES (?, ?)"""
+        con.execute(sql_set, ["Sampo", pw_hash]).lastrowid
+        con.commit()
+
+        exc = None
+        try:
+            self.u_service.login("Sampo", password_wrong)
+        except Exception as e:
+            exc = e
+        self.assertEqual(type(exc), exceptions.InvalidCredentials)

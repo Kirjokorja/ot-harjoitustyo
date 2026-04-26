@@ -164,8 +164,7 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoTitle)
+        self.assertEqual(type(exc), exceptions.ProjectHasNoTitle)
 
     def test_save_project_raises_project_has_no_type_exception(self):
 
@@ -184,8 +183,7 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoType)
+        self.assertEqual(type(exc), exceptions.ProjectHasNoType)
 
     def test_save_project_raises_project_has_no_owner_exception(self):
         project_mod = Project({
@@ -203,8 +201,7 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc), self.p_service.get_exceptions().ProjectHasNoOwner)
+        self.assertEqual(type(exc), exceptions.ProjectHasNoOwner)
 
     def test_create_project_creates_project_into_database(self):
 
@@ -255,10 +252,7 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.p_service.get_exceptions().ProjectHasNoTitle
-        )
+        self.assertEqual(type(exc), exceptions.ProjectHasNoTitle)
 
     def test_save_project_raises_project_has_no_type_exception(self):
 
@@ -274,10 +268,7 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.p_service.get_exceptions().ProjectHasNoType
-        )
+        self.assertEqual(type(exc), exceptions.ProjectHasNoType)
 
     def test_save_project_raises_project_has_no_owner_exception(self):
 
@@ -293,7 +284,4 @@ class TestProjectService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.p_service.get_exceptions().ProjectHasNoOwner
-        )
+        self.assertEqual(type(exc), exceptions.ProjectHasNoOwner)
