@@ -27,9 +27,12 @@ class CreateProjectView(SessionView):
             _project_description (ScrolledText): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen kuvauksen
             _project (Project): luodun hankkeen olio
             _classes (list<TypeClass>): hankeen luokat
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins, project_view):
+    def __init__(self, root, service, margins, project_view, message):
         """Luo hankkeenluontinäkymä.
 
         Args:
@@ -41,13 +44,14 @@ class CreateProjectView(SessionView):
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            message (String): näkymässä näytettävä viesti
         """
         self._project_view = project_view
         self._project_name = None
         self._project_class = None
         self._project_description = None
         self._project = None
-        super().__init__(root=root, service=service, margins=margins)
+        super().__init__(root=root, service=service, margins=margins, message=message)
         self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
@@ -74,7 +78,7 @@ class CreateProjectView(SessionView):
                     self._project_description.get("1.0", END),
                     user
                 )
-            self._project_view(self._project)
+            self._project_view(message=None, project=self._project)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:

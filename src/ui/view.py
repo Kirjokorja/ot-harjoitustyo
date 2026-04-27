@@ -1,4 +1,4 @@
-from tkinter import ttk, constants, StringVar
+from tkinter import ttk, constants, StringVar, Toplevel
 
 
 class ViewBase:
@@ -19,9 +19,12 @@ class ViewBase:
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins):
+    def __init__(self, root, service, margins, message):
         """Luo näkymä.
 
         Args:
@@ -33,6 +36,7 @@ class ViewBase:
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            message (String): näkymässä näytettävä viesti
         """
         self._root = root
         self._service = service
@@ -43,6 +47,9 @@ class ViewBase:
         self._error_label = None
         self._grid_size = None
         self._margins = margins
+        self._message = message
+        self._message_win = None
+        self._question_answer = None
 
     def pack(self):
         """Näyttää näkymän."""
@@ -106,6 +113,70 @@ class ViewBase:
             sticky=(constants.NS, constants.EW)
         )
 
+    def _yes_handler(self):
+        self._question_answer = True
+        self._message_win.destroy()
+        self._message_win = None
+        self._question_answer_handler()
+
+    def _no_handler(self):
+        self._question_answer = False
+        self._message_win.destroy()
+        self._message_win = None
+        self._question_answer_handler()
+
+    def _question_answer_handler(self):
+        pass
+
+    def _questionWindow(self, title, message, yes_text, no_text):
+        self._message_win = Toplevel()
+
+        win_width = int(self._root.winfo_screenwidth() * 0.15)
+        win_height = int(self._root.winfo_screenheight() * 0.1)
+        win_offset_x = self._root.winfo_x() + self._root.winfo_width()//2 - win_width//2
+        win_offset_y = self._root.winfo_y() + self._root.winfo_height()//2 - win_height//2
+
+        self._message_win.geometry(f"{win_width}x{win_height}")
+        self._message_win.geometry(f"+{win_offset_x}+{win_offset_y}")
+        self._message_win.minsize(win_width, win_height)
+        self._message_win.title(title)
+
+        self._message_win.grid_columnconfigure(0, weight=1)
+        self._message_win.grid_columnconfigure(1, weight=1)
+
+        message_label = ttk.Label(
+            master=self._message_win, text=message, anchor="center")
+        message_label.grid(
+            padx=10,
+            pady=10,
+            columnspan=self._message_win.grid_size()[0],
+            sticky=(constants.NS, constants.EW)
+        )
+        yes_button = ttk.Button(
+            master=self._message_win,
+            text=yes_text,
+            command=self._yes_handler
+        )
+        yes_button.grid(
+            column=0,
+            row=1,
+            padx=5,
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+        no_button = ttk.Button(
+            master=self._message_win,
+            text=no_text,
+            command=self._no_handler
+        )
+        no_button.grid(
+            column=1,
+            row=1,
+            padx=5,
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
@@ -135,3 +206,6 @@ class ViewBase:
         )
         self._initialize_error()
         self._hide_error()
+
+        self._initialize_message()
+        self._show_message(self._message)

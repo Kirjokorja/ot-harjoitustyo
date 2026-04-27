@@ -86,7 +86,7 @@ class UI:
 
         self._current_view = None
 
-    def _show_login_view(self):
+    def _show_login_view(self, message=None):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -105,12 +105,13 @@ class UI:
             service=self._service,
             margins=margins,
             create_user_view=self._show_create_user_view,
-            front_view=self._show_front_view
+            front_view=self._show_front_view,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_create_user_view(self):
+    def _show_create_user_view(self, message=None):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -128,12 +129,13 @@ class UI:
             root=self._root,
             service=self._service,
             margins=margins,
-            back_to_start_view=self._show_login_view
+            back_to_start_view=self._show_login_view,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_front_view(self):
+    def _show_front_view(self, message=None):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -150,12 +152,13 @@ class UI:
         self._current_view = FrontView(
             root=self._root,
             service=self._service,
-            margins=margins
+            margins=margins,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_create_project_view(self):
+    def _show_create_project_view(self, message=None):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -174,11 +177,12 @@ class UI:
             service=self._service,
             margins=margins,
             project_view=self._show_project_view,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_project_view(self, project):
+    def _show_project_view(self, message, project):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -192,17 +196,22 @@ class UI:
             "left_margin": MarginFrame(root=self._root),
             "right_margin": MarginFrame(root=self._root)
         }
+        view_params = {
+            "edit_project_view": self._show_edit_project_view,
+            "back_to_front_view": self._show_front_view
+        }
         self._current_view = ProjectView(
             root=self._root,
             service=self._service,
             project=project,
             margins=margins,
-            edit_project_view=self._show_edit_project_view
+            view_params=view_params,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_edit_project_view(self, project):
+    def _show_edit_project_view(self, message, project):
         self._hide_current_view()
         margins = {
             "header": HeaderFrame(
@@ -221,7 +230,8 @@ class UI:
             service=self._service,
             margins=margins,
             project_view=self._show_project_view,
-            project=project
+            project=project,
+            message=message
         )
         self._current_view.initialize()
         self._current_view.pack()

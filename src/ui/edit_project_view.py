@@ -27,9 +27,12 @@ class EditProjectView(SessionView):
             _project_description (ScrolledText): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen kuvauksen
             _project (Project): hankeolio
             _classes (list<TypeClass>): hankeen luokat
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins, project_view, project):
+    def __init__(self, root, service, margins, project_view, project, message):
         """Luo hankkeenmuokkausnäkymä.
 
         Args:
@@ -47,7 +50,7 @@ class EditProjectView(SessionView):
         self._project_class = None
         self._project_description = None
         self._project = project
-        super().__init__(root=root, service=service, margins=margins)
+        super().__init__(root=root, service=service, margins=margins, message=message)
         self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
@@ -65,7 +68,7 @@ class EditProjectView(SessionView):
             self._project.description = self._project_description.get(
                 "1.0", END)
             self._project = self._service.get_project_service().save_project(self._project)
-            self._project_view(self._project)
+            self._project_view(message=None, project=self._project)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
@@ -87,7 +90,7 @@ class EditProjectView(SessionView):
             self._show_error(e.message)
 
     def _back_to_project_handler(self):
-        self._project_view(self._project)
+        self._project_view(message=None, project=self._project)
 
     def _initialize_project_fields(self):
         name_label = ttk.Label(

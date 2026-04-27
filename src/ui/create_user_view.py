@@ -25,9 +25,12 @@ class CreateUserView(ViewBase):
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan 
             _password_confirm (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan tarkistusta varten
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins, back_to_start_view):
+    def __init__(self, root, service, margins, back_to_start_view, message):
         """Luo käyttäjänluontinäkymä.
 
         Args:
@@ -40,12 +43,13 @@ class CreateUserView(ViewBase):
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
             back_to_start_view: metodi, joka palauttaa alkunäkymän
+            message (String): näkymässä näytettävä viesti
         """
         self._username = None
         self._password = None
         self._password_confirm = None
         self._back_to_start_view = back_to_start_view
-        super().__init__(root=root, service=service, margins=margins)
+        super().__init__(root=root, service=service, margins=margins, message=message)
 
     def _create_user_handler(self):
         self._hide_error()
@@ -54,9 +58,10 @@ class CreateUserView(ViewBase):
         password_confirm = self._password_confirm.get()
 
         try:
-            self._service.get_user_service().create_user(
+            user = self._service.get_user_service().create_user(
                 username, password, password_confirm)
-            self._back_to_start_view()
+            self._back_to_start_view(
+                f"Käyttäjä {user.username} on luotu onnistuneesti.")
         except (self._service.get_user_service().get_exceptions().UserAlreadyExists,
                 self._service.get_user_service().get_exceptions().UsernameTooShort,
                 self._service.get_user_service().get_exceptions().PasswordTooShort,

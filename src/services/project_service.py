@@ -93,5 +93,21 @@ class ProjectService(ServiceBase):
         project = self._repository.add_project(project)
         return project
 
+    def remove_project(self, user, project):
+        """Poistaa hankeen.
+
+            Args:
+                user (User): käyttäjäolio
+                project (Project): poistettava hankeolio
+
+            Raises:
+                UserNotOwnerOfProject: virhe, joka syntyy, 
+                    kun hanketta yrittää poistaa joku muu kuin hankkeen haltija
+        """
+        if user != project.owner:
+            raise self._exceptions.UserNotOwnerOfProject(
+                "Käyttäjä ei ole hankkeen haltija.")
+        self._repository.delete_project(project)
+
 
 default_project_service = ProjectService()

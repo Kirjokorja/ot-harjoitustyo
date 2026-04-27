@@ -24,9 +24,12 @@ class LoginView(ViewBase):
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins, create_user_view, front_view):
+    def __init__(self, root, service, margins, create_user_view, front_view, message):
         """Luo kirjautumisnäkymä.
 
         Args:
@@ -40,21 +43,25 @@ class LoginView(ViewBase):
                     right_margin (MarginFrame): näkymän oikea viitekenttä
             create_user_view: käyttäjänluontinäkymä
             front_view: sevelluksen etusivu kirjauduttua
+            message (String): näkymässä näytettävä viesti
         """
         self._create_user_view = create_user_view
         self._front_view = front_view
         self._username = None
         self._password = None
-        super().__init__(root=root, service=service, margins=margins)
+        if not message:
+            message = "Tervetuloa!"
+        super().__init__(root=root, service=service, margins=margins, message=message)
 
     def _login_handler(self):
         self._hide_error()
+        self._hide_message()
         username = self._username.get()
         password = self._password.get()
 
         try:
-            self._service.get_user_service().login(username, password)
-            self._front_view()
+            user = self._service.get_user_service().login(username, password)
+            self._front_view(f"Tervetuloa {user.username}!")
         except self._service.get_user_service().get_exceptions().InvalidCredentials as e:
             self._show_error(e.message)
 
@@ -130,17 +137,8 @@ class LoginView(ViewBase):
         )
         self._initialize_error()
 
-        greeting = ttk.Label(
-            master=self._frame,
-            text="Tervetuloa!",
-            anchor="center"
-        )
-        greeting.grid(
-            padx=5,
-            pady=5,
-            columnspan=3,
-            sticky=(constants.NS, constants.EW)
-        )
+        self._initialize_message()
+        self._show_message(self._message)
 
         self._initialize_login_fields()
         self._initialize_create_user()

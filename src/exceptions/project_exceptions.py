@@ -27,3 +27,13 @@ class ProjectHasNoOwner(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
+
+class UserNotOwnerOfProject(Exception):
+    """Luokka käsittelee ilmoituksia poikkeustilanteessa, 
+        jossa hanketta käsittelevä käyttäjä ei ole hankkeen haltija.
+    """
+
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)

@@ -1,4 +1,4 @@
-from tkinter import ttk, constants, scrolledtext as stext, END
+from tkinter import ttk, constants, scrolledtext as stext, END, messagebox
 from ui.session_view import SessionView
 
 
@@ -15,17 +15,21 @@ class ProjectView(SessionView):
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
+            _project (Project): näytettävä hanke
             _margins (dict): viitekentät hajautustaulussa:
-                keys:
+                Keys:
                     header (HeaderFrame): näkymän yläviitekenttä 
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
-            _project (Project): näytettävä hanke
             _edit_project_view: metodi, vie hankkeen muokkausnäkymään
+            _back_to_front_view: metodi, joka palauttaa etusivun
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, project, margins, edit_project_view):
+    def __init__(self, root, service, project, margins, view_params, message):
         """Näytä hanke.
 
         Args:
@@ -33,19 +37,40 @@ class ProjectView(SessionView):
             service: toiminnoista vastaava olio
             project (Project): näytettävä hanke
             margins (dict): viitekentät hajautustaulussa:
-                keys:
+                Keys:
                     header (HeaderFrame): näkymän yläviitekenttä 
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
-            edit_project_view: metodi, vie hankkeen muokkausnäkymään
+            view_params (dict): hajautustaulu, joka sisältää näkymämetodeja
+                Keys:
+                    edit_project_view: metodi, vie hankkeen muokkausnäkymään
+                    back_to_front_view: metodi, joka palauttaa etusivun
         """
-        super().__init__(root=root, service=service, margins=margins)
+        super().__init__(root=root, service=service, margins=margins, message=message)
         self._project = project
-        self._edit_project_view = edit_project_view
+        self._edit_project_view = view_params["edit_project_view"]
+        self._back_to_front_view = view_params["back_to_front_view"]
 
     def _edit_project_handler(self):
-        self._edit_project_view(self._project)
+        self._edit_project_view(message=None, project=self._project)
+
+    def _remove_project_handler(self):
+        self._questionWindow(
+            title="Poista maailma",
+            message="Haluatko poistaa maailman pysyvästi?",
+            yes_text="Kyllä",
+            no_text="En"
+        )
+
+    def _question_answer_handler(self):
+        if self._question_answer:
+            try:
+                user = self._service.get_user_service().get_current_user()
+                self._service.get_project_service().remove_project(user, self._project)
+                self._back_to_front_view("Maailman poistaminen onnistui.")
+            except self._service.get_project_service().get_exceptions().UserNotOwnerOfProject as e:
+                self._show_error(e.message)
 
     def _initialize_project_fields(self):
         name_label = ttk.Label(
@@ -57,6 +82,7 @@ class ProjectView(SessionView):
             row=1,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.W)
         )
 
@@ -81,6 +107,7 @@ class ProjectView(SessionView):
             row=2,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -104,6 +131,7 @@ class ProjectView(SessionView):
             row=3,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -128,6 +156,7 @@ class ProjectView(SessionView):
             row=4,
             padx=5,
             pady=5,
+            columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
 
@@ -144,6 +173,19 @@ class ProjectView(SessionView):
             sticky=(constants.NS, constants.EW)
         )
 
+        remove_button = ttk.Button(
+            master=self._frame,
+            text="Poista",
+            command=self._remove_project_handler
+        )
+        remove_button.grid(
+            column=self._grid_size[0]//2+1,
+            row=5,
+            padx=5,
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
@@ -152,8 +194,10 @@ class ProjectView(SessionView):
         self._frame.grid_rowconfigure(2, weight=1)
         self._frame.grid_rowconfigure(3, weight=1)
         self._frame.grid_rowconfigure(4, weight=1)
+
         self._frame.grid_columnconfigure(0, weight=1)
         self._frame.grid_columnconfigure(1, weight=1)
+        self._frame.grid_columnconfigure(2, weight=1)
 
         self._grid_size = self._frame.grid_size()
 

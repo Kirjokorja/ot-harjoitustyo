@@ -21,9 +21,12 @@ class SessionView(ViewBase):
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            _message (String): näkymässä näytettävä viesti
+            _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
+            _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
     """
 
-    def __init__(self, root, service, margins):
+    def __init__(self, root, service, margins, message):
         """Luo kirjautuneen näkymä.
 
         Args:
@@ -35,8 +38,9 @@ class SessionView(ViewBase):
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            message (String): näkymässä näytettävä viesti
         """
-        super().__init__(root=root, service=service, margins=margins)
+        super().__init__(root=root, service=service, margins=margins, message=message)
 
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
@@ -59,6 +63,8 @@ class SessionView(ViewBase):
                  "columnspan": self._root.grid_size()[0]}
             )
             self._initialize_error()
+            self._initialize_message()
+            self._show_message(self._message)
         except self._service.get_user_service().get_exceptions().SessionNotFound as e:
             self._initialize_error()
             self._show_error(e.message)
