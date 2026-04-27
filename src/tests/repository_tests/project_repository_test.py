@@ -138,6 +138,7 @@ class TestProjectRepository(unittest.TestCase):
         )
 
         con.commit()
+        con.close()
 
         project_mod = Project({
             "id": result.lastrowid,
@@ -149,3 +150,31 @@ class TestProjectRepository(unittest.TestCase):
 
         self.assertEqual(self.project_repo.edit_project(
             project_mod), project_mod)
+
+    def test_delete_project_deletes_project_from_database(self):
+        sql = """INSERT INTO Projects (title, type, description, owner) 
+                    VALUES (?, ?, ?, ?)"""
+
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        result_id = con.execute(
+            sql,
+            [self.project.title,
+             self.project.p_type.t_id,
+             self.project.description,
+             self.project.owner.u_id]
+        ).lastrowid
+
+        con.commit()
+
+        self.project_repo.delete_project(result_id)
+
+        sql_query = """SELECT id, title 
+                        FROM Projects
+                        WHERE id = ?"""
+        query_result = con.execute(sql_query, [result_id]).fetchall()
+        con.close()
+
+        self.assertEqual(len(query_result), 0)

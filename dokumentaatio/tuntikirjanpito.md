@@ -38,7 +38,9 @@
 | 23.4. | 1 t | luokkakaavion päivitystä |
 | 24.4. | 5,5 min | käyttöliittymän päivitystä ja hankkeen muokkausominaisuuden kehitystä |
 | 25.4. | 2 t | hankkeen muokkausominaisuuden kehitystä |
-| 26.4. | 7 t | testaamista |
-| 27.4. | 3,5 t | testaamista |
-| 27.4. | 4 t | hankkeen poistamisominaisuuden kehitystä |
-| Summa | 140 t 35 min |
+| 25.4. | 7 t | testaamista |
+| 26.4. | 3,5 t | testaamista |
+| 26.4. | 4 t | hankkeen poistamisominaisuuden kehitystä |
+| 27.4 | 2 t | hankkeen poistamisominaisuuden kehitystä |
+| 27.4 | 1 t | testausta |
+| Summa | 143 t 35 min |

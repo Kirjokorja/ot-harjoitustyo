@@ -32,13 +32,19 @@ Sovellusta on testattu `Python`-versioilla `3.12` ja `3.14`.
 poetry install
 ```
 
-2. Käynnistä sovellus käskyllä*:
+2. Alusta sovellus käskyllä*:
 
 ```bash
-poetry run invoke build-start
+poetry run invoke build
 ```
 
-*Jos haluat alustaa ja ajaa sovelluksen erikseen, voit käyttää käskyä `poetry run invoke build` alustamiseen ja käskyä `poetry run invoke start` käynnistämiseen.
+3. Käynnistä sovellus käskyllä*:
+
+```bash
+poetry run invoke start
+```
+
+*Jos haluat alustaa ja ajaa sovelluksen kerralla, voit käyttää käskyä `poetry run invoke build-start`.
 
 ### Testaus
 

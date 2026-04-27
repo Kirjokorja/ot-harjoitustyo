@@ -125,10 +125,7 @@ class TestUserService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.u_service.get_exceptions().UserAlreadyExists
-        )
+        self.assertEqual(type(exc), exceptions.UserAlreadyExists)
 
     def test_create_user_raises_pssword_too_short_exception(self):
 
@@ -143,10 +140,7 @@ class TestUserService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.u_service.get_exceptions().PasswordTooShort
-        )
+        self.assertEqual(type(exc), exceptions.PasswordTooShort)
 
     def test_create_user_raises_psswords_do_not_macth_exception(self):
         exc = None
@@ -174,10 +168,7 @@ class TestUserService(unittest.TestCase):
         except Exception as e:
             exc = e
 
-        self.assertEqual(
-            type(exc),
-            self.u_service.get_exceptions().UsernameTooShort
-        )
+        self.assertEqual(type(exc), exceptions.UsernameTooShort)
 
     def test_login_returns_user_as_object_on_succsessful_login(self):
         logged_in_user = self.u_service.login(self.log_username, self.log_pw)

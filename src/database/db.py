@@ -55,18 +55,6 @@ class DatabaseInterface:
         con.close()
         return row_id
 
-    def executemany(self, sql, params):
-        """Lähettää useamman kerran saman komennon tietokannalle.
-
-        Args:
-            sql (string): komennon lause
-            params (list): lausekkeet kulleekkin komentoajolle
-        """
-        con = self._get_connection()
-        con.executemany(sql, params)
-        con.commit()
-        con.close()
-
     def executescript(self, statements):
         """Lähettää useamman komennon tietokannalle.
 

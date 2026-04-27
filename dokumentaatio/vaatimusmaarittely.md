@@ -21,13 +21,16 @@ Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamis
 - [x] Käyttäjä pystyy kirjautumaan ulos.
 - [x] Käyttäjä pystyy luomaan maailman.
 - [ ] Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
-- [ ] Käyttäjä pystyy hakemaan luomiaan maailmoja ja tietokohteita.
-- [ ] Käyttäjä pystyy poistamaan luomiaan maailmoja ja tietokohteita.
-- [ ] Käyttäjä pystyy muokaamaan luomiaan maailmoja ja tietokohteita.
-- [ ] Käyttäjä pystyy tarkastelemaan omia tietojaan.
+- [ ] Käyttäjä pystyy hakemaan luomiaan maailmoja.
+- [ ] Käyttäjä pystyy hakemaan luomiaan tietokohteita.
+- [x] Käyttäjä pystyy poistamaan luomiaan maailmoja.
+- [ ] Käyttäjä pystyy poistamaan luomiaan tietokohteita.
+- [x] Käyttäjä pystyy muokaamaan luomiaan maailmoja.
+- [ ] Käyttäjä pystyy muokaamaan luomiaan tietokohteita.
 
 ## Jatkotoiminnallisuutta
 
+- [ ] Käyttäjä pystyy tarkastelemaan omia tietojaan.
 - [ ] Käyttäjä pystyy asettamaan luomiaan maailmoja ja tietokohteita yksityisiksi tai julkisiksi.
     * Julkinen maailma tai tietokohde on kaikkien käyttäjien näkyvillä.
     * Yksityinen maailma tai tietokohde näkyy vain haltijalleen.

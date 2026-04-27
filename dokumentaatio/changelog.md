@@ -35,4 +35,10 @@
     - RepositoryBase, joka toimii emoluokkana erikoistuneimmille tietokantatoimintaluokille
     - ProjectRepository, joka vastaa hankkeiden tietokantatoiminnoista
     - ServiceBase, joka toimii emoluokkana erikoistuneemmille sovelluslogiikan luokille
-    -  ProjectService, joka vastaa hankkeiden toiminnoista sovelluksessa
+    - ProjectService, joka vastaa hankkeiden toiminnoista sovelluksessa
+
+## Viikko 6
+
+- Käyttäjä pystyy muokkaamaan maailmaa/hanketta.
+- Käyttäjä pystyy poistamaan maailman/hankkeen.
+- Kaikki luokat on testattu.

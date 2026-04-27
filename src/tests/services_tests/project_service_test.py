@@ -101,6 +101,8 @@ class TestProjectService(unittest.TestCase):
         con.commit()
         con.close()
 
+        self.project.p_id = self.result.lastrowid
+
         self.p_type_mod = TypeClass(
             t_id=self.class_result[2]["id"],
             title=self.class_result[2]["title"],
@@ -138,7 +140,7 @@ class TestProjectService(unittest.TestCase):
     def test_save_project_modifies_project_in_database(self):
 
         project_mod = Project({
-            "id": self.result.lastrowid,
+            "id": self.project.p_id,
             "title": "Maailman tallennus",
             "type": self.p_type_mod,
             "description": "Heippa!",
@@ -150,7 +152,7 @@ class TestProjectService(unittest.TestCase):
     def test_save_project_raises_project_has_no_title_exception(self):
 
         project_mod = Project({
-            "id": self.result.lastrowid,
+            "id": self.project.p_id,
             "title": "",
             "type": self.p_type_mod,
             "description": "Heippa!",
@@ -169,7 +171,7 @@ class TestProjectService(unittest.TestCase):
     def test_save_project_raises_project_has_no_type_exception(self):
 
         project_mod = Project({
-            "id": self.result.lastrowid,
+            "id": self.project.p_id,
             "title": "Maailma",
             "type": None,
             "description": "Heippa!",
@@ -187,7 +189,7 @@ class TestProjectService(unittest.TestCase):
 
     def test_save_project_raises_project_has_no_owner_exception(self):
         project_mod = Project({
-            "id": self.result.lastrowid,
+            "id": self.project.p_id,
             "title": "Maailma",
             "type": self.p_type_mod,
             "description": "Heippa!",
@@ -285,3 +287,27 @@ class TestProjectService(unittest.TestCase):
             exc = e
 
         self.assertEqual(type(exc), exceptions.ProjectHasNoOwner)
+
+    def test_remove_project_removes_project_from_database(self):
+        self.p_service.remove_project(self.user, self.project)
+
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        sql_query = """SELECT id, title 
+                        FROM Projects
+                        WHERE id = ?"""
+        query_result = con.execute(sql_query, [self.project.p_id]).fetchall()
+        con.close()
+
+        self.assertEqual(len(query_result), 0)
+
+    def test_remove_project_raises_user_not_owner_of_project_exception_if_user_not_project_owner(self):
+        exc = None
+        try:
+            self.p_service.remove_project(self.user_mod, self.project)
+        except Exception as e:
+            exc = e
+
+        self.assertEqual(type(exc), exceptions.UserNotOwnerOfProject)

@@ -52,14 +52,14 @@ class ProjectRepository(RepositoryBase):
         )
         return project
 
-    def delete_project(self, project):
+    def delete_project(self, project_id):
         """Poistaa hankkeen tietokannasta.
 
             Args:
-                project (Project): hankeolio
+                project_id (int): poistettavan hankkeen tunnusluku
         """
         sql = "DELETE FROM Projects WHERE id = ?"
-        self._db.execute(sql, [project.p_id])
+        self._db.execute(sql, [project_id])
 
 
 default_project_repository = ProjectRepository()

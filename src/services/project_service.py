@@ -107,7 +107,7 @@ class ProjectService(ServiceBase):
         if user != project.owner:
             raise self._exceptions.UserNotOwnerOfProject(
                 "Käyttäjä ei ole hankkeen haltija.")
-        self._repository.delete_project(project)
+        self._repository.delete_project(project.p_id)
 
 
 default_project_service = ProjectService()
