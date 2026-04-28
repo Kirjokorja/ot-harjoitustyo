@@ -36,11 +36,13 @@
 | 22.4. | 30 min | testausta |
 | 23.4. | 2 t | sekvenssikaavio |
 | 23.4. | 1 t | luokkakaavion päivitystä |
-| 24.4. | 5,5 min | käyttöliittymän päivitystä ja hankkeen muokkausominaisuuden kehitystä |
-| 25.4. | 2 t | hankkeen muokkausominaisuuden kehitystä |
+| 24.4. | 5,5 min | käyttöliittymän päivitystä ja hankkeen/maailman muokkausominaisuuden kehitystä |
+| 25.4. | 2 t | hankkeen/maailman muokkausominaisuuden kehitystä |
 | 25.4. | 7 t | testaamista |
 | 26.4. | 3,5 t | testaamista |
-| 26.4. | 4 t | hankkeen poistamisominaisuuden kehitystä |
-| 27.4 | 2 t | hankkeen poistamisominaisuuden kehitystä |
+| 26.4. | 4 t | hankkeen/maailman poistamisominaisuuden kehitystä |
+| 27.4 | 2 t | hankkeen/maailman poistamisominaisuuden kehitystä |
 | 27.4 | 1 t | testausta |
+| 28.4. | 4 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
+| 28.4. | 1,5 t | dokumentaatiota |
 | Summa | 143 t 35 min |
