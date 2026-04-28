@@ -11,6 +11,16 @@ Ohjelma koostuu neljästä tasosta:
 
 Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-pakkauksesta. Jokainen taso käyttää yhtä alempaa tasoa toimituksissaan.
 
+## Sovelluslogiikka
+
+Sovelluksen loogisesta toiminnasta vastaavat luokat Services, ServiceBase, UserService, ProjectService ja PasswordService. UserService ja ProjectService perivät luokan ServiceBase, jossa on niiden jakamat attribuutit ja metodit. 
+
+Services-luokkalle ujutetaan konstruktorin kautta UserService- ja ProjeService-oliot. Services-luokka tarjoaa rajapinnan kutsua sisältämiensä palvelujen metodeja kauttaan. 
+
+UserService-luokkalle ujutetaan konstruktorin kautta PasswordService-luokka, jota se käyttä käyttäjän salasanojen käsittelyssä. Luokalla on myös attribuuttina User-luokan olio, johon tallennetaan istunnon ajaksi kirjautuneen käyttäjän tiedot, ja josta sovellus tarkistaa istunnon tietoja. UserService käyttää konstruktorin kautta ujutettua UserRepository-luokan oliota käyttäjän tietojen tallentamiseen ja hakemiseen tietokannasta.
+
+ProjectService-luokka vastaa maailmojen/hankkeiden käsittelystä ja käyttää ProjectRepository-luokan oliota, joka ujutetaan sille konstruktorin kautta, hankkeiden tietojen tallentamiseen ja hakemiseen tietokannasta.
+
 ## Luokkakaavio
 
 ```mermaid
