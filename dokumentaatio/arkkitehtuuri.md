@@ -4,12 +4,12 @@
 
 Ohjelma koostuu neljästä tasosta:
 
-1. Käyttöliittymä (ui-pakkaus)
-2. Palvelu (services-pakkaus)
-3. Varastointi (repositories-pakkaus)
-4. Tietokanta (database-pakkaus)
+1. Käyttöliittymä (ui-hakemisto)
+2. Palvelu (services-hakemisto)
+3. Varastointi (repositories-hakemisto)
+4. Tietokanta (database-hakemisto)
 
-Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-pakkauksesta. Jokainen taso käyttää yhtä alempaa tasoa toimituksissaan.
+Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-hakemistosta. Jokainen taso käyttää yhtä alempaa tasoa toimituksissaan.
 
 ## Sovelluslogiikka
 
