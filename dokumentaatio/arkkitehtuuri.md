@@ -9,7 +9,7 @@ Ohjelma koostuu neljästä tasosta:
 3. Varastointi (repositories-hakemisto)
 4. Tietokanta (database-hakemisto)
 
-Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-hakemistosta. Jokainen taso käyttää yhtä alempaa tasoa toimituksissaan.
+Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-hakemistosta. Tasot käyttävät yhtä alempaa tasoa toimituksissaan.
 
 ## Sovelluslogiikka
 
