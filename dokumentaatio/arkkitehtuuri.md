@@ -40,6 +40,7 @@ classDiagram
     Project o-- TypeClass
     User <.. UserRepository
     User <.. UserService
+    User <.. ProjectService
     Project <.. ProjectRepository
     Project <.. ProjectService
     TypeClass <.. ProjectService
