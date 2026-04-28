@@ -55,6 +55,8 @@ classDiagram
         +ProjectService(repository: ProjectRepository, exceptions)
         +get_project_classes(title: String) list~TypeClass~
         +create_project(title: String, p_type: TypeClass, description: String, owner: User) Project
+        +save_project(project: Project) Project
+        +remove_project(user: User, project: Project) void
     }
     class PasswordService{
         +PasswordService()
@@ -101,6 +103,8 @@ classDiagram
         ^-_db: DatabaseInterface
         +ProjectRepository(db: DatbaseInterface)
         +add_project(project: Project) Project
+        +edit_project(project: Project) Project
+        +delete_project(project_id: Project) void
     }
     class DatabaseInterface{
         -_file_path: String
