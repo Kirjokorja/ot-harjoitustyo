@@ -191,7 +191,7 @@ class EditProjectView(SessionView):
 
         save_button = ttk.Button(
             master=self._frame,
-            text="Takaisin hankkeeseen",
+            text="Takaisin maailmaan",
             command=self._back_to_project_handler
         )
         save_button.grid(
