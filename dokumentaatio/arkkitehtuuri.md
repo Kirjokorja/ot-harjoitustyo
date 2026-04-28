@@ -17,9 +17,9 @@ Sovelluksen loogisesta toiminnasta vastaavat luokat Services, ServiceBase, UserS
 
 Services-luokkalle ujutetaan konstruktorin kautta UserService- ja ProjeService-oliot. Services-luokka tarjoaa rajapinnan kutsua sisältämiensä palvelujen metodeja kauttaan. 
 
-UserService-luokkalle ujutetaan konstruktorin kautta PasswordService-luokka, jota se käyttä käyttäjän salasanojen käsittelyssä. Luokalla on myös attribuuttina User-luokan olio, johon tallennetaan istunnon ajaksi kirjautuneen käyttäjän tiedot, ja josta sovellus tarkistaa istunnon tietoja. UserService käyttää konstruktorin kautta ujutettua UserRepository-luokan oliota käyttäjän tietojen tallentamiseen ja hakemiseen tietokannasta.
+UserService-luokkalle ujutetaan konstruktorin kautta PasswordService-luokka, jota se käyttä käyttäjän salasanojen käsittelyssä. Luokalla on myös attribuuttina User-luokan olio, johon tallennetaan istunnon ajaksi kirjautuneen käyttäjän tiedot, ja josta sovellus tarkistaa istunnon tietoja. UserService käyttää konstruktorin kautta ujutettua UserRepository-luokan oliota käyttäjän tietojen tallentamiseen ja hakemiseen tietokannasta. Käyttäjien tietojen manipulointiin ja siirtämiseen luokka käyttää User-luokan olioita.
 
-ProjectService-luokka vastaa maailmojen/hankkeiden käsittelystä ja käyttää ProjectRepository-luokan oliota, joka ujutetaan sille konstruktorin kautta, hankkeiden tietojen tallentamiseen ja hakemiseen tietokannasta.
+ProjectService-luokka vastaa maailmojen/hankkeiden käsittelystä ja käyttää ProjectRepository-luokan oliota, joka ujutetaan sille konstruktorin kautta, hankkeiden tietojen tallentamiseen ja hakemiseen tietokannasta. Hankkeiden tietojen käsittelyssä ja siirrossa palvelu käyttää Project-luokkaa, jonka attribuuteista löytyvät TypeClass- ja User-luokat. 
 
 ## Luokkakaavio
 
