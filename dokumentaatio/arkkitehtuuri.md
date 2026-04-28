@@ -1,5 +1,16 @@
 # Arrkkitehtuurin kuvaus
 
+## Rakenne
+
+Ohjelma koostuu neljästä tasosta:
+
+1. Käyttöliittymä (ui-pakkaus)
+2. Palvelu (services-pakkaus)
+3. Varastointi (repositories-pakkaus)
+4. Tietokanta (database-pakkaus)
+
+Lisäksi tiedon siirtoon ja käsittelyyn käytetään luokkia entities-pakkauksesta. Jokainen taso käyttää yhtä alempaa tasoa toimituksissaan.
+
 ## Luokkakaavio
 
 ```mermaid
