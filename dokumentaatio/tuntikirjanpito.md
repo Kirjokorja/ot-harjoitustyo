@@ -45,4 +45,4 @@
 | 27.4 | 1 t | testausta |
 | 28.4. | 4 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
 | 28.4. | 1,5 t | dokumentaatiota |
-| Summa | 143 t 35 min |
+| Summa | 149 t 5 min |
