@@ -1,4 +1,4 @@
-from tkinter import ttk, constants, scrolledtext as stext, END, messagebox
+from tkinter import ttk, constants, scrolledtext as stext
 from ui.session_view import SessionView
 
 
@@ -124,7 +124,7 @@ class ProjectView(SessionView):
         )
 
         description_text = stext.ScrolledText(master=self._frame)
-        description_text.insert(END, self._project.description)
+        description_text.insert(constants.END, self._project.description)
         description_text.configure(state='disabled')
         description_text.grid(
             column=self._grid_size[0]//2,
