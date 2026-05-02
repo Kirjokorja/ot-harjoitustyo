@@ -27,15 +27,17 @@ class ProjectView(SessionView):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _query (String): hakusana, jota käytettiin edellisen näkymän hakutulosten muodostamiseen, jos edellinen näkymä oli hakutulosnäkymä
+            _page (int): hakutulosten sivunumero, joka näytettiin hakutulosnäkymässä
+            _back_to_search_results: metodi, joka palauttaa hakutulokset
     """
 
-    def __init__(self, root, service, project, margins, view_params, message):
+    def __init__(self, root, service, margins, view_params, inputs):
         """Näytä hanke.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            project (Project): näytettävä hanke
             margins (dict): viitekentät hajautustaulussa:
                 Keys:
                     header (HeaderFrame): näkymän yläviitekenttä 
@@ -46,14 +48,26 @@ class ProjectView(SessionView):
                 Keys:
                     edit_project_view: metodi, vie hankkeen muokkausnäkymään
                     back_to_front_view: metodi, joka palauttaa etusivun
+                    back_to_search_results: metodi, joka palauttaa hakutulokset
+            inputs (dict): näkymälle dataa
+                keys:
+                    project (Project): näytettävä hanke
+                    message (String): näkymässä näytettävä viesti
+                    query (String): hakusana, jota käytettiin edellisen näkymän hakutulosten muodostamiseen, jos edellinen näkymä oli hakutulosnäkymä
+                    page (int): hakutulosten sivunumero, joka näytettiin hakutulosnäkymässä
         """
-        super().__init__(root=root, service=service, margins=margins, message=message)
-        self._project = project
+        super().__init__(root=root, service=service,
+                         margins=margins, message=inputs["message"])
+        self._project = inputs["project"]
         self._edit_project_view = view_params["edit_project_view"]
         self._back_to_front_view = view_params["back_to_front_view"]
+        self._back_to_search_results = view_params["back_to_search_results"]
+        self._query = inputs["query"]
+        self._page = inputs["page"]
 
     def _edit_project_handler(self):
-        self._edit_project_view(message=None, project=self._project)
+        self._edit_project_view(
+            message=None, project=self._project, query=self._query, page=self._page)
 
     def _remove_project_handler(self):
         self._question_window(
@@ -68,9 +82,19 @@ class ProjectView(SessionView):
             try:
                 user = self._service.get_user_service().get_current_user()
                 self._service.get_project_service().remove_project(user, self._project)
-                self._back_to_front_view("Maailman poistaminen onnistui.")
+                if self._query:
+                    message = "Maailman poistaminen onnistui."
+                    self._back_to_search_results(
+                        message=message, query=self._query, page=self._page)
+                else:
+                    self._back_to_front_view(
+                        message="Maailman poistaminen onnistui.")
             except self._service.get_project_service().get_exceptions().UserNotOwnerOfProject as e:
                 self._show_error(e.message)
+
+    def _back_to_search_handler(self):
+        self._back_to_search_results(
+            message=None, query=self._query, page=self._page)
 
     def _initialize_project_fields(self):
         name_label = ttk.Label(
@@ -95,7 +119,7 @@ class ProjectView(SessionView):
             row=2,
             padx=5,
             pady=5,
-            sticky=(constants.NS, constants.W)
+            sticky=(constants.NS, constants.E)
         )
 
         project_class = ttk.Label(
@@ -120,7 +144,7 @@ class ProjectView(SessionView):
             row=3,
             padx=5,
             pady=5,
-            sticky=(constants.N, constants.W)
+            sticky=(constants.N, constants.E)
         )
 
         description_text = stext.ScrolledText(master=self._frame)
@@ -144,7 +168,7 @@ class ProjectView(SessionView):
             row=4,
             padx=5,
             pady=5,
-            sticky=(constants.NS, constants.W)
+            sticky=(constants.NS, constants.E)
         )
 
         owner = ttk.Label(
@@ -186,6 +210,20 @@ class ProjectView(SessionView):
             sticky=(constants.NS, constants.EW)
         )
 
+    def _initialize_back_to_search_results(self):
+        results_button = ttk.Button(
+            master=self._frame,
+            text="Takaisin hakutuloksiin",
+            command=self._back_to_search_handler
+        )
+        results_button.grid(
+            column=self._grid_size[0]//2,
+            columnspan=2,
+            padx=5,
+            pady=5,
+            sticky=(constants.NS, constants.EW)
+        )
+
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
@@ -194,6 +232,8 @@ class ProjectView(SessionView):
         self._frame.grid_rowconfigure(2, weight=1)
         self._frame.grid_rowconfigure(3, weight=1)
         self._frame.grid_rowconfigure(4, weight=1)
+        self._frame.grid_rowconfigure(5, weight=1)
+        self._frame.grid_rowconfigure(6, weight=1)
 
         self._frame.grid_columnconfigure(0, weight=1)
         self._frame.grid_columnconfigure(1, weight=1)
@@ -215,6 +255,8 @@ class ProjectView(SessionView):
             )
             self._initialize_error()
             self._initialize_project_fields()
+            if self._query:
+                self._initialize_back_to_search_results()
         except self._service.get_user_service().get_exceptions().SessionNotFound as e:
             self._initialize_error()
             self._show_error(e.message)

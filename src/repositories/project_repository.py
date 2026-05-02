@@ -17,7 +17,7 @@ class ProjectRepository(RepositoryBase):
 
     def _get_project_from_row(self, row):
         description = ""
-        if "description" in row:
+        if "description" in row.keys():
             description = row["description"]
         class_type = TypeClass(
             t_id=row["class_id"], title=row["class_title"], value=row["class_value"])
@@ -62,11 +62,12 @@ class ProjectRepository(RepositoryBase):
             Returns:
                 project (Project): hankeolio
         """
-        sql = """UPDATE Projects SET title = ?,
-                            type = ?,
-                            description = ?
-                            WHERE id = ?"""
-
+        sql = """UPDATE Projects
+                    SET title = ?,
+                        type = ?,
+                        description = ?
+                    WHERE id = ?
+            """
         project.p_id = self._db.execute(
             sql,
             [project.title, project.p_type.t_id,
@@ -131,6 +132,28 @@ class ProjectRepository(RepositoryBase):
         offset = page_size * (page - 1)
         result = self._db.query(sql, [like, like, limit, offset])
         return self._get_projects_from_rows(result)
+
+    def get_project(self, project_id):
+        """Pytää hanketta tunnusluvulla tietokannalta.
+
+            Args:
+                project_id (int): hankkeen tunnusluku
+        """
+        sql = """SELECT Projects.id,
+                        Projects.title,
+                        Classes.id class_id,
+                        Classes.title class_title,
+                        Classes.value class_value,
+                        Projects.description,
+                        Users.id owner_id,
+                        Users.username owner_name
+                FROM Projects, Users, Classes
+                WHERE Users.id = Projects.owner 
+                AND Projects.id = ?
+                AND Classes.id = Projects.type
+            """
+        result = self._db.query(sql, [project_id])
+        return self._get_project_from_row(result[0])
 
 
 default_project_repository = ProjectRepository()

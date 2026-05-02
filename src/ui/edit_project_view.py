@@ -1,4 +1,4 @@
-from tkinter import ttk, constants, scrolledtext as stext, END
+from tkinter import ttk, constants, scrolledtext as stext
 from ui.session_view import SessionView
 
 
@@ -30,9 +30,11 @@ class EditProjectView(SessionView):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _query (String): hakusana, jota käytettiin hankkeen löytämiseen
+            _page (int): hakutulosten sivunumero, josta hanke löydettin
     """
 
-    def __init__(self, root, service, margins, project_view, project, message):
+    def __init__(self, root, service, margins, project_view, inputs):
         """Luo hankkeenmuokkausnäkymä.
 
         Args:
@@ -44,13 +46,22 @@ class EditProjectView(SessionView):
                     footer (MarginFrame): näkymän alaviitekenttä
                     left_margin (MarginFrame): näkymän vasen viitekenttä
                     right_margin (MarginFrame): näkymän oikea viitekenttä
+            inputs (dict): näkymälle dataa
+                keys:
+                    project (Project): näytettävä hanke
+                    message (String): näkymässä näytettävä viesti
+                    query (String): hakusana, jota käytettiin hankkeen löytämiseen
+                    page (int): hakutulosten sivunumero, josta hanke löydettin
         """
         self._project_view = project_view
         self._project_name = None
         self._project_class = None
         self._project_description = None
-        self._project = project
-        super().__init__(root=root, service=service, margins=margins, message=message)
+        self._project = inputs["project"]
+        self._query = inputs["query"]
+        self._page = inputs["page"]
+        super().__init__(root=root, service=service,
+                         margins=margins, message=inputs["message"])
         self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
@@ -66,9 +77,10 @@ class EditProjectView(SessionView):
             self._project.title = self._project_name.get()
             self._project.p_type = self._get_class_object()
             self._project.description = self._project_description.get(
-                "1.0", END)
+                "1.0", constants.END)
             self._project = self._service.get_project_service().save_project(self._project)
-            self._project_view(message=None, project=self._project)
+            self._project_view(message=None, project=self._project,
+                               query=self._query, page=self._page)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
@@ -81,7 +93,7 @@ class EditProjectView(SessionView):
             self._project.title = self._project_name.get()
             self._project.p_type = self._get_class_object()
             self._project.description = self._project_description.get(
-                "1.0", END)
+                "1.0", constants.END)
             self._project = self._service.get_project_service().save_project(self._project)
             self._show_message("Maailma tallennettu.")
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
@@ -90,7 +102,8 @@ class EditProjectView(SessionView):
             self._show_error(e.message)
 
     def _back_to_project_handler(self):
-        self._project_view(message=None, project=self._project)
+        self._project_view(message=None, project=self._project,
+                           query=self._query, page=self._page)
 
     def _initialize_project_fields(self):
         name_label = ttk.Label(
@@ -154,7 +167,8 @@ class EditProjectView(SessionView):
         )
 
         self._project_description = stext.ScrolledText(master=self._frame)
-        self._project_description.insert(END, self._project.description)
+        self._project_description.insert(
+            constants.END, self._project.description)
         self._project_description.grid(
             row=6,
             padx=5,
@@ -213,28 +227,7 @@ class EditProjectView(SessionView):
             sticky=(constants.NS, constants.W)
         )
 
-    def _configure_window_grid(self):
-        self._root.grid_rowconfigure(0, weight=1)
-        self._root.grid_rowconfigure(1, weight=1)
-        self._root.grid_rowconfigure(2, weight=1)
-        self._root.grid_rowconfigure(3, weight=1)
-        self._root.grid_rowconfigure(4, weight=1)
-        self._root.grid_rowconfigure(5, weight=1)
-        self._root.grid_rowconfigure(6, weight=1)
-        self._root.grid_rowconfigure(7, weight=1)
-        self._root.grid_rowconfigure(8, weight=1)
-        self._root.grid_rowconfigure(9, weight=1)
-        self._root.grid_rowconfigure(10, weight=1)
-
-        self._root.grid_columnconfigure(0, weight=1)
-        self._root.grid_columnconfigure(1, weight=1)
-        self._root.grid_columnconfigure(2, weight=1)
-        self._root.grid_columnconfigure(3, weight=1)
-        self._root.grid_columnconfigure(4, weight=1)
-
     def _initialize_frame(self):
-        self._configure_window_grid()
-
         self._frame = ttk.Frame(master=self._root)
 
         self._frame.grid_rowconfigure(0, weight=0)

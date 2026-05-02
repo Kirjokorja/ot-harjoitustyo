@@ -1,4 +1,4 @@
-from tkinter import ttk, constants, scrolledtext as stext, END
+from tkinter import ttk, constants, scrolledtext as stext
 from ui.session_view import SessionView
 
 
@@ -68,17 +68,18 @@ class CreateProjectView(SessionView):
                 self._project.name = self._project_name.get()
                 self._project.type = self._get_class_object()
                 self._project.description = self._project_description.get(
-                    "1.0", END)
+                    "1.0", constants.END)
                 self._project = self._service.get_project_service().save_project(self._project)
             else:
                 user = self._service.get_user_service().get_current_user()
                 self._project = self._service.get_project_service().create_project(
                     self._project_name.get(),
                     self._get_class_object(),
-                    self._project_description.get("1.0", END),
+                    self._project_description.get("1.0", constants.END),
                     user
                 )
-            self._project_view(message=None, project=self._project)
+            self._project_view(
+                message=None, project=self._project, query=None, page=None)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
@@ -92,14 +93,14 @@ class CreateProjectView(SessionView):
                 self._project.name = self._project_name.get()
                 self._project.type = self._get_class_object()
                 self._project.description = self._project_description.get(
-                    "1.0", END)
+                    "1.0", constants.END)
                 self._project = self._service.get_project_service().save_project(self._project)
             else:
                 user = self._service.get_user_service().get_current_user()
                 self._project = self._service.get_project_service().create_project(
                     self._project_name.get(),
                     self._get_class_object(),
-                    self._project_description.get("1.0", END),
+                    self._project_description.get("1.0", constants.END),
                     user
                 )
             self._show_message("Maailma tallennettu.")
@@ -214,28 +215,7 @@ class CreateProjectView(SessionView):
             sticky=(constants.NS, constants.W)
         )
 
-    def _configure_window_grid(self):
-        self._root.grid_rowconfigure(0, weight=1)
-        self._root.grid_rowconfigure(1, weight=1)
-        self._root.grid_rowconfigure(2, weight=1)
-        self._root.grid_rowconfigure(3, weight=1)
-        self._root.grid_rowconfigure(4, weight=1)
-        self._root.grid_rowconfigure(5, weight=1)
-        self._root.grid_rowconfigure(6, weight=1)
-        self._root.grid_rowconfigure(7, weight=1)
-        self._root.grid_rowconfigure(8, weight=1)
-        self._root.grid_rowconfigure(9, weight=1)
-        self._root.grid_rowconfigure(10, weight=1)
-
-        self._root.grid_columnconfigure(0, weight=1)
-        self._root.grid_columnconfigure(1, weight=1)
-        self._root.grid_columnconfigure(2, weight=1)
-        self._root.grid_columnconfigure(3, weight=1)
-        self._root.grid_columnconfigure(4, weight=1)
-
     def _initialize_frame(self):
-        self._configure_window_grid()
-
         self._frame = ttk.Frame(master=self._root)
 
         self._frame.grid_rowconfigure(0, weight=0)

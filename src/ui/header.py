@@ -53,7 +53,8 @@ class HeaderFrame(MarginFrame):
         self._back_to_login_view()
 
     def _search_handler(self):
-        self._search_results_view(message=None, query=self._search_field.get())
+        self._search_results_view(
+            message=None, query=self._search_field.get(), page=1)
 
     def _initialize_info(self, user, info_frame):
         user_label = ttk.Label(

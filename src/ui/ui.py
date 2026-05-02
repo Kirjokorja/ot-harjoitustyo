@@ -199,7 +199,7 @@ class UI:
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_project_view(self, message, project):
+    def _show_project_view(self, message, project, query, page):
         self._hide_current_view()
         header_views = {
             "back_to_front_view": self._show_front_view,
@@ -219,20 +219,26 @@ class UI:
         }
         view_params = {
             "edit_project_view": self._show_edit_project_view,
-            "back_to_front_view": self._show_front_view
+            "back_to_front_view": self._show_front_view,
+            "back_to_search_results": self._show_search_results_view
+        }
+        inputs = {
+            "message": message,
+            "project": project,
+            "query": query,
+            "page": page
         }
         self._current_view = ProjectView(
             root=self._root,
             service=self._service,
-            project=project,
             margins=margins,
             view_params=view_params,
-            message=message
+            inputs=inputs
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_edit_project_view(self, message, project):
+    def _show_edit_project_view(self, message, project, query, page):
         self._hide_current_view()
         header_views = {
             "back_to_front_view": self._show_front_view,
@@ -249,19 +255,24 @@ class UI:
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
             "right_margin": MarginFrame(root=self._root)
+        }
+        inputs = {
+            "project": project,
+            "message": message,
+            "query": query,
+            "page": page
         }
         self._current_view = EditProjectView(
             root=self._root,
             service=self._service,
             margins=margins,
             project_view=self._show_project_view,
-            project=project,
-            message=message
+            inputs=inputs
         )
         self._current_view.initialize()
         self._current_view.pack()
 
-    def _show_search_results_view(self, message, query):
+    def _show_search_results_view(self, message, query, page):
         self._hide_current_view()
         header_views = {
             "back_to_front_view": self._show_front_view,
@@ -279,12 +290,17 @@ class UI:
             "left_margin": MarginFrame(root=self._root),
             "right_margin": MarginFrame(root=self._root)
         }
+        inputs = {
+            "message": message,
+            "query": query,
+            "page": page
+        }
         self._current_view = SearchResultsView(
             root=self._root,
             service=self._service,
             margins=margins,
-            message=message,
-            query=query
+            inputs=inputs,
+            project_view=self._show_project_view
         )
         self._current_view.initialize()
         self._current_view.pack()

@@ -69,28 +69,25 @@ class ViewBase:
         self._frame.destroy()
 
     def _show_message(self, message):
-        if self._message:
-            self._message_variable.set(message)
-            self._message_label.grid()
+        self._message_variable.set(message)
+        self._message_label.grid()
 
     def _hide_message(self):
-        if self._message:
-            self._message_label.grid_remove()
+        self._message_label.grid_remove()
 
     def _initialize_message(self):
-        if self._message:
-            self._message_variable = StringVar(self._frame)
-            self._message_label = ttk.Label(
-                master=self._frame,
-                textvariable=self._message_variable,
-                anchor="center"
-            )
-            self._message_label.grid(
-                padx=5,
-                pady=5,
-                columnspan=self._grid_size[0],
-                sticky=(constants.NS, constants.EW)
-            )
+        self._message_variable = StringVar(self._frame)
+        self._message_label = ttk.Label(
+            master=self._frame,
+            textvariable=self._message_variable,
+            anchor="center"
+        )
+        self._message_label.grid(
+            padx=5,
+            pady=5,
+            columnspan=self._grid_size[0],
+            sticky=(constants.NS, constants.EW)
+        )
 
     def _show_error(self, message):
         self._error_variable.set(message)

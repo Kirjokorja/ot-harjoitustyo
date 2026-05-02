@@ -56,7 +56,7 @@ class SessionView(ViewBase):
 
         try:
             self._service.get_user_service().get_current_user()
-            self._header.configure(
+            self._margins.configure(
                 {"row": 0,
                  "column": 0,
                  "rowspan": 2,
