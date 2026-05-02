@@ -49,8 +49,9 @@ class UI:
 
         self._font.configure(size=12)
 
-        self._root.bind_all('<Control-Up>', self._upsize_event)
-        self._root.bind_all('<Control-Down>', self._downsize_event)
+        self._root.bind_all(sequence="<Control-Up>", func=self._upsize_event)
+        self._root.bind_all(sequence="<Control-Down>",
+                            func=self._downsize_event)
 
         self._show_login_view()
 

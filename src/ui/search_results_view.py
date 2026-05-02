@@ -75,8 +75,12 @@ class SearchResultsView(ViewBase):
         if item:
             project = self._service.get_project_service(
             ).get_project(project_id=item[0])
-            self._project_view(message=None, project=project,
-                               query=self._query, page=self._page)
+            self._project_view(
+                message=None,
+                project=project,
+                query=self._query,
+                page=self._page
+            )
 
     def _initialize_results(self):
         self._result_count = self._service.get_project_service(
@@ -88,7 +92,7 @@ class SearchResultsView(ViewBase):
         self._results = self._service.get_project_service().search_projects(
             query=self._query, page=self._page, page_size=self._page_size)
 
-    def _initialize_page(self):
+    def _initialize_tree(self):
         self._tree = ttk.Treeview(master=self._frame)
         self._tree.configure(columns=("title", "class", "owner"))
         self._tree.column("#0", width=0, stretch=constants.NO)
@@ -101,10 +105,10 @@ class SearchResultsView(ViewBase):
             self._tree.insert(parent="", index=constants.END, iid=item.p_id, values=(
                 item.title, item.p_type.value, item.owner.username))
 
-        self._tree.bind('<Double-1>', self._double_click_item)
+        self._tree.bind(sequence="<Double-1>", func=self._double_click_item)
 
         self._tree.grid(
-            columnspan=3,
+            columnspan=self._grid_size[0],
             sticky=constants.NSEW
         )
 
@@ -118,6 +122,16 @@ class SearchResultsView(ViewBase):
                 sticky=(constants.NS, constants.E)
             )
 
+        pages_label = ttk.Label(
+            master=self._frame,
+            text=f"({self._page}/{self._page_count})",
+            anchor="center"
+        )
+        pages_label.grid(
+            column=self._grid_size[0]//2,
+            sticky=constants.NSEW
+        )
+
         if self._page is not self._page_count:
             next_button = ttk.Button(
                 master=self._frame,
@@ -127,14 +141,6 @@ class SearchResultsView(ViewBase):
             next_button.grid(
                 sticky=(constants.NS, constants.W)
             )
-
-    # def _initialize_frame(self):
-    #     self._frame = ttk.Frame(master=self._root)
-
-    #     for i in range(3):
-    #         self._frame.grid_columnconfigure(i, weight=1)
-
-    #     self._grid_size = self._frame.grid_size()
 
     def initialize(self):
         """Alusta näkymä."""
@@ -154,7 +160,7 @@ class SearchResultsView(ViewBase):
                 self._initialize_message()
                 self._show_message(self._message)
             self._initialize_results()
-            self._initialize_page()
+            self._initialize_tree()
             self._hide_message()
         except self._service.get_user_service().get_exceptions().SessionNotFound as e:
             self._initialize_error()
