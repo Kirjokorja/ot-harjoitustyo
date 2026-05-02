@@ -77,4 +77,3 @@ class MarginFrame:
 
     def _initialize(self):
         self._initialize_frame()
-        self._initialize_error()
