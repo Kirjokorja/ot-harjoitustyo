@@ -1,12 +1,13 @@
+from tkinter import font
 from ui.login_view import LoginView
 from ui.create_user_view import CreateUserView
 from ui.front_view import FrontView
 from ui.create_project_view import CreateProjectView
 from ui.edit_project_view import EditProjectView
 from ui.project_view import ProjectView
+from ui.search_results_view import SearchResultsView
 from ui.margin import MarginFrame
 from ui.header import HeaderFrame
-from tkinter import ttk, font
 from services.complete_services import default_services
 from ui_config import APP_NAME
 
@@ -68,15 +69,15 @@ class UI:
         self._root.grid_columnconfigure(1, weight=1)
         self._root.grid_columnconfigure(2, weight=1)
         self._root.grid_columnconfigure(3, weight=1)
-        self._root.grid_columnconfigure(4, weight=1)
+        self._root.grid_columnconfigure(5, weight=1)
 
     def _upsize_event(self, event):
-        if self._font["size"] < 36 and self._current_view != None:
+        if self._font["size"] < 36 and self._current_view is not None:
             self._font.configure(size=self._font["size"]+2)
             self._current_view.pack()
 
     def _downsize_event(self, event):
-        if self._font["size"] > 8 and self._current_view != None:
+        if self._font["size"] > 8 and self._current_view is not None:
             self._font.configure(size=self._font["size"]-2)
             self._current_view.pack()
 
@@ -88,13 +89,17 @@ class UI:
 
     def _show_login_view(self, message=None):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -113,13 +118,17 @@ class UI:
 
     def _show_create_user_view(self, message=None):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -137,13 +146,17 @@ class UI:
 
     def _show_front_view(self, message=None):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -160,13 +173,17 @@ class UI:
 
     def _show_create_project_view(self, message=None):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -184,13 +201,17 @@ class UI:
 
     def _show_project_view(self, message, project):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -213,13 +234,17 @@ class UI:
 
     def _show_edit_project_view(self, message, project):
         self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
         margins = {
             "header": HeaderFrame(
                 root=self._root,
                 service=self._service,
-                back_to_front_view=self._show_front_view,
-                back_to_login_view=self._show_login_view,
-                new_project_view=self._show_create_project_view
+                views=header_views
             ),
             "footer": MarginFrame(root=self._root),
             "left_margin": MarginFrame(root=self._root),
@@ -232,6 +257,34 @@ class UI:
             project_view=self._show_project_view,
             project=project,
             message=message
+        )
+        self._current_view.initialize()
+        self._current_view.pack()
+
+    def _show_search_results_view(self, message, query):
+        self._hide_current_view()
+        header_views = {
+            "back_to_front_view": self._show_front_view,
+            "back_to_login_view": self._show_login_view,
+            "new_project_view": self._show_create_project_view,
+            "search_results_view": self._show_search_results_view
+        }
+        margins = {
+            "header": HeaderFrame(
+                root=self._root,
+                service=self._service,
+                views=header_views
+            ),
+            "footer": MarginFrame(root=self._root),
+            "left_margin": MarginFrame(root=self._root),
+            "right_margin": MarginFrame(root=self._root)
+        }
+        self._current_view = SearchResultsView(
+            root=self._root,
+            service=self._service,
+            margins=margins,
+            message=message,
+            query=query
         )
         self._current_view.initialize()
         self._current_view.pack()

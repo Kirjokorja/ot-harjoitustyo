@@ -8,17 +8,14 @@ try:
 except FileNotFoundError:
     pass
 
-# Tietokannan sijainti
 DATABASE_FILENAME = os.getenv("DATABASE_FILENAME") or "database.db"
 DATABASE_FILE_PATH = os.path.join(currentdir, "..", "data", DATABASE_FILENAME)
 
-# Tietokannan alustuskäskyt
 DATABASE_SCHEMA_FILENAME = os.getenv(
     "DATABASE_SCHEMA_FILENAME") or "schema.sql"
 DATABASE_SCHEMA_PATH = os.path.join(currentdir, DATABASE_SCHEMA_FILENAME)
 DATABASE_SEED_FILENAME = os.getenv("DATABASE_SEED_FILENAME") or "seed.sql"
 DATABASE_SEED_PATH = os.path.join(currentdir, DATABASE_SEED_FILENAME)
 
-# Käyttäjän asetuksia
 USERNAME_MIN_LENGHT = 1
 PASSWORD_MIN_LENGHT = 8

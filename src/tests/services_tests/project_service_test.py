@@ -5,8 +5,8 @@ from tests.test_config import TEST_DATABASE_FILE_PATH, TEST_DATABASE_SCHEMA_PATH
 from database.db import DatabaseInterface
 from exceptions import (project_exceptions as exceptions)
 from repositories.project_repository import ProjectRepository
-from entities.project import Project
 from services.project_service import ProjectService
+from entities.project import Project
 from entities.user import User
 from entities.type_class import TypeClass
 

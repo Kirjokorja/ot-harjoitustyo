@@ -14,12 +14,12 @@ class Project:
 
         Args:
             params (dict): hajautustaulu, joka sisältää luokan jäsenien arvot
-                keys:
-                    ip_id (int): hankkeen tunnusluku ja pääavain tietokannassa
-                    title (str): hankkeen nimi
-                    type (TypeClass): hankkeen luokka
-                    description (str): hankkeen kuvaus
-                    owner (User): hankkeen omistava käyttäjä
+            keys:
+                p_id (int): hankkeen tunnusluku ja pääavain tietokannassa
+                title (str): hankkeen nimi
+                type (TypeClass): hankkeen luokka
+                description (str): hankkeen kuvaus
+                owner (User): hankkeen omistava käyttäjä
         """
         self.p_id = params["id"]
         self.title = params["title"]

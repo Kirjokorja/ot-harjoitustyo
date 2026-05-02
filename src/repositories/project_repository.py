@@ -1,5 +1,8 @@
 from repositories.repository import RepositoryBase
 from database.db import (database as default_db)
+from entities.project import Project
+from entities.user import User
+from entities.type_class import TypeClass
 
 
 class ProjectRepository(RepositoryBase):
@@ -11,6 +14,25 @@ class ProjectRepository(RepositoryBase):
 
     def __init__(self, db=default_db):
         super().__init__(db)
+
+    def _get_project_from_row(self, row):
+        description = ""
+        if "description" in row:
+            description = row["description"]
+        class_type = TypeClass(
+            t_id=row["class_id"], title=row["class_title"], value=row["class_value"])
+        owner = User(u_id=row["owner_id"], username=row["owner_name"])
+        params = {
+            "id": row["id"],
+            "title": row["title"],
+            "type": class_type,
+            "description": description,
+            "owner": owner
+        }
+        return Project(params=params)
+
+    def _get_projects_from_rows(self, rows):
+        return list(map(self._get_project_from_row, rows))
 
     def add_project(self, project):
         """Lisää uuden hankkeen tietokantaan.
@@ -60,6 +82,55 @@ class ProjectRepository(RepositoryBase):
         """
         sql = "DELETE FROM Projects WHERE id = ?"
         self._db.execute(sql, [project_id])
+
+    def count_results(self, query):
+        """Pyytää tietokannasta hankehaun tulosten lukumäärän.
+
+            Args:
+                query (String): hakusana
+
+            Returns:
+                int: hakutulosten lukumäärä
+        """
+        sql = """SELECT
+                    (SELECT COUNT(*) 
+                        FROM Projects 
+                        WHERE (Projects.title LIKE ? OR Projects.description LIKE ?))
+             """
+
+        like = "%" + query + "%"
+        return self._db.query(sql, [like, like])[0][0]
+
+    def find_projects(self, query, page, page_size):
+        """Hakee tietokannasta hankkeita hakusanalla niiden otsikoista ja kuvauksista.
+
+            Args:
+                query (String): hakusana
+                page (String): näytettävän sivun numero koko hausta
+                page_size (String): näytettävän sivun koko
+
+            Returns:
+                List: lista löytyneistä hankeolioista
+        """
+        sql = """SELECT Projects.id id,
+                        Projects.title title,
+                        Classes.id class_id,
+                        Classes.title class_title,
+                        Classes.value class_value,
+                        Users.id owner_id,
+                        Users.username owner_name
+                FROM Projects, Classes, Users
+                WHERE (Projects.title LIKE ? OR Projects.description LIKE ?)
+                AND Users.id = Projects.owner
+                AND Projects.type = Classes.id
+                ORDER BY title ASC
+                LIMIT ? OFFSET ?
+             """
+        like = "%" + query + "%"
+        limit = page_size
+        offset = page_size * (page - 1)
+        result = self._db.query(sql, [like, like, limit, offset])
+        return self._get_projects_from_rows(result)
 
 
 default_project_repository = ProjectRepository()

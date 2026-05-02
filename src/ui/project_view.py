@@ -56,7 +56,7 @@ class ProjectView(SessionView):
         self._edit_project_view(message=None, project=self._project)
 
     def _remove_project_handler(self):
-        self._questionWindow(
+        self._question_window(
             title="Poista maailma",
             message="Haluatko poistaa maailman pysyvästi?",
             yes_text="Kyllä",

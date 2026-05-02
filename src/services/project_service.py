@@ -104,10 +104,34 @@ class ProjectService(ServiceBase):
                 UserNotOwnerOfProject: virhe, joka syntyy, 
                     kun hanketta yrittää poistaa joku muu kuin hankkeen haltija
         """
-        if user != project.owner:
+        if user is not project.owner:
             raise self._exceptions.UserNotOwnerOfProject(
                 "Käyttäjä ei ole hankkeen haltija.")
         self._repository.delete_project(project.p_id)
+
+    def count_projects(self, query):
+        """Antaa hankehaun tulosten lukumäärän.
+
+            Args:
+                query (String): hakusana
+
+            Returns:
+                int: hakutulosten lukumäärä
+        """
+        return self._repository.count_results(query=query)
+
+    def search_projects(self, query, page, page_size):
+        """Etsii hankkeita hakusanalla.
+
+            Args:
+                query (String): hakusana
+                page (String): näytettävän sivun numero koko hausta
+                page_size (String): näytettävän sivun koko
+
+            Returns:
+                List: lista löytyneitä hankeolioita   
+        """
+        return self._repository.find_projects(query, page, page_size)
 
 
 default_project_service = ProjectService()

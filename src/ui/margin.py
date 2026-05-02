@@ -1,4 +1,4 @@
-from tkinter import ttk, constants
+from tkinter import ttk, constants, StringVar
 
 
 class MarginFrame:
@@ -25,13 +25,14 @@ class MarginFrame:
         self._column = 0
         self._rowspan = 1
         self._columnspan = 1
+        self._error_label = None
+        self._error_variable = None
 
     def pack(self):
         """Näyttää näkymän."""
         self._frame.grid(
             row=self._row,
             column=self._column,
-            rowspan=self._rowspan,
             columnspan=self._columnspan,
             sticky=(constants.NS, constants.EW)
         )
@@ -76,3 +77,4 @@ class MarginFrame:
 
     def _initialize(self):
         self._initialize_frame()
+        self._initialize_error()

@@ -132,7 +132,7 @@ class LoginView(ViewBase):
         self._margins["header"].configure(
             {"row": 0,
              "column": 0,
-             "rowspan": 2,
+             "rowspan": 1,
              "columnspan": self._root.grid_size()[0]}
         )
         self._initialize_error()

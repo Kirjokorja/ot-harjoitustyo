@@ -69,26 +69,28 @@ class ViewBase:
         self._frame.destroy()
 
     def _show_message(self, message):
-        self._message_variable.set(message)
-        self._message_label.grid()
+        if self._message:
+            self._message_variable.set(message)
+            self._message_label.grid()
 
     def _hide_message(self):
-        self._message_label.grid_remove()
+        if self._message:
+            self._message_label.grid_remove()
 
     def _initialize_message(self):
-        self._message_variable = StringVar(self._frame)
-
-        self._message_label = ttk.Label(
-            master=self._frame,
-            textvariable=self._message_variable,
-            anchor="center"
-        )
-        self._message_label.grid(
-            padx=5,
-            pady=5,
-            columnspan=self._grid_size[0],
-            sticky=(constants.NS, constants.EW)
-        )
+        if self._message:
+            self._message_variable = StringVar(self._frame)
+            self._message_label = ttk.Label(
+                master=self._frame,
+                textvariable=self._message_variable,
+                anchor="center"
+            )
+            self._message_label.grid(
+                padx=5,
+                pady=5,
+                columnspan=self._grid_size[0],
+                sticky=(constants.NS, constants.EW)
+            )
 
     def _show_error(self, message):
         self._error_variable.set(message)
@@ -128,7 +130,7 @@ class ViewBase:
     def _question_answer_handler(self):
         pass
 
-    def _questionWindow(self, title, message, yes_text, no_text):
+    def _question_window(self, title, message, yes_text, no_text):
         self._message_win = Toplevel()
 
         win_width = int(self._root.winfo_screenwidth() * 0.15)
@@ -201,7 +203,7 @@ class ViewBase:
         self._margins["header"].configure(
             {"row": 0,
              "column": 0,
-             "rowspan": 2,
+             "rowspan": 1,
              "columnspan": self._root.grid_size()[0]}
         )
         self._initialize_error()
