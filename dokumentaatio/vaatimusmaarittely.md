@@ -20,8 +20,8 @@ Sovellus on tarkoitettu maailmojen ja ympäristöjen suunniittelun ja rakentamis
 
 - [x] Käyttäjä pystyy kirjautumaan ulos.
 - [x] Käyttäjä pystyy luomaan maailman.
-- [ ] Käyttäjä pystyy luomaan luomaansa maailmaan kuuluvia tietokohteita.
-- [ ] Käyttäjä pystyy hakemaan luomiaan maailmoja.
+- [ ] Käyttäjä pystyy luomaan luomaansa maailmaan tietokohteita.
+- [x] Käyttäjä pystyy hakemaan luomiaan maailmoja.
 - [ ] Käyttäjä pystyy hakemaan luomiaan tietokohteita.
 - [x] Käyttäjä pystyy poistamaan luomiaan maailmoja.
 - [ ] Käyttäjä pystyy poistamaan luomiaan tietokohteita.

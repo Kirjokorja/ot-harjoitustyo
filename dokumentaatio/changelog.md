@@ -42,3 +42,7 @@
 - Käyttäjä pystyy muokkaamaan maailmaa/hanketta.
 - Käyttäjä pystyy poistamaan maailman/hankkeen.
 - Kaikki luokat on testattu.
+
+## Viikko 7
+
+- Käyttäjä pystyy hakemaan maailmoja/hankkeita.
