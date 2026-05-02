@@ -5,7 +5,9 @@ import re
 import os
 from database.db import DatabaseInterface
 from database.initialize_db import DatabaseInitializer
-from tests.test_config import TEST_DATABASE_FILE_PATH, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH
+from tests.test_config import (TEST_DATABASE_FILE_PATH,
+                               TEST_DATABASE_SCHEMA_PATH,
+                               TEST_DATABASE_SEED_PATH)
 
 
 class TestDatabaseInitializer(unittest.TestCase):

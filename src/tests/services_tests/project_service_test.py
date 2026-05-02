@@ -1,7 +1,9 @@
 import unittest
 import sqlite3
 import locale
-from tests.test_config import TEST_DATABASE_FILE_PATH, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH
+from tests.test_config import (TEST_DATABASE_FILE_PATH,
+                               TEST_DATABASE_SCHEMA_PATH,
+                               TEST_DATABASE_SEED_PATH)
 from database.db import DatabaseInterface
 from exceptions import (project_exceptions as exceptions)
 from repositories.project_repository import ProjectRepository
@@ -256,7 +258,7 @@ class TestProjectService(unittest.TestCase):
 
         self.assertEqual(type(exc), exceptions.ProjectHasNoTitle)
 
-    def test_save_project_raises_project_has_no_type_exception(self):
+    def test_create_project_raises_project_has_no_type_exception(self):
 
         exc = None
 
@@ -272,7 +274,7 @@ class TestProjectService(unittest.TestCase):
 
         self.assertEqual(type(exc), exceptions.ProjectHasNoType)
 
-    def test_save_project_raises_project_has_no_owner_exception(self):
+    def test_create_project_raises_project_has_no_owner_exception(self):
 
         exc = None
 

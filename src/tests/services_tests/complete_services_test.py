@@ -1,8 +1,5 @@
 import unittest
-import sqlite3
-import locale
-from bcrypt import gensalt, hashpw
-from tests.test_config import TEST_DATABASE_FILE_PATH, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH
+from tests.test_config import TEST_DATABASE_FILE_PATH
 from database.db import DatabaseInterface
 from exceptions import (user_exceptions as exceptions)
 from repositories.user_repository import UserRepository

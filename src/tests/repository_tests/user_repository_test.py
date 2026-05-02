@@ -1,7 +1,9 @@
 import unittest
 import sqlite3
 import locale
-from tests.test_config import TEST_DATABASE_FILE_PATH, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH
+from tests.test_config import (TEST_DATABASE_FILE_PATH,
+                               TEST_DATABASE_SCHEMA_PATH,
+                               TEST_DATABASE_SEED_PATH)
 from database.db import DatabaseInterface
 from repositories.user_repository import UserRepository
 from entities.user import User
