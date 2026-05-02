@@ -44,6 +44,7 @@
 | 27.4 | 2 t | hankkeen/maailman poistamisominaisuuden kehitystä |
 | 27.4 | 1 t | testausta |
 | 28.4. | 4 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
-| 28.4. | 1,5 t | dokumentaatiota |
+| 28.4. | 1,5 t | dokumentointia |
 | 30.4. | 4,5 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
-| Summa | 153 t 35 min |
+| 1.5. | 4 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
+| Summa | 157 t 35 min |
