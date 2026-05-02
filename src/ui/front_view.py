@@ -1,8 +1,8 @@
 from tkinter import ttk
-from ui.session_view import SessionView
+from ui.view import ViewBase
 
 
-class FrontView(SessionView):
+class FrontView(ViewBase):
     """Luokka vastaa sovelluksen etusivusta käyttäjän kirjauduttua.
 
         Attributes:
@@ -62,7 +62,7 @@ class FrontView(SessionView):
         self._initialize_frame()
 
         try:
-            user = self._service.get_user_service().get_current_user()
+            self._service.get_user_service().get_current_user()
             self._margins["header"].configure(
                 {"row": 0,
                  "column": 0,

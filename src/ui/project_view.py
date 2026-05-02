@@ -1,8 +1,8 @@
 from tkinter import ttk, constants, scrolledtext as stext
-from ui.session_view import SessionView
+from ui.view import ViewBase
 
 
-class ProjectView(SessionView):
+class ProjectView(ViewBase):
     """Luokka vastaa hankenäkymästä.
 
         Attributes:

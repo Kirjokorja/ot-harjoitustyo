@@ -1,9 +1,9 @@
 from tkinter import ttk, constants
 from utils.util_funcs import ceildiv
-from ui.session_view import SessionView
+from ui.view import ViewBase
 
 
-class SearchResultsView(SessionView):
+class SearchResultsView(ViewBase):
     """Luokka vastaa sovelluksen hakutulosten listauksesta.
 
         Attributes:
@@ -71,10 +71,12 @@ class SearchResultsView(SessionView):
         self.initialize()
 
     def _double_click_item(self, event):
-        item_id = self._tree.focus()
-        project = self._service.get_project_service().get_project(project_id=item_id)
-        self._project_view(message=None, project=project,
-                           query=self._query, page=self._page)
+        item = self._tree.selection()
+        if item:
+            project = self._service.get_project_service(
+            ).get_project(project_id=item[0])
+            self._project_view(message=None, project=project,
+                               query=self._query, page=self._page)
 
     def _initialize_results(self):
         self._result_count = self._service.get_project_service(
@@ -126,13 +128,13 @@ class SearchResultsView(SessionView):
                 sticky=(constants.NS, constants.W)
             )
 
-    def _initialize_frame(self):
-        self._frame = ttk.Frame(master=self._root)
+    # def _initialize_frame(self):
+    #     self._frame = ttk.Frame(master=self._root)
 
-        for i in range(3):
-            self._frame.grid_columnconfigure(i, weight=1)
+    #     for i in range(3):
+    #         self._frame.grid_columnconfigure(i, weight=1)
 
-        self._grid_size = self._frame.grid_size()
+    #     self._grid_size = self._frame.grid_size()
 
     def initialize(self):
         """Alusta näkymä."""

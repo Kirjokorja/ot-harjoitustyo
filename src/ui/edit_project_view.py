@@ -1,8 +1,8 @@
 from tkinter import ttk, constants, scrolledtext as stext
-from ui.session_view import SessionView
+from ui.view import ViewBase
 
 
-class EditProjectView(SessionView):
+class EditProjectView(ViewBase):
     """Luokka vastaa uuden hankkeen muokkausnäkymästä.
 
         Attributes:
@@ -230,7 +230,7 @@ class EditProjectView(SessionView):
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
-        self._frame.grid_rowconfigure(0, weight=0)
+        self._frame.grid_rowconfigure(0, weight=1)
         self._frame.grid_rowconfigure(1, weight=1)
         self._frame.grid_rowconfigure(2, weight=1)
         self._frame.grid_rowconfigure(3, weight=1)
