@@ -49,4 +49,5 @@
 | 1.5. | 4 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
 | 2.5. | 3 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
 | 2.5. | 7 t | käyttöliittymän keitystä |
-| Summa | 167 t 35 min |
+| 3.5. | 9 t | käyttöliittymän keitystä |
+| Summa | 175 t 35 min |
