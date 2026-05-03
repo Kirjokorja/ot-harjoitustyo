@@ -9,44 +9,41 @@ class EditProjectView(ViewBase):
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
-            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_variable (StringVar): merkkijonomuuttuja, 
+                joka säilyttää näytöllä näytettävää viestiä
             _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
-            _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
+            _grid_size (tuple): monikko, 
+                joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            _header (HeaderFrame): näkymän yläviitekenttä 
             _project_view: hankenäkymä
             _project_name (Entry): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen nimen
-            _project_class (Combobox): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen luokan
-            _project_description (ScrolledText): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen kuvauksen
+            _project_class (Combobox): Tkinter-osanen, 
+                joka säilyttää käyttäjän syöttämän hankkeen luokan
+            _project_description (ScrolledText): Tkinter-osanen, 
+                joka säilyttää käyttäjän syöttämän hankkeen kuvauksen
             _project (Project): hankeolio
-            _classes (list<TypeClass>): hankeen luokat
+            _classes (List<TypeClass>): hankeen luokat
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
             _query (String): hakusana, jota käytettiin hankkeen löytämiseen
             _page (int): hakutulosten sivunumero, josta hanke löydettin
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service, margins, project_view, inputs):
+    def __init__(self, *, root, service, configs, header, project_view, inputs):
         """Luo hankkeenmuokkausnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
-            inputs (dict): näkymälle dataa
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            header (HeaderFrame): näkymän yläviitekenttä
+            project_view: hankenäkymä
+            inputs (dict): dataa, jota näkymä tarvitsee
                 keys:
                     project (Project): näytettävä hanke
                     message (String): näkymässä näytettävä viesti
@@ -60,8 +57,13 @@ class EditProjectView(ViewBase):
         self._project = inputs["project"]
         self._query = inputs["query"]
         self._page = inputs["page"]
-        super().__init__(root=root, service=service,
-                         margins=margins, message=inputs["message"])
+        super().__init__(
+            root=root,
+            service=service,
+            header=header,
+            message=inputs["message"],
+            configs=configs
+        )
         self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
@@ -74,14 +76,16 @@ class EditProjectView(ViewBase):
         self._hide_error()
         self._hide_message()
         try:
+            user = self._service.get_user_service().get_current_user()
             self._project.title = self._project_name.get()
             self._project.p_type = self._get_class_object()
             self._project.description = self._project_description.get(
                 "1.0", constants.END)
-            self._project = self._service.get_project_service().save_project(self._project)
+            self._project = self._service.get_project_service().save_project(user, self._project)
             self._project_view(message=None, project=self._project,
                                query=self._query, page=self._page)
-        except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
+        except (self._service.get_project_service().get_exceptions().UserNotOwnerOfProject,
+                self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
             self._show_error(e.message)
@@ -90,13 +94,15 @@ class EditProjectView(ViewBase):
         self._hide_error()
         self._hide_message()
         try:
+            user = self._service.get_user_service().get_current_user()
             self._project.title = self._project_name.get()
             self._project.p_type = self._get_class_object()
             self._project.description = self._project_description.get(
                 "1.0", constants.END)
-            self._project = self._service.get_project_service().save_project(self._project)
+            self._project = self._service.get_project_service().save_project(user, self._project)
             self._show_message("Maailma tallennettu.")
-        except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
+        except (self._service.get_project_service().get_exceptions().UserNotOwnerOfProject,
+                self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
             self._show_error(e.message)
@@ -252,7 +258,7 @@ class EditProjectView(ViewBase):
 
         try:
             self._service.get_user_service().get_current_user()
-            self._margins["header"].configure(
+            self._header.configure(
                 {"row": 0,
                  "column": 0,
                  "rowspan": 2,

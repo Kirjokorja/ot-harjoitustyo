@@ -15,12 +15,7 @@ class CreateProjectView(ViewBase):
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
             _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            _header (HeaderFrame): näkymän yläviitekenttä 
             _project_view: hankenäkymä
             _project_name (Entry): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen nimen
             _project_class (Combobox): Tkinter-osanen, joka säilyttää käyttäjän syöttämän hankkeen luokan
@@ -30,20 +25,17 @@ class CreateProjectView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service, margins, project_view, message):
+    def __init__(self, *, root, service, configs, header, project_view, message):
         """Luo hankkeenluontinäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            header (HeaderFrame): näkymän yläviitekenttä 
             message (String): näkymässä näytettävä viesti
         """
         self._project_view = project_view
@@ -51,7 +43,13 @@ class CreateProjectView(ViewBase):
         self._project_class = None
         self._project_description = None
         self._project = None
-        super().__init__(root=root, service=service, margins=margins, message=message)
+        super().__init__(
+            root=root,
+            service=service,
+            header=header,
+            message=message,
+            configs=configs
+        )
         self._classes = self._service.get_project_service().get_project_classes()
 
     def _get_class_object(self):
@@ -65,11 +63,15 @@ class CreateProjectView(ViewBase):
         self._hide_message()
         try:
             if self._project and self._project.p_id:
-                self._project.name = self._project_name.get()
-                self._project.type = self._get_class_object()
-                self._project.description = self._project_description.get(
-                    "1.0", constants.END)
-                self._project = self._service.get_project_service().save_project(self._project)
+                try:
+                    user = self._service.get_user_service().get_current_user()
+                    self._project.name = self._project_name.get()
+                    self._project.type = self._get_class_object()
+                    self._project.description = self._project_description.get(
+                        "1.0", constants.END)
+                    self._project = self._service.get_project_service().save_project(user, self._project)
+                except self._service.get_project_service().get_exceptions().UserNotOwnerOfProject as e:
+                    self._show_error(e.message)
             else:
                 user = self._service.get_user_service().get_current_user()
                 self._project = self._service.get_project_service().create_project(
@@ -90,11 +92,15 @@ class CreateProjectView(ViewBase):
         self._hide_message()
         try:
             if self._project and self._project.p_id:
-                self._project.name = self._project_name.get()
-                self._project.type = self._get_class_object()
-                self._project.description = self._project_description.get(
-                    "1.0", constants.END)
-                self._project = self._service.get_project_service().save_project(self._project)
+                try:
+                    user = self._service.get_user_service().get_current_user()
+                    self._project.name = self._project_name.get()
+                    self._project.type = self._get_class_object()
+                    self._project.description = self._project_description.get(
+                        "1.0", constants.END)
+                    self._project = self._service.get_project_service().save_project(user, self._project)
+                except self._service.get_project_service().get_exceptions().UserNotOwnerOfProject as e:
+                    self._show_error(e.message)
             else:
                 user = self._service.get_user_service().get_current_user()
                 self._project = self._service.get_project_service().create_project(
@@ -240,7 +246,7 @@ class CreateProjectView(ViewBase):
 
         try:
             self._service.get_user_service().get_current_user()
-            self._margins["header"].configure(
+            self._header.configure(
                 {"row": 0,
                  "column": 0,
                  "rowspan": 2,

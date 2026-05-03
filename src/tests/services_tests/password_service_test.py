@@ -1,18 +1,20 @@
 import unittest
 from bcrypt import checkpw
 from services.password_service import PasswordService
+import tests.test_config as config
 
 
 class TestPasswordService(unittest.TestCase):
     def setUp(self):
-        self.pw_service = PasswordService(5)
+        self.pw_service = PasswordService(configs=config)
         self.pw = "Moikka!"
         self.hashed_pw = self.pw_service.hash_password(self.pw)
         self.hashed_pw_bytes = self.hashed_pw.encode('utf-8')
         self.pw_bytes = self.pw.encode('utf-8')
 
     def test_password_service_gets_correct_min_pw_lenght(self):
-        self.assertEqual(self.pw_service.get_min_password_lenght(), 5)
+        self.assertEqual(self.pw_service.get_min_password_lenght(),
+                         config.PASSWORD_MIN_LENGHT)
 
     def test_hash_password_returns_a_string(self):
         self.assertEqual(type(self.hashed_pw), type(str()))

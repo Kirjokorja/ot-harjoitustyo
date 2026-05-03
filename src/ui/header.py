@@ -15,46 +15,56 @@ class HeaderFrame(MarginFrame):
             _service: toiminnoista vastaava olio
             _search_field (Entry): Entry-olio,
                 joka ottaa vastaan ja säilyttää käyttäjän antaman hakusanan
-            _back_to_front_view: metodi, joka palauttaa alkunäkymän
-            _back_to_login_view: metodi, joka palauttaa kirjautumisnäkymän
-            _new_project_view: metodi, joka vie hankkeen luomisnäkymään
+            _nav_button_1_logged_in: metodi, 
+                joka ajetaan käyttäjän painaessa suunnistuspalkin ensimmäistä nappia 
+                ollessaan kirjautuneena sisään
+            _nav_button_1_logged_out: metodi, 
+                joka ajetaan käyttäjän painaessa suunnistuspalkin ensimmäistä nappia 
+                ollessaan kirjautuneena ulos
+            _nav_button_2: metodi, joka ajetaan käyttäjän painaessa suunnistuspalkin toista nappia
+            _nav_button_3: metodi, joka ajetaan käyttäjän painaessa suunnistuspalkin kolmatta nappia
             _search_results_view: metodi, joka näyttää haun tulokset
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(
-        self,
-        root,
-        service,
-        views
-    ):
+    def __init__(self, *, root, service, configs, buttons, search_results_view):
         """Luo ylväviitekenttä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            views (dict): hajautustaulu, joka sisältää tarvittavat näkymämetodit
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            buttons (dict): hajautustaulu, joka sisältääsuunnistuspalkin nappuloiden metodit
                 keys:
-                    back_to_front_view: metodi, joka palauttaa alkunäkymän
-                    back_to_login_view: metodi, joka palauttaa kirjautumisnäkymän
-                    new_project_view: metodi, joka vie hankkeen luomisnäkymään
-                    search_results_view: metodi, joka näyttää haun tulokset
+                    nav_button_1_logged_in: metodi, 
+                        joka ajetaan käyttäjän painaessa suunnistuspalkin ensimmäistä nappia
+                        ollessaan kirjautuneena sisään
+                    nav_button_1_logged_out: metodi, 
+                        joka ajetaan käyttäjän painaessa suunnistuspalkin ensimmäistä nappia
+                        ollessaan kirjautuneena ulos
+                    nav_button_2: metodi, 
+                        joka ajetaan käyttäjän painaessa suunnistuspalkin toista nappia
+                    nav_button_3: metodi, 
+                        joka ajetaan käyttäjän painaessa suunnistuspalkin kolmatta nappia
+            search_results_view: metodi, joka näyttää haun tulokset
         """
         self._service = service
-        self._back_to_front_view = views["back_to_front_view"]
-        self._back_to_login_view = views["back_to_login_view"]
-        self._new_project_view = views["new_project_view"]
-        self._search_results_view = views["search_results_view"]
+        self._nav_button_1_logged_in = buttons["nav_button_1_logged_in"]
+        self._nav_button_1_logged_out = buttons["nav_button_1_logged_out"]
+        self._nav_button_2 = buttons["nav_button_2"]
+        self._nav_button_3 = buttons["nav_button_3"]
+        self._search_results_view = search_results_view
         self._search_field = None
+        self._configs = configs
 
         super().__init__(root=root)
 
-    def _logout_handler(self):
-        self._service.get_user_service().logout()
-        self._back_to_login_view()
-
     def _search_handler(self):
         self._search_results_view(
-            message=None, query=self._search_field.get(), page=1)
+            message=None,
+            query=self._search_field.get(),
+            page=1
+        )
 
     def _initialize_info(self, user, info_frame):
         user_label = ttk.Label(
@@ -74,12 +84,12 @@ class HeaderFrame(MarginFrame):
                         background="blue")
         nav_frame.configure(style="SmallFrame.TFrame")
 
-        front_view_button = ttk.Button(
+        nav_button_1_logged_in = ttk.Button(
             master=nav_frame,
             text="Etusivu",
-            command=self._back_to_front_view,
+            command=self._nav_button_1_logged_in,
         )
-        front_view_button.grid(
+        nav_button_1_logged_in.grid(
             row=0,
             column=0,
             padx=5,
@@ -89,12 +99,12 @@ class HeaderFrame(MarginFrame):
         nav_frame.grid_columnconfigure(0, weight=2)
 
         if user:
-            new_project_button = ttk.Button(
+            nav_button_2 = ttk.Button(
                 master=nav_frame,
                 text="Luo maailma",
-                command=self._new_project_view
+                command=self._nav_button_2
             )
-            new_project_button.grid(
+            nav_button_2.grid(
                 row=0,
                 column=1,
                 padx=5,
@@ -103,12 +113,12 @@ class HeaderFrame(MarginFrame):
             )
             nav_frame.grid_columnconfigure(1, weight=2)
 
-            logout_button = ttk.Button(
+            nav_button_3 = ttk.Button(
                 master=nav_frame,
                 text="Kirjaudu ulos",
-                command=self._logout_handler
+                command=self._nav_button_3
             )
-            logout_button.grid(
+            nav_button_3.grid(
                 row=0,
                 column=2,
                 padx=5,
@@ -198,6 +208,6 @@ class HeaderFrame(MarginFrame):
         try:
             user = self._service.get_user_service().get_current_user()
         except self._service.get_user_service().get_exceptions().SessionNotFound:
-            self._back_to_front_view = self._back_to_login_view
+            self._nav_button_1_logged_in = self._nav_button_1_logged_out
 
         self._initialize_header(user)

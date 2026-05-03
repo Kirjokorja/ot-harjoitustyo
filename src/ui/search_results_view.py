@@ -10,18 +10,15 @@ class SearchResultsView(ViewBase):
             _root (Tk): Tkinter-osanen, johon näkymä lisätään
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: toiminnoista vastaava olio
-            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_variable (StringVar): merkkijonomuuttuja,
+                joka säilyttää näytöllä näytettävää viestiä
             _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
-            _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
+            _grid_size (tuple): monikko, 
+                joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _center_column (int): ristikon keskimmäinen ruutu
-            _margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            _header (HeaderFrame): näkymän yläviitekenttä 
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
@@ -33,23 +30,23 @@ class SearchResultsView(ViewBase):
             _results (List): haun yhden sivun tulokset
             _tree (Treeview): Tkinter-osanen, joka listaa tulokset
             _project_view: hankenäkymä
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service, margins, inputs, project_view):
+    def __init__(self, *, root, service, configs, header, inputs, project_view):
         """Luo hakutulosnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            header (HeaderFrame): näkymän yläviitekenttä
+            inputs (dict): dataa, jota näkymä tarvitsee
                 keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
-            message (String): näkymässä näytettävä viesti
-            query (String): hakusana
-            project_view: hankenäkymä
+                    message (String): näkymässä näytettävä viesti
+                    query (String): hakusana
+                    page (int): nykyinen hakutulossivu
+            project_view: hankenäkymä  
         """
         self._page_size = 10
         self._query = inputs["query"]
@@ -59,8 +56,12 @@ class SearchResultsView(ViewBase):
         self._results = None
         self._tree = None
         self._project_view = project_view
-        super().__init__(root=root, service=service,
-                         margins=margins, message=inputs["message"])
+        super().__init__(
+            root=root, service=service,
+            header=header,
+            message=inputs["message"],
+            configs=configs
+        )
 
     def _previous_page_handler(self):
         self._page -= 1
@@ -94,12 +95,15 @@ class SearchResultsView(ViewBase):
 
     def _initialize_tree(self):
         self._tree = ttk.Treeview(master=self._frame)
-        self._tree.configure(columns=("title", "class", "owner"))
+        columns = []
+        for i in range(self._configs.RESULT_LIST_NUMBER_OF_COLUMNS):
+            columns.append(f"col_{i}")
+        self._tree.configure(columns=columns)
         self._tree.column("#0", width=0, stretch=constants.NO)
 
-        self._tree.heading("title", text="Nimi")
-        self._tree.heading("class", text="Luokka")
-        self._tree.heading("owner", text="Haltija")
+        column_names = self._configs.RESULT_LIST_COLUMN_NAMES
+        for i in range(self._configs.RESULT_LIST_NUMBER_OF_COLUMNS):
+            self._tree.heading(f"col_{i}", text=column_names[i])
 
         for item in self._results:
             self._tree.insert(parent="", index=constants.END, iid=item.p_id, values=(
@@ -148,7 +152,7 @@ class SearchResultsView(ViewBase):
 
         try:
             self._service.get_user_service().get_current_user()
-            self._margins["header"].configure(
+            self._header.configure(
                 {"row": 0,
                  "column": 0,
                  "rowspan": 3,

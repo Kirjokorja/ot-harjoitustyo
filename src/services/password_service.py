@@ -1,21 +1,21 @@
 from bcrypt import gensalt, hashpw, checkpw
-from config import PASSWORD_MIN_LENGHT
+import config as default_config
 
 
 class PasswordService:
     """Tarjoaa salasanapalveluja.
 
         Attributes:
-            _pw_min_lenght (int): salasanan minimipituus
+            _configs: palvelun ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, pw_min_lenght=PASSWORD_MIN_LENGHT):
+    def __init__(self, configs=default_config):
         """Luo uuden salasanapalveluolion.
 
             Args:
-                pw_min_lenght (int): salasanan minimipituus
+                configs: palvelun ominaisuuksien arvot tiedostossa
         """
-        self._pw_min_lenght = pw_min_lenght
+        self._configs = configs
 
     def hash_password(self, password):
         """Salaa salasanan luomalla siitä uuden merkkijonon hajauttamalla.
@@ -53,7 +53,7 @@ class PasswordService:
                 Returns:
                     bool: True, jos salasana on riittävän pitkä, muuten False 
         """
-        if len(password) < self._pw_min_lenght:
+        if len(password) < self._configs.PASSWORD_MIN_LENGHT:
             return False
         return True
 
@@ -61,9 +61,9 @@ class PasswordService:
         """Antaa palveluun asetetun salasanan minimipituuden.
 
             Returns:
-                _pw_min_lenght (int): salasanan minimipituus
+                int: salasanan minimipituus
         """
-        return self._pw_min_lenght
+        return self._configs.PASSWORD_MIN_LENGHT
 
 
 default_pw_service = PasswordService()

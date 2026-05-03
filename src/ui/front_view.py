@@ -1,4 +1,3 @@
-from tkinter import ttk
 from ui.view import ViewBase
 
 
@@ -24,46 +23,19 @@ class FrontView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
-
-    def __init__(self, root, service, margins, message):
-        """Luo kirjautuneen etusivu.
-
-        Args:
-            root (Tk): Tkinter-osanen, johon näkymä lisätään
-            service: toiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
-            message (String): näkymässä näytettävä viesti
-        """
-        super().__init__(root=root, service=service, margins=margins, message=message)
-        if not message:
-            self._message = "Takaisin etusivulla!"
-
-    def _initialize_frame(self):
-        self._frame = ttk.Frame(master=self._root)
-
-        self._frame.grid_rowconfigure(0, weight=1)
-        self._frame.grid_rowconfigure(1, weight=1)
-        self._frame.grid_rowconfigure(2, weight=1)
-
-        self._frame.grid_columnconfigure(0, weight=1)
-        self._frame.grid_columnconfigure(1, weight=1)
-        self._frame.grid_columnconfigure(2, weight=1)
-
-        self._grid_size = self._frame.grid_size()
 
     def initialize(self):
         """Alusta näkymä."""
         self._initialize_frame()
 
+        if not self._message:
+            self._message = "Takaisin etusivulla!"
+
         try:
             self._service.get_user_service().get_current_user()
-            self._margins["header"].configure(
+            self._header.configure(
                 {"row": 0,
                  "column": 0,
                  "rowspan": 3,

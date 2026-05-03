@@ -68,7 +68,7 @@ class ProjectRepository(RepositoryBase):
                         description = ?
                     WHERE id = ?
             """
-        project.p_id = self._db.execute(
+        self._db.execute(
             sql,
             [project.title, project.p_type.t_id,
                 project.description, project.p_id]
@@ -103,7 +103,7 @@ class ProjectRepository(RepositoryBase):
         return self._db.query(sql, [like, like])[0][0]
 
     def find_projects(self, query, page, page_size):
-        """Hakee tietokannasta hankkeita hakusanalla niiden otsikoista ja kuvauksista.
+        """Kyselee tietokannasta hankkeita hakusanalla niiden otsikoista ja kuvauksista.
 
             Args:
                 query (String): hakusana
@@ -134,7 +134,7 @@ class ProjectRepository(RepositoryBase):
         return self._get_projects_from_rows(result)
 
     def get_project(self, project_id):
-        """Pytää hanketta tunnusluvulla tietokannalta.
+        """Kyselee hanketta tunnusluvulla tietokannalta.
 
             Args:
                 project_id (int): hankkeen tunnusluku
@@ -154,6 +154,24 @@ class ProjectRepository(RepositoryBase):
             """
         result = self._db.query(sql, [project_id])
         return self._get_project_from_row(result[0])
+
+    def get_projects_owner(self, project_id):
+        """Kyselee tietokannalta hankkeen haltijaa.
+
+            Args:
+                project_id (int): hankkeen tunnusluku
+
+            Returns:
+                User: hankkeen haltijan käyttäjäolio
+        """
+        sql = """SELECT Users.id,
+                        Users.username
+                FROM Users, Projects
+                WHERE Users.id = Projects.owner
+                AND Projects.id = ?
+              """
+        result = self._db.query(sql, [project_id])[0]
+        return User(u_id=result["id"], username=result["username"])
 
 
 default_project_repository = ProjectRepository()

@@ -3,7 +3,7 @@ from services.service import ServiceBase
 from services.password_service import default_pw_service
 from exceptions import (user_exceptions as default_exceptions)
 from repositories.user_repository import default_user_repository
-from config import USERNAME_MIN_LENGHT
+import config as default_config
 
 
 class UserService(ServiceBase):
@@ -16,6 +16,7 @@ class UserService(ServiceBase):
             _password_service: salasanankäsittelypalvelu
             _user: istunnon käyttäjäolio
             _username_min_lenght (int): käyttäjänimen minimipituus
+            _configs: palvelun ominaisuuksien arvot tiedostossa
     """
 
     def __init__(
@@ -23,7 +24,7 @@ class UserService(ServiceBase):
         repository=default_user_repository,
         exceptions=default_exceptions,
         password_service=default_pw_service,
-        username_min_lenght=USERNAME_MIN_LENGHT
+        configs=default_config
     ):
         """Alusta käyttäjäpalvelu.
 
@@ -32,11 +33,11 @@ class UserService(ServiceBase):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
                 password_service: salasanankäsittelypalvelu
-                username_min_lenght (int): käyttäjänimen minimipituus
+                configs: palvelun ominaisuuksien arvot tiedostossa
         """
         super().__init__(repository=repository, exceptions=exceptions)
         self._password_service = password_service
-        self._username_min_lenght = username_min_lenght
+        self._configs = configs
         self._user = None
 
     def create_user(self, username, password, password_confirm):
@@ -69,7 +70,7 @@ class UserService(ServiceBase):
             raise self._exceptions.UserAlreadyExists(message)
 
     def _username_acceptable(self, username):
-        if len(username) < self._username_min_lenght:
+        if len(username) < self._configs.USERNAME_MIN_LENGHT:
             message = "Käyttäjänimi on liian lyhyt."
             raise self._exceptions.UsernameTooShort(message)
 

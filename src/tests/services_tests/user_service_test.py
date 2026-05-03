@@ -2,9 +2,7 @@ import unittest
 import sqlite3
 import locale
 from bcrypt import gensalt, hashpw
-from tests.test_config import (TEST_DATABASE_FILE_PATH,
-                               TEST_DATABASE_SCHEMA_PATH,
-                               TEST_DATABASE_SEED_PATH)
+import tests.test_config as configs
 from database.db import DatabaseInterface
 from exceptions import (user_exceptions as exceptions)
 from repositories.user_repository import UserRepository
@@ -14,17 +12,16 @@ from services.password_service import PasswordService
 
 class TestUserService(unittest.TestCase):
     def setUp(self):
-        self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
+        self.db = DatabaseInterface(configs.TEST_DATABASE_FILE_PATH)
         self.u_repo = UserRepository(self.db)
-        self.pw_lenght = 6
-        self.pw_service = PasswordService(self.pw_lenght)
+        self.pw_service = PasswordService(configs)
         self.u_service = UserService(
             repository=self.u_repo,
             exceptions=exceptions,
             password_service=self.pw_service
         )
 
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con = sqlite3.connect(configs.TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
@@ -45,12 +42,12 @@ class TestUserService(unittest.TestCase):
             con.executescript(sql_drop)
             con.commit()
 
-        with open(TEST_DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
+        with open(configs.TEST_DATABASE_SCHEMA_PATH, encoding=locale.getencoding()) as file:
             sql_schema = file.read()
         con.executescript(sql_schema)
         con.commit()
 
-        with open(TEST_DATABASE_SEED_PATH, encoding=locale.getencoding()) as file:
+        with open(configs.TEST_DATABASE_SEED_PATH, encoding=locale.getencoding()) as file:
             sql_seed = file.read()
         con.executescript(sql_seed)
 
@@ -87,7 +84,7 @@ class TestUserService(unittest.TestCase):
             self.create_pw
         )
 
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con = sqlite3.connect(configs.TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
@@ -182,7 +179,7 @@ class TestUserService(unittest.TestCase):
                          self.result_get_log["password_hash"])
 
     def test_login_raises_session_already_exists_exception_if_a_user_is_logged_in(self):
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con = sqlite3.connect(configs.TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
@@ -190,9 +187,9 @@ class TestUserService(unittest.TestCase):
         pw_bytes = self.create_pw.encode('utf-8')
         pw_hash = hashpw(pw_bytes, salt).decode('utf-8')
 
-        sql_log_set = """INSERT INTO Users (username, password_hash) 
+        sql_log_set = """INSERT INTO Users (username, password_hash)
                         VALUES (?, ?)"""
-        con.execute(sql_log_set, [self.create_username, pw_hash]).lastrowid
+        con.execute(sql_log_set, [self.create_username, pw_hash])
         con.commit()
 
         self.u_service.login(self.create_username, self.create_pw)
@@ -247,4 +244,4 @@ class TestUserService(unittest.TestCase):
 
     def test_get_min_password_lenght_returns_password_lenght(self):
         self.assertEqual(
-            self.u_service.get_min_password_lenght(), self.pw_lenght)
+            self.u_service.get_min_password_lenght(), configs.PASSWORD_MIN_LENGHT)

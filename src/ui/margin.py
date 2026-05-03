@@ -13,7 +13,7 @@ class MarginFrame:
             _columnspan (int): kehyksen leveys ikkunassa
     """
 
-    def __init__(self, root):
+    def __init__(self, *, root):
         """Luo viitekenttäkehys.
 
         Args:
@@ -25,8 +25,6 @@ class MarginFrame:
         self._column = 0
         self._rowspan = 1
         self._columnspan = 1
-        self._error_label = None
-        self._error_variable = None
 
     def pack(self):
         """Näyttää näkymän."""

@@ -46,13 +46,16 @@ class ProjectService(ServiceBase):
         """
         return self._repository.get_classes("Hanke")
 
-    def save_project(self, project):
+    def save_project(self, user, project):
         """Muokkaa hanketta.
 
             Args:
                 project (Project): hankeolio
+                user (User): käyttäjäolio
 
             Raises:
+                UserNotOwnerOfProject: virhe, 
+                    joka syntyy, kun hanketta käsittelevä kyttäjä ei ole hankkeen haltia
                 ProjectHasNoTitle: virhe, joka syntyy hankkeen nimikkeen puuttuessa
                 ProjectHasNoType: virhe, joka syntyy hankkeen luokan puuttuessa
                 ProjectHasNoOwner: virhe, joka syntyy hankkeen haltijan puuttuessa
@@ -60,6 +63,10 @@ class ProjectService(ServiceBase):
             Returns:
                 project (Project): hankeolio
         """
+        db_user = self._repository.get_projects_owner(project.p_id)
+        if user.u_id is not db_user.u_id:
+            raise self._exceptions.UserNotOwnerOfProject(
+                "Käyttäjä ei ole hankkeen haltija.")
         self._project_acceptable(project.title, project.p_type, project.owner)
         project = self._repository.edit_project(project)
         return project
@@ -104,7 +111,8 @@ class ProjectService(ServiceBase):
                 UserNotOwnerOfProject: virhe, joka syntyy, 
                     kun hanketta yrittää poistaa joku muu kuin hankkeen haltija
         """
-        if user.u_id is not project.owner.u_id:
+        db_user = self._repository.get_projects_owner(project.p_id)
+        if user.u_id is not db_user.u_id:
             raise self._exceptions.UserNotOwnerOfProject(
                 "Käyttäjä ei ole hankkeen haltija.")
         self._repository.delete_project(project.p_id)
@@ -129,7 +137,7 @@ class ProjectService(ServiceBase):
                 page_size (String): näytettävän sivun koko
 
             Returns:
-                List: lista löytyneitä hankeolioita   
+                List<Project>: lista löytyneitä hankeolioita   
         """
         return self._repository.find_projects(query, page, page_size)
 

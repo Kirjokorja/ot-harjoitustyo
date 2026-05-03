@@ -9,49 +9,51 @@ class LoginView(ViewBase):
             _root (Tk): Tkinter-osanen, johon näkymä lisätää
             _frame (Frame): kehys näkymän rakenteiden ryhmittelyyn
             _service: käyttäjätoiminnoista vastaava olio
-            _message_variable (StringVar): merkkijonomuuttuja, joka säilyttää näytöllä näytettävää viestiä
+            _message_variable (StringVar): merkkijonomuuttuja, 
+                joka säilyttää näytöllä näytettävää viestiä
             _message_label (Label): viestin näyttämisestä vastaava Label-olio
             _error_variable (StringVar): merkkijonomuuttuja, joka säilyttää virheilmoituksen viestiä
             _error_label (Label): virheilmoituksesen näyttämisestä vastaava Label-olio
-            _grid_size (tuple): monikko, joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
+            _grid_size (tuple): monikko, 
+                joka sisältää näkymän kehyksen ristikon rivien ja sarakkeiden määrän
             _create_user_view: käyttäjänluontinäkymä
             _front_view: sovelluksen etusivu kirjauduttua
             _username (Entry): Entry-olio, joka säilyttää käyttäjän antaman käyttäjätunnuksen
             _password (Entry): Entry-olio, joka säilyttää käyttäjän antaman salasanan
-            _margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            _header (HeaderFrame): näkymän yläviitekenttä
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service, margins, create_user_view, front_view, message):
+    def __init__(self, *, root, service, configs, header, views, message):
         """Luo kirjautumisnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            header (HeaderFrame): näkymän yläviitekenttä
+            views (dict): hajautustaulu, joka sisältää luokan käyttämiä näkymiä
                 keys:
-                    header (HeaderFrame): näkymän yläviitekenttä
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
-            create_user_view: käyttäjänluontinäkymä
-            front_view: sevelluksen etusivu kirjauduttua
+                    create_user_view: käyttäjänluontinäkymä
+                    front_view: sevelluksen etusivu kirjauduttua
             message (String): näkymässä näytettävä viesti
         """
-        self._create_user_view = create_user_view
-        self._front_view = front_view
+        self._create_user_view = views["create_user_view"]
+        self._front_view = views["front_view"]
         self._username = None
         self._password = None
         if not message:
             message = "Tervetuloa!"
-        super().__init__(root=root, service=service, margins=margins, message=message)
+        super().__init__(
+            root=root,
+            service=service,
+            header=header,
+            message=message,
+            configs=configs
+        )
 
     def _login_handler(self):
         self._hide_error()
@@ -129,7 +131,7 @@ class LoginView(ViewBase):
     def initialize(self):
         """Alusta näkymä."""
         self._initialize_frame()
-        self._margins["header"].configure(
+        self._header.configure(
             {"row": 0,
              "column": 0,
              "rowspan": 1,

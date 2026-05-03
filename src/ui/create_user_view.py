@@ -28,20 +28,17 @@ class CreateUserView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service, margins, back_to_start_view, message):
+    def __init__(self, *, root, service, configs, header, back_to_start_view, message):
         """Luo käyttäjänluontinäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
-            margins (dict): viitekentät hajautustaulussa:
-                keys:
-                    header (HeaderFrame): näkymän yläviitekenttä 
-                    footer (MarginFrame): näkymän alaviitekenttä
-                    left_margin (MarginFrame): näkymän vasen viitekenttä
-                    right_margin (MarginFrame): näkymän oikea viitekenttä
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            header (HeaderFrame): näkymän yläviitekenttä 
             back_to_start_view: metodi, joka palauttaa alkunäkymän
             message (String): näkymässä näytettävä viesti
         """
@@ -49,7 +46,13 @@ class CreateUserView(ViewBase):
         self._password = None
         self._password_confirm = None
         self._back_to_start_view = back_to_start_view
-        super().__init__(root=root, service=service, margins=margins, message=message)
+        super().__init__(
+            root=root,
+            service=service,
+            header=header,
+            message=message,
+            configs=configs
+        )
 
     def _create_user_handler(self):
         self._hide_error()
@@ -137,7 +140,7 @@ class CreateUserView(ViewBase):
 
     def initialize(self):
         self._initialize_frame()
-        self._margins["header"].configure(
+        self._header.configure(
             {"row": 0,
              "column": 0,
              "rowspan": 1,

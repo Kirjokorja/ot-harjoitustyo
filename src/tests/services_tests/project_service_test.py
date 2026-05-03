@@ -149,7 +149,8 @@ class TestProjectService(unittest.TestCase):
             "owner": self.user_mod
         })
 
-        self.assertEqual(self.p_service.save_project(project_mod), project_mod)
+        self.assertEqual(self.p_service.save_project(
+            self.user, project_mod), project_mod)
 
     def test_save_project_raises_project_has_no_title_exception(self):
 
@@ -158,13 +159,13 @@ class TestProjectService(unittest.TestCase):
             "title": "",
             "type": self.p_type_mod,
             "description": "Heippa!",
-            "owner": self.user_mod
+            "owner": self.user
         })
 
         exc = None
 
         try:
-            self.p_service.save_project(project_mod)
+            self.p_service.save_project(self.user, project_mod)
         except Exception as e:
             exc = e
 
@@ -177,13 +178,13 @@ class TestProjectService(unittest.TestCase):
             "title": "Maailma",
             "type": None,
             "description": "Heippa!",
-            "owner": self.user_mod
+            "owner": self.user
         })
 
         exc = None
 
         try:
-            self.p_service.save_project(project_mod)
+            self.p_service.save_project(self.user, project_mod)
         except Exception as e:
             exc = e
 
@@ -201,11 +202,29 @@ class TestProjectService(unittest.TestCase):
         exc = None
 
         try:
-            self.p_service.save_project(project_mod)
+            self.p_service.save_project(self.user, project_mod)
         except Exception as e:
             exc = e
 
         self.assertEqual(type(exc), exceptions.ProjectHasNoOwner)
+
+    def test_save_project_raises_user_not_owner_exception(self):
+        project_mod = Project({
+            "id": self.project.p_id,
+            "title": "Maailma",
+            "type": self.p_type_mod,
+            "description": "Heippa!",
+            "owner": None
+        })
+
+        exc = None
+
+        try:
+            self.p_service.save_project(self.user_mod, project_mod)
+        except Exception as e:
+            exc = e
+
+        self.assertEqual(type(exc), exceptions.UserNotOwnerOfProject)
 
     def test_create_project_creates_project_into_database(self):
 

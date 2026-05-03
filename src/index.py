@@ -8,7 +8,7 @@ def main():
 
     services = Services()
 
-    ui_view = UI(window, services)
+    ui_view = UI(root=window, service=services)
     ui_view.start()
 
     window.mainloop()

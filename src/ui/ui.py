@@ -6,10 +6,9 @@ from ui.create_project_view import CreateProjectView
 from ui.edit_project_view import EditProjectView
 from ui.project_view import ProjectView
 from ui.search_results_view import SearchResultsView
-from ui.margin import MarginFrame
 from ui.header import HeaderFrame
 from services.complete_services import default_services
-from ui_config import APP_NAME
+import config_ui as default_config
 
 
 class UI:
@@ -20,67 +19,80 @@ class UI:
             _current_view: käyttöliittymän näyttämä näkymä
             _service: palvelu, joka vastaa sovellusksen toiminnasta
             _font (Font): sovelluksen fontista vastaava Tkinter-osanen
+            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service=default_services):
+    def __init__(self, root, service=default_services, configs=default_config):
         """Alusta uusi käyttöliittymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon käyttöliittymä alustetaan
             service: palvelu, joka vastaa sovellusksen toiminnasta
+            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
         """
         self._root = root
         self._current_view = None
         self._service = service
-        self._font = font.nametofont("TkDefaultFont")
+        self._font = None
+        self._configs = configs
 
     def start(self):
         """Käyttöliittymän käynnistävä metodi"""
-        window_width = int(self._root.winfo_screenwidth() * 0.6)
-        window_height = int(self._root.winfo_screenheight() * 0.6)
-        window_width_min = int(self._root.winfo_screenwidth() * 0.12)
-        window_height_min = int(self._root.winfo_screenheight() * 0.22)
+        window_width = int(self._root.winfo_screenwidth()
+                           * self._configs.WINDOW_WIDTH_SCALE)
+        window_height = int(self._root.winfo_screenheight()
+                            * self._configs.WINDOW_HEIGHT_SCALE)
+        window_width_min = int(self._root.winfo_screenwidth()
+                               * self._configs.WINDOW_MIN_WIDTH_SCALE)
+        window_height_min = int(
+            self._root.winfo_screenheight() * self._configs.WINDOW_MIN_HEIGHT_SCALE)
 
         self._root.geometry(f"{window_width}x{window_height}")
         self._root.minsize(window_width_min, window_height_min)
         self._configure_window_grid()
 
-        self._root.title(APP_NAME)
+        self._root.title(self._configs.APP_NAME)
 
-        self._font.configure(size=12)
+        self._font = font.nametofont(self._configs.DEFAULT_FONT)
+        self._font.configure(size=self._configs.DEFAULT_FONT_SIZE)
 
-        self._root.bind_all(sequence="<Control-Up>", func=self._upsize_event)
-        self._root.bind_all(sequence="<Control-Down>",
-                            func=self._downsize_event)
+        self._root.bind_all(
+            sequence=self._configs.SCALE_FONT_UP_EVENT_TRIGGER,
+            func=self._upsize_event
+        )
+        self._root.bind_all(
+            sequence=self._configs.SCALE_FONT_DOWN_EVENT_TRIGGER,
+            func=self._downsize_event
+        )
 
         self._show_login_view()
 
     def _configure_window_grid(self):
-        self._root.grid_rowconfigure(0, weight=1)
-        self._root.grid_rowconfigure(1, weight=1)
-        self._root.grid_rowconfigure(2, weight=1)
-        self._root.grid_rowconfigure(3, weight=1)
-        self._root.grid_rowconfigure(4, weight=1)
-        self._root.grid_rowconfigure(5, weight=1)
-        self._root.grid_rowconfigure(6, weight=1)
-        self._root.grid_rowconfigure(7, weight=1)
-        self._root.grid_rowconfigure(8, weight=1)
+        for i in range(8):
+            self._root.grid_rowconfigure(i, weight=1)
 
-        self._root.grid_columnconfigure(0, weight=1)
-        self._root.grid_columnconfigure(1, weight=1)
-        self._root.grid_columnconfigure(2, weight=1)
-        self._root.grid_columnconfigure(3, weight=1)
-        self._root.grid_columnconfigure(5, weight=1)
+        for i in range(5):
+            self._root.grid_columnconfigure(i, weight=1)
 
     def _upsize_event(self, event):
-        if self._font["size"] < 36 and self._current_view is not None:
-            self._font.configure(size=self._font["size"]+2)
+        if (self._font["size"] < self._configs.SCALE_FONT_MAX_SIZE
+                and self._current_view is not None):
+            self._font.configure(
+                size=self._font["size"]+self._configs.SCALE_FONT_INCREMENT_SIZE
+            )
             self._current_view.pack()
 
     def _downsize_event(self, event):
-        if self._font["size"] > 8 and self._current_view is not None:
-            self._font.configure(size=self._font["size"]-2)
+        if (self._font["size"] > self._configs.SCALE_FONT_MIN_SIZE
+                and self._current_view is not None):
+            self._font.configure(
+                size=self._font["size"]-self._configs.SCALE_FONT_INCREMENT_SIZE
+            )
             self._current_view.pack()
+
+    def _logout_handler(self):
+        self._service.get_user_service().logout()
+        self._show_login_view(self._configs.LOGOUT_MESSAGE)
 
     def _hide_current_view(self):
         if self._current_view:
@@ -88,30 +100,35 @@ class UI:
 
         self._current_view = None
 
+    def _create_header(self):
+        header_buttons = {
+            "nav_button_1_logged_in": self._show_front_view,
+            "nav_button_1_logged_out": self._show_login_view,
+            "nav_button_2": self._show_create_project_view,
+            "nav_button_3": self._logout_handler
+        }
+        header = HeaderFrame(
+            root=self._root,
+            service=self._service,
+            configs=self._configs,
+            buttons=header_buttons,
+            search_results_view=self._show_search_results_view
+        )
+        return header
+
     def _show_login_view(self, message=None):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
+        header = self._create_header()
+        views = {
+            "create_user_view": self._show_create_user_view,
+            "front_view": self._show_front_view
         }
         self._current_view = LoginView(
             root=self._root,
             service=self._service,
-            margins=margins,
-            create_user_view=self._show_create_user_view,
-            front_view=self._show_front_view,
+            configs=self._configs,
+            header=header,
+            views=views,
             message=message
         )
         self._current_view.initialize()
@@ -119,26 +136,12 @@ class UI:
 
     def _show_create_user_view(self, message=None):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
+        header = self._create_header()
         self._current_view = CreateUserView(
             root=self._root,
             service=self._service,
-            margins=margins,
+            configs=self._configs,
+            header=header,
             back_to_start_view=self._show_login_view,
             message=message
         )
@@ -147,53 +150,25 @@ class UI:
 
     def _show_front_view(self, message=None):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
+        header = self._create_header()
         self._current_view = FrontView(
             root=self._root,
             service=self._service,
-            margins=margins,
-            message=message
+            header=header,
+            message=message,
+            configs=self._configs
         )
         self._current_view.initialize()
         self._current_view.pack()
 
     def _show_create_project_view(self, message=None):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
+        header = self._create_header()
         self._current_view = CreateProjectView(
             root=self._root,
             service=self._service,
-            margins=margins,
+            configs=self._configs,
+            header=header,
             project_view=self._show_project_view,
             message=message
         )
@@ -202,23 +177,8 @@ class UI:
 
     def _show_project_view(self, message, project, query, page):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
-        view_params = {
+        header = self._create_header()
+        views = {
             "edit_project_view": self._show_edit_project_view,
             "back_to_front_view": self._show_front_view,
             "back_to_search_results": self._show_search_results_view
@@ -232,8 +192,9 @@ class UI:
         self._current_view = ProjectView(
             root=self._root,
             service=self._service,
-            margins=margins,
-            view_params=view_params,
+            configs=self._configs,
+            header=header,
+            views=views,
             inputs=inputs
         )
         self._current_view.initialize()
@@ -241,22 +202,7 @@ class UI:
 
     def _show_edit_project_view(self, message, project, query, page):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
+        header = self._create_header()
         inputs = {
             "project": project,
             "message": message,
@@ -266,7 +212,8 @@ class UI:
         self._current_view = EditProjectView(
             root=self._root,
             service=self._service,
-            margins=margins,
+            configs=self._configs,
+            header=header,
             project_view=self._show_project_view,
             inputs=inputs
         )
@@ -275,22 +222,7 @@ class UI:
 
     def _show_search_results_view(self, message, query, page):
         self._hide_current_view()
-        header_views = {
-            "back_to_front_view": self._show_front_view,
-            "back_to_login_view": self._show_login_view,
-            "new_project_view": self._show_create_project_view,
-            "search_results_view": self._show_search_results_view
-        }
-        margins = {
-            "header": HeaderFrame(
-                root=self._root,
-                service=self._service,
-                views=header_views
-            ),
-            "footer": MarginFrame(root=self._root),
-            "left_margin": MarginFrame(root=self._root),
-            "right_margin": MarginFrame(root=self._root)
-        }
+        header = self._create_header()
         inputs = {
             "message": message,
             "query": query,
@@ -299,7 +231,8 @@ class UI:
         self._current_view = SearchResultsView(
             root=self._root,
             service=self._service,
-            margins=margins,
+            configs=self._configs,
+            header=header,
             inputs=inputs,
             project_view=self._show_project_view
         )
