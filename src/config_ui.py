@@ -5,16 +5,67 @@ WINDOW_HEIGHT_SCALE = 0.6
 WINDOW_MIN_WIDTH_SCALE = 0.12
 WINDOW_MIN_HEIGHT_SCALE = 0.22
 
+Q_WIN_MIN_WIDTH_SCALE = 0.15
+Q_WIN_MIN_HEIGHT_SCALE = 0.1
+Q_WIN_X_REL_POS_TO_MASTER = 0.5
+Q_WIN_Y_REL_POS_TO_MASTER = 0.5
+
 DEFAULT_FONT = "TkDefaultFont"
 DEFAULT_FONT_SIZE = 12
 
-SCALE_FONT_UP_EVENT_TRIGGER = "<Control-Up>"
-SCALE_FONT_DOWN_EVENT_TRIGGER = "<Control-Down>"
+SCALE_FONT_BIGGER_TRIGGER = "<Control-Up>"
+SCALE_FONT_SMALLER_TRIGGER = "<Control-Down>"
 SCALE_FONT_INCREMENT_SIZE = 2
 SCALE_FONT_MAX_SIZE = 36
 SCALE_FONT_MIN_SIZE = 8
 
-LOGOUT_MESSAGE = "Kirjauduit ulos."
+HEADER_INFO_MSG = "Olet kirjautunut sisään nimellä"
+HEADER_NAV_BUTTON_1 = "Etusivu"
+HEADER_NAV_BUTTON_2 = "Luo maailma"
+HEADER_NAV_BUTTON_3 = "Kirjaudu ulos"
+HEADER_SEARCH_LABEL = "Haku:"
+HEADER_SEARCH_BUTTON = "Hae"
+
+LOGIN_GREET = "Tervetuloa!"
+LOGIN_USERNAME_LABEL = "Käyttäjänimi:"
+LOGIN_PW_LABEL = "Salasana:"
+LOGIN_BUTTON = "Kirjaudu"
+LOGGED_IN_GREET = "Tervetuloa"
+LOGOUT_MSG = "Kirjauduit ulos."
+
+REGISTER_USER_NAV_BUTTON = "Rekisteröidy"
+REG_USERNAME_LABEL = "Käyttäjänimi:"
+REG_PW_1_LABEL_1_HALF = "Salasana (min"
+REG_PW_1_LABEL_2_HALF = "merkkiä):"
+REG_PW_2_LABEL = "Salasana uudestaan:"
+REG_CREATE_BUTTON = "Luo"
+REG_SUCCESS_MSG_1_HALF = "Käyttäjä"
+REG_SUCCESS_MSG_2_HALF = "on luotu onnistuneesti."
+
+FRONT_PAGE_GREET = "Takaisin etusivulla!"
+
+MODIFY_BUTTON = "Muokkaa"
+DELETE_BUTTON = "Poista"
+SAVE_BUTTON = "Tallenna"
+SAVE_SHOW_BUTTON = "Tallenna ja näytä"
+BACK_TO_PROJECT_BUTTON = "Takaisin maailmaan"
+BACK_TO_SEARCH_RESULTS_BUTTON = "Takaisin hakutuloksiin"
+
+CREATE_MODIFY_STAR_MSG = "Pakolliset tiedot"
+PROJECT_SAVED_MSG = "Maailma tallennettu."
 
 RESULT_LIST_NUMBER_OF_COLUMNS = 3
 RESULT_LIST_COLUMN_NAMES = ["Nimi", "Luokka", "Haltija"]
+RESULT_LIST_OPEN_ITEM_TRIGGER = "<Double-1>"
+
+PROJECT_NAME_LABEL = "Nimi:"
+PROJECT_CLASS_LABEL = "Luokka:"
+PROJECT_DESC_LABEL = "Kuvaus:"
+PROJECT_OWNER_LABEL = "Haltija:"
+
+DELETE_PROJECT_Q_WIN_TITLE = "Poista maailma"
+DELETE_PROJECT_Q_WIN_MSG = "Haluatko poistaa maailman pysyvästi?"
+DELETE_PROJECT_Q_WIN_YES_TEXT = "Kyllä"
+DELETE_PROJECT_Q_WIN_NO_TEXT = "En"
+
+DELETE_PROJECT_SUCCESS_MSG = "Maailman poistaminen onnistui."

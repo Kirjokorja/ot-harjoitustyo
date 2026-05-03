@@ -63,8 +63,11 @@ class CreateUserView(ViewBase):
         try:
             user = self._service.get_user_service().create_user(
                 username, password, password_confirm)
-            self._back_to_start_view(
-                f"Käyttäjä {user.username} on luotu onnistuneesti.")
+            name = user.username
+            first_half = self._configs.REG_SUCCESS_MSG_1_HALF
+            second_half = self._configs.REG_SUCCESS_MSG_2_HALF
+            msg = f"{first_half} {name} {second_half}"
+            self._back_to_start_view(msg)
         except (self._service.get_user_service().get_exceptions().UserAlreadyExists,
                 self._service.get_user_service().get_exceptions().UsernameTooShort,
                 self._service.get_user_service().get_exceptions().PasswordTooShort,
@@ -74,7 +77,7 @@ class CreateUserView(ViewBase):
     def _initialize_create_fields(self):
         username_label = ttk.Label(
             master=self._frame,
-            text="Käyttäjänimi:"
+            text=self._configs.REG_USERNAME_LABEL
         )
         username_label.grid(
             padx=5,
@@ -89,10 +92,12 @@ class CreateUserView(ViewBase):
             columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
-
+        pw_lenght = self._service.get_user_service().get_min_password_lenght()
+        first_half = self._configs.REG_PW_1_LABEL_1_HALF
+        second_half = self._configs.REG_PW_1_LABEL_2_HALF
         password_label = ttk.Label(
             master=self._frame,
-            text=f"Salasana (min {self._service.get_user_service().get_min_password_lenght()} merkkiä):"
+            text=f"{first_half} {pw_lenght} {second_half}"
         )
         password_label.grid(
             padx=5,
@@ -107,10 +112,9 @@ class CreateUserView(ViewBase):
             columnspan=self._grid_size[0],
             sticky=(constants.NS, constants.EW)
         )
-
         password_confirm_label = ttk.Label(
             master=self._frame,
-            text="Salasana uudestaan:"
+            text=self._configs.REG_PW_2_LABEL
         )
         password_confirm_label.grid(
             padx=5,
@@ -128,7 +132,7 @@ class CreateUserView(ViewBase):
 
         create_user_button = ttk.Button(
             master=self._frame,
-            text="Luo",
+            text=self._configs.REG_CREATE_BUTTON,
             command=self._create_user_handler
         )
         create_user_button.grid(

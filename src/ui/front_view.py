@@ -31,7 +31,7 @@ class FrontView(ViewBase):
         self._initialize_frame()
 
         if not self._message:
-            self._message = "Takaisin etusivulla!"
+            self._message = self._configs.FRONT_PAGE_GREET
 
         try:
             self._service.get_user_service().get_current_user()

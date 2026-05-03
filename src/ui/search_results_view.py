@@ -109,7 +109,10 @@ class SearchResultsView(ViewBase):
             self._tree.insert(parent="", index=constants.END, iid=item.p_id, values=(
                 item.title, item.p_type.value, item.owner.username))
 
-        self._tree.bind(sequence="<Double-1>", func=self._double_click_item)
+        self._tree.bind(
+            sequence=self._configs.RESULT_LIST_OPEN_ITEM_TRIGGER,
+            func=self._double_click_item
+        )
 
         self._tree.grid(
             columnspan=self._grid_size[0],

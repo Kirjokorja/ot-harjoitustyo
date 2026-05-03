@@ -83,24 +83,23 @@ class ProjectView(ViewBase):
 
     def _remove_project_handler(self):
         self._question_window(
-            title="Poista maailma",
-            message="Haluatko poistaa maailman pysyvästi?",
-            yes_text="Kyllä",
-            no_text="En"
+            title=self._configs.DELETE_PROJECT_Q_WIN_TITLE,
+            message=self._configs.DELETE_PROJECT_Q_WIN_MSG,
+            yes_text=self._configs.DELETE_PROJECT_Q_WIN_YES_TEXT,
+            no_text=self._configs.DELETE_PROJECT_Q_WIN_NO_TEXT
         )
 
     def _question_answer_handler(self):
+        message = self._configs.DELETE_PROJECT_SUCCESS_MSG
         if self._question_answer:
             try:
                 user = self._service.get_user_service().get_current_user()
                 self._service.get_project_service().remove_project(user, self._project)
                 if self._query:
-                    message = "Maailman poistaminen onnistui."
                     self._back_to_search_results(
                         message=message, query=self._query, page=self._page)
                 else:
-                    self._back_to_front_view(
-                        message="Maailman poistaminen onnistui.")
+                    self._back_to_front_view(message=message)
             except self._service.get_project_service().get_exceptions().UserNotOwnerOfProject as e:
                 self._show_error(e.message)
         self._question_answer = None
@@ -125,7 +124,7 @@ class ProjectView(ViewBase):
 
         class_label = ttk.Label(
             master=self._frame,
-            text="Luokka:"
+            text=self._configs.PROJECT_CLASS_LABEL
         )
         class_label.grid(
             column=self._grid_size[0]//2-1,
@@ -150,7 +149,7 @@ class ProjectView(ViewBase):
 
         description_label = ttk.Label(
             master=self._frame,
-            text="Kuvaus:"
+            text=self._configs.PROJECT_DESC_LABEL
         )
         description_label.grid(
             column=self._grid_size[0]//2-1,
@@ -174,7 +173,7 @@ class ProjectView(ViewBase):
 
         owner_label = ttk.Label(
             master=self._frame,
-            text="Haltija:"
+            text=self._configs.PROJECT_OWNER_LABEL
         )
         owner_label.grid(
             column=self._grid_size[0]//2-1,
@@ -203,7 +202,7 @@ class ProjectView(ViewBase):
     def _initialize_owner_buttons(self):
         edit_button = ttk.Button(
             master=self._frame,
-            text="Muokkaa",
+            text=self._configs.MODIFY_BUTTON,
             command=self._edit_project_handler
         )
         edit_button.grid(
@@ -214,12 +213,12 @@ class ProjectView(ViewBase):
             sticky=(constants.NS, constants.EW)
         )
 
-        remove_button = ttk.Button(
+        delete_button = ttk.Button(
             master=self._frame,
-            text="Poista",
+            text=self._configs.DELETE_BUTTON,
             command=self._remove_project_handler
         )
-        remove_button.grid(
+        delete_button.grid(
             column=self._grid_size[0]//2+1,
             row=5,
             padx=5,
@@ -230,7 +229,7 @@ class ProjectView(ViewBase):
     def _initialize_back_to_search_results(self):
         results_button = ttk.Button(
             master=self._frame,
-            text="Takaisin hakutuloksiin",
+            text=self._configs.BACK_TO_SEARCH_RESULTS_BUTTON,
             command=self._back_to_search_handler
         )
         results_button.grid(
@@ -240,23 +239,6 @@ class ProjectView(ViewBase):
             pady=5,
             sticky=(constants.NS, constants.EW)
         )
-
-    # def _initialize_frame(self):
-    #     self._frame = ttk.Frame(master=self._root)
-
-    #     self._frame.grid_rowconfigure(0, weight=1)
-    #     self._frame.grid_rowconfigure(1, weight=1)
-    #     self._frame.grid_rowconfigure(2, weight=1)
-    #     self._frame.grid_rowconfigure(3, weight=1)
-    #     self._frame.grid_rowconfigure(4, weight=1)
-    #     self._frame.grid_rowconfigure(5, weight=1)
-    #     self._frame.grid_rowconfigure(6, weight=1)
-
-    #     self._frame.grid_columnconfigure(0, weight=1)
-    #     self._frame.grid_columnconfigure(1, weight=1)
-    #     self._frame.grid_columnconfigure(2, weight=1)
-
-    #     self._grid_size = self._frame.grid_size()
 
     def initialize(self):
         """Alusta näkymä."""

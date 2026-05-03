@@ -1,4 +1,5 @@
 from tkinter import ttk, constants, StringVar, Toplevel
+from math import floor
 
 
 class ViewBase:
@@ -40,7 +41,7 @@ class ViewBase:
         self._grid_size = None
         self._header = header
         self._message = message
-        self._message_win = None
+        self._qusetion_win = None
         self._question_answer = None
         self._configs = configs
 
@@ -107,45 +108,53 @@ class ViewBase:
 
     def _yes_handler(self):
         self._question_answer = True
-        self._message_win.destroy()
-        self._message_win = None
+        self._qusetion_win.destroy()
+        self._qusetion_win = None
         self._question_answer_handler()
 
     def _no_handler(self):
         self._question_answer = False
-        self._message_win.destroy()
-        self._message_win = None
+        self._qusetion_win.destroy()
+        self._qusetion_win = None
         self._question_answer_handler()
 
     def _question_answer_handler(self):
         pass
 
     def _question_window(self, title, message, yes_text, no_text):
-        self._message_win = Toplevel(master=self._root)
+        self._qusetion_win = Toplevel(master=self._root)
 
-        win_width = int(self._root.winfo_screenwidth() * 0.15)
-        win_height = int(self._root.winfo_screenheight() * 0.1)
-        win_offset_x = self._root.winfo_x() + self._root.winfo_width()//2 - win_width//2
-        win_offset_y = self._root.winfo_y() + self._root.winfo_height()//2 - win_height//2
+        win_width = int(
+            self._root.winfo_screenwidth() * self._configs.Q_WIN_MIN_WIDTH_SCALE
+        )
+        win_height = int(
+            self._root.winfo_screenheight() * self._configs.Q_WIN_MIN_HEIGHT_SCALE
+        )
+        win_offset_x = (self._root.winfo_x() +
+                        floor(self._root.winfo_width()*self._configs.Q_WIN_X_REL_POS_TO_MASTER) -
+                        win_width//2)
+        win_offset_y = (self._root.winfo_y() +
+                        floor(self._root.winfo_height()*self._configs.Q_WIN_Y_REL_POS_TO_MASTER) -
+                        win_height//2)
 
-        self._message_win.geometry(f"{win_width}x{win_height}")
-        self._message_win.geometry(f"+{win_offset_x}+{win_offset_y}")
-        self._message_win.minsize(win_width, win_height)
-        self._message_win.title(title)
+        self._qusetion_win.geometry(f"{win_width}x{win_height}")
+        self._qusetion_win.geometry(f"+{win_offset_x}+{win_offset_y}")
+        self._qusetion_win.minsize(win_width, win_height)
+        self._qusetion_win.title(title)
 
-        self._message_win.grid_columnconfigure(0, weight=1)
-        self._message_win.grid_columnconfigure(1, weight=1)
+        self._qusetion_win.grid_columnconfigure(0, weight=1)
+        self._qusetion_win.grid_columnconfigure(1, weight=1)
 
         message_label = ttk.Label(
-            master=self._message_win, text=message, anchor="center")
+            master=self._qusetion_win, text=message, anchor="center")
         message_label.grid(
             padx=10,
             pady=10,
-            columnspan=self._message_win.grid_size()[0],
+            columnspan=self._qusetion_win.grid_size()[0],
             sticky=(constants.NS, constants.EW)
         )
         yes_button = ttk.Button(
-            master=self._message_win,
+            master=self._qusetion_win,
             text=yes_text,
             command=self._yes_handler
         )
@@ -157,7 +166,7 @@ class ViewBase:
             sticky=(constants.NS, constants.EW)
         )
         no_button = ttk.Button(
-            master=self._message_win,
+            master=self._qusetion_win,
             text=no_text,
             command=self._no_handler
         )
@@ -190,7 +199,8 @@ class ViewBase:
              "columnspan": self._root.grid_size()[0]}
         )
         self._initialize_error()
-        self._hide_error()
 
         self._initialize_message()
         self._show_message(self._message)
+
+        self._hide_error()

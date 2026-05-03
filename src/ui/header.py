@@ -55,9 +55,8 @@ class HeaderFrame(MarginFrame):
         self._nav_button_3 = buttons["nav_button_3"]
         self._search_results_view = search_results_view
         self._search_field = None
-        self._configs = configs
 
-        super().__init__(root=root)
+        super().__init__(root=root, configs=configs)
 
     def _search_handler(self):
         self._search_results_view(
@@ -69,7 +68,7 @@ class HeaderFrame(MarginFrame):
     def _initialize_info(self, user, info_frame):
         user_label = ttk.Label(
             master=info_frame,
-            text=f"Olet kirjautunut sisään nimellä {user.username}."
+            text=f"{self._configs.HEADER_INFO_MSG} {user.username}."
         )
         user_label.grid(
             padx=5,
@@ -86,7 +85,7 @@ class HeaderFrame(MarginFrame):
 
         nav_button_1_logged_in = ttk.Button(
             master=nav_frame,
-            text="Etusivu",
+            text=self._configs.HEADER_NAV_BUTTON_1,
             command=self._nav_button_1_logged_in,
         )
         nav_button_1_logged_in.grid(
@@ -101,7 +100,7 @@ class HeaderFrame(MarginFrame):
         if user:
             nav_button_2 = ttk.Button(
                 master=nav_frame,
-                text="Luo maailma",
+                text=self._configs.HEADER_NAV_BUTTON_2,
                 command=self._nav_button_2
             )
             nav_button_2.grid(
@@ -115,7 +114,7 @@ class HeaderFrame(MarginFrame):
 
             nav_button_3 = ttk.Button(
                 master=nav_frame,
-                text="Kirjaudu ulos",
+                text=self._configs.HEADER_NAV_BUTTON_3,
                 command=self._nav_button_3
             )
             nav_button_3.grid(
@@ -134,7 +133,7 @@ class HeaderFrame(MarginFrame):
 
         search_label = ttk.Label(
             master=search_frame,
-            text="Haku:"
+            text=self._configs.HEADER_SEARCH_LABEL
         )
         search_label.grid(
             row=0,
@@ -153,7 +152,7 @@ class HeaderFrame(MarginFrame):
         )
         search_button = ttk.Button(
             master=search_frame,
-            text="Hae",
+            text=self._configs.HEADER_SEARCH_BUTTON,
             command=self._search_handler
         )
         search_button.grid(

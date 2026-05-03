@@ -57,11 +57,11 @@ class UI:
         self._font.configure(size=self._configs.DEFAULT_FONT_SIZE)
 
         self._root.bind_all(
-            sequence=self._configs.SCALE_FONT_UP_EVENT_TRIGGER,
+            sequence=self._configs.SCALE_FONT_BIGGER_TRIGGER,
             func=self._upsize_event
         )
         self._root.bind_all(
-            sequence=self._configs.SCALE_FONT_DOWN_EVENT_TRIGGER,
+            sequence=self._configs.SCALE_FONT_SMALLER_TRIGGER,
             func=self._downsize_event
         )
 
@@ -92,7 +92,7 @@ class UI:
 
     def _logout_handler(self):
         self._service.get_user_service().logout()
-        self._show_login_view(self._configs.LOGOUT_MESSAGE)
+        self._show_login_view(self._configs.LOGOUT_MSG)
 
     def _hide_current_view(self):
         if self._current_view:

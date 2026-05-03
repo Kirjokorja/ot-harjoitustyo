@@ -109,7 +109,7 @@ class CreateProjectView(ViewBase):
                     self._project_description.get("1.0", constants.END),
                     user
                 )
-            self._show_message("Maailma tallennettu.")
+            self._show_message(self._configs.PROJECT_SAVED_MSG)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
@@ -118,7 +118,7 @@ class CreateProjectView(ViewBase):
     def _initialize_project_fields(self):
         name_label = ttk.Label(
             master=self._frame,
-            text="Nimi*:"
+            text=f"{self._configs.PROJECT_NAME_LABEL}*"
         )
         name_label.grid(
             row=1,
@@ -139,7 +139,7 @@ class CreateProjectView(ViewBase):
 
         class_label = ttk.Label(
             master=self._frame,
-            text="Luokka*:"
+            text=f"{self._configs.PROJECT_CLASS_LABEL}*"
         )
         class_label.grid(
             row=3,
@@ -165,7 +165,7 @@ class CreateProjectView(ViewBase):
 
         description_label = ttk.Label(
             master=self._frame,
-            text="Kuvaus:"
+            text=self._configs.PROJECT_DESC_LABEL
         )
         description_label.grid(
             row=5,
@@ -186,7 +186,7 @@ class CreateProjectView(ViewBase):
 
         create_button = ttk.Button(
             master=self._frame,
-            text="Tallenna ja näytä",
+            text=self._configs.SAVE_SHOW_BUTTON,
             command=self._save_show_project_handler
         )
         create_button.grid(
@@ -199,7 +199,7 @@ class CreateProjectView(ViewBase):
 
         save_button = ttk.Button(
             master=self._frame,
-            text="Tallenna",
+            text=self._configs.SAVE_BUTTON,
             command=self._save_project_handler
         )
         save_button.grid(
@@ -212,7 +212,7 @@ class CreateProjectView(ViewBase):
 
         name_label = ttk.Label(
             master=self._frame,
-            text="*Pakolliset tiedot"
+            text=f"*{self._configs.CREATE_MODIFY_STAR_MSG}"
         )
         name_label.grid(
             row=8,
