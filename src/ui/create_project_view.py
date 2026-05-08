@@ -221,25 +221,6 @@ class CreateProjectView(ViewBase):
             sticky=(constants.NS, constants.W)
         )
 
-    def _initialize_frame(self):
-        self._frame = ttk.Frame(master=self._root)
-
-        self._frame.grid_rowconfigure(0, weight=1)
-        self._frame.grid_rowconfigure(1, weight=1)
-        self._frame.grid_rowconfigure(2, weight=1)
-        self._frame.grid_rowconfigure(3, weight=1)
-        self._frame.grid_rowconfigure(4, weight=1)
-        self._frame.grid_rowconfigure(5, weight=1)
-        self._frame.grid_rowconfigure(6, weight=1)
-        self._frame.grid_rowconfigure(7, weight=1)
-        self._frame.grid_rowconfigure(8, weight=1)
-
-        self._frame.grid_columnconfigure(0, weight=1)
-        self._frame.grid_columnconfigure(1, weight=1)
-        self._frame.grid_columnconfigure(2, weight=1)
-
-        self._grid_size = self._frame.grid_size()
-
     def initialize(self):
         """Alusta näkymä."""
         self._initialize_frame()

@@ -66,9 +66,18 @@ class HeaderFrame(MarginFrame):
         )
 
     def _initialize_info(self, user, info_frame):
+        info_frame.configure(style="HeaderFrame.TFrame")
+        style = ttk.Style()
+        style.configure(
+            "Info.TLabel",
+            foreground=self._configs.HEADER_FRAME_FG_COLOR,
+            background=self._configs.HEADER_FRAME_BG_COLOR
+        )
+
         user_label = ttk.Label(
             master=info_frame,
-            text=f"{self._configs.HEADER_INFO_MSG} {user.username}."
+            text=f"{self._configs.HEADER_INFO_MSG} {user.username}.",
+            style="Info.TLabel"
         )
         user_label.grid(
             padx=5,
@@ -78,10 +87,7 @@ class HeaderFrame(MarginFrame):
         user_label.grid_columnconfigure(0, weight=3)
 
     def _initialize_nav_buttons(self, user, nav_frame):
-        style = ttk.Style()
-        style.configure("SmallFrame.TFrame", foreground="black",
-                        background="blue")
-        nav_frame.configure(style="SmallFrame.TFrame")
+        nav_frame.configure(style="HeaderFrame.TFrame")
 
         nav_button_1_logged_in = ttk.Button(
             master=nav_frame,
@@ -131,9 +137,18 @@ class HeaderFrame(MarginFrame):
         search_frame.grid_columnconfigure(1, weight=10)
         search_frame.grid_columnconfigure(2, weight=1)
 
+        search_frame.configure(style="HeaderFrame.TFrame")
+        style = ttk.Style()
+        style.configure(
+            "Search.TLabel",
+            foreground=self._configs.HEADER_FRAME_FG_COLOR,
+            background=self._configs.HEADER_FRAME_BG_COLOR
+        )
+        
         search_label = ttk.Label(
             master=search_frame,
-            text=self._configs.HEADER_SEARCH_LABEL
+            text=self._configs.HEADER_SEARCH_LABEL,
+            style="Search.TLabel"
         )
         search_label.grid(
             row=0,
@@ -190,10 +205,12 @@ class HeaderFrame(MarginFrame):
         self._frame = ttk.Frame(master=self._root)
 
         style = ttk.Style()
-        style.configure("Header.TFrame", foreground="black",
-                        background="green")
-
-        self._frame.configure(style="Header.TFrame")
+        style.configure(
+            "HeaderFrame.TFrame",
+            foreground=self._configs.HEADER_FRAME_FG_COLOR,
+            background=self._configs.HEADER_FRAME_BG_COLOR
+        )
+        self._frame.configure(style="HeaderFrame.TFrame")
 
         for i in range(self._rowspan):
             self._frame.grid_rowconfigure(i, weight=1)

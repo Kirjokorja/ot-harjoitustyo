@@ -121,7 +121,7 @@ class ProjectRepository(RepositoryBase):
                         Users.id owner_id,
                         Users.username owner_name
                 FROM Projects, Classes, Users
-                WHERE (Projects.title LIKE ? OR Projects.description LIKE ?)
+                WHERE (Projects.title LIKE ? OR Projects.description LIKE ? OR Classes.value LIKE ?)
                 AND Users.id = Projects.owner
                 AND Projects.type = Classes.id
                 ORDER BY title ASC
@@ -130,7 +130,7 @@ class ProjectRepository(RepositoryBase):
         like = "%" + query + "%"
         limit = page_size
         offset = page_size * (page - 1)
-        result = self._db.query(sql, [like, like, limit, offset])
+        result = self._db.query(sql, [like, like, query, limit, offset])
         return self._get_projects_from_rows(result)
 
     def get_project(self, project_id):

@@ -66,10 +66,6 @@ class MarginFrame:
     def _initialize_frame(self):
         self._frame = ttk.Frame(master=self._root)
 
-        style = ttk.Style()
-        style.configure("Margin.TFrame", foreground="black", background="red")
-        self._frame.configure(style="Margin.TFrame")
-
         for i in range(self._rowspan):
             self._frame.grid_rowconfigure(i, weight=1)
 

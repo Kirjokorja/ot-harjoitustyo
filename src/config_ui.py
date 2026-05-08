@@ -19,6 +19,8 @@ SCALE_FONT_INCREMENT_SIZE = 2
 SCALE_FONT_MAX_SIZE = 36
 SCALE_FONT_MIN_SIZE = 8
 
+HEADER_FRAME_FG_COLOR = "black"
+HEADER_FRAME_BG_COLOR = "cornflower blue"
 HEADER_INFO_MSG = "Olet kirjautunut sisään nimellä"
 HEADER_NAV_BUTTON_1 = "Etusivu"
 HEADER_NAV_BUTTON_2 = "Luo maailma"
