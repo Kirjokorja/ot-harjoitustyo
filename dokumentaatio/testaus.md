@@ -30,7 +30,7 @@ Tietokantaluokat on testattu omilla testiluokillan:
 
 ### Testikattavuus
 
-Kokonaistestikattavuus on 79 % ja haarakattavuus 89 %.
+Kokonaistestikattavuus on 83 % ja haarakattavuus 94 %. ProjectRepository-luokan, config-tiedostojen sekä sovelluksen alustavan metodin testaaminen on kesken.
 
 ![](./kuvat/testikattavuus.jpg)
 
