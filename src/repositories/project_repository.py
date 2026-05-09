@@ -16,9 +16,6 @@ class ProjectRepository(RepositoryBase):
         super().__init__(db)
 
     def _get_project_from_row(self, row):
-        description = ""
-        if "description" in row.keys():
-            description = row["description"]
         class_type = TypeClass(
             t_id=row["class_id"], title=row["class_title"], value=row["class_value"])
         owner = User(u_id=row["owner_id"], username=row["owner_name"])
@@ -26,7 +23,7 @@ class ProjectRepository(RepositoryBase):
             "id": row["id"],
             "title": row["title"],
             "type": class_type,
-            "description": description,
+            "description": row["description"],
             "owner": owner
         }
         return Project(params=params)
