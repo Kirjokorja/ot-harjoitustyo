@@ -36,7 +36,7 @@
 | 22.4. | 30 min | testausta |
 | 23.4. | 2 t | sekvenssikaavio |
 | 23.4. | 1 t | luokkakaavion päivitystä |
-| 24.4. | 5,5 min | käyttöliittymän päivitystä ja hankkeen/maailman muokkausominaisuuden kehitystä |
+| 24.4. | 5,5 t | käyttöliittymän päivitystä ja hankkeen/maailman muokkausominaisuuden kehitystä |
 | 25.4. | 2 t | hankkeen/maailman muokkausominaisuuden kehitystä |
 | 25.4. | 7 t | testaamista |
 | 26.4. | 3,5 t | testaamista |
