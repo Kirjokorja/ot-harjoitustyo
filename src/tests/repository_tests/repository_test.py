@@ -1,6 +1,7 @@
 import unittest
 import sqlite3
 import locale
+import os
 from tests.test_config import (TEST_DATABASE_FILE_PATH,
                                TEST_DATABASE_SCHEMA_PATH,
                                TEST_DATABASE_SEED_PATH)
@@ -45,6 +46,9 @@ class TestRepositoryBase(unittest.TestCase):
         con.executescript(sql_seed)
         con.commit()
         con.close()
+
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_get_classes_returns_classes_by_title_from_database(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)

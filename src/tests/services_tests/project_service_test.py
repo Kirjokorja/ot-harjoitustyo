@@ -1,6 +1,7 @@
 import unittest
 import sqlite3
 import locale
+import os
 from tests.test_config import (TEST_DATABASE_FILE_PATH,
                                TEST_DATABASE_SCHEMA_PATH,
                                TEST_DATABASE_SEED_PATH)
@@ -85,12 +86,8 @@ class TestProjectService(unittest.TestCase):
             "owner": self.user
         })
 
-        sql = """INSERT INTO Projects (title, type, description, owner) 
+        sql = """INSERT INTO Projects (title, type, description, owner)
                     VALUES (?, ?, ?, ?)"""
-
-        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
-        con.execute("PRAGMA foreign_keys = ON")
-        con.row_factory = sqlite3.Row
 
         self.result = con.execute(
             sql,
@@ -100,10 +97,10 @@ class TestProjectService(unittest.TestCase):
              self.project.owner.u_id]
         )
 
+        self.project.p_id = self.result.lastrowid
+
         con.commit()
         con.close()
-
-        self.project.p_id = self.result.lastrowid
 
         self.p_type_mod = TypeClass(
             t_id=self.class_result[2]["id"],
@@ -116,6 +113,9 @@ class TestProjectService(unittest.TestCase):
             username=self.user_result[2]["username"],
             password=self.user_result[2]["password_hash"]
         )
+
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_get_project_classes_gets_project_classes_from_database(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)

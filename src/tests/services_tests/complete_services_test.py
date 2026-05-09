@@ -1,5 +1,5 @@
 import unittest
-from tests.test_config import TEST_DATABASE_FILE_PATH
+import tests.test_config as config
 from database.db import DatabaseInterface
 from exceptions import (user_exceptions as exceptions)
 from repositories.user_repository import UserRepository
@@ -12,11 +12,10 @@ from services.complete_services import Services
 
 class TestServices(unittest.TestCase):
     def setUp(self):
-        self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
+        self.db = DatabaseInterface(config.TEST_DATABASE_FILE_PATH)
         self.u_repo = UserRepository(self.db)
         self.p_repo = ProjectRepository(self.db)
-        self.pw_lenght = 6
-        self.pw_service = PasswordService(self.pw_lenght)
+        self.pw_service = PasswordService(config=config)
         self.u_service = UserService(
             repository=self.u_repo,
             exceptions=exceptions,

@@ -1,6 +1,7 @@
 import unittest
 import sqlite3
 import locale
+import os
 from bcrypt import gensalt, hashpw
 import tests.test_config as configs
 from database.db import DatabaseInterface
@@ -75,6 +76,9 @@ class TestUserService(unittest.TestCase):
 
         self.create_username = "Sampo"
         self.create_pw = "Taivaanlaki"
+
+    def tearDown(self):
+        os.remove(configs.TEST_DATABASE_FILE_PATH)
 
     def test_create_user_creates_user_into_database(self):
 
@@ -191,6 +195,7 @@ class TestUserService(unittest.TestCase):
                         VALUES (?, ?)"""
         con.execute(sql_log_set, [self.create_username, pw_hash])
         con.commit()
+        con.close()
 
         self.u_service.login(self.create_username, self.create_pw)
         exc = None

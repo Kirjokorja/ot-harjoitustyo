@@ -1,6 +1,7 @@
 import unittest
 import sqlite3
 import locale
+import os
 from tests.test_config import (TEST_DATABASE_FILE_PATH,
                                TEST_DATABASE_SCHEMA_PATH,
                                TEST_DATABASE_SEED_PATH)
@@ -81,6 +82,9 @@ class TestProjectRepository(unittest.TestCase):
             "description": "kuvaus",
             "owner": self.user
         })
+
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_add_project_adds_project_to_database(self):
         added_project = self.project_repo.add_project(self.project)

@@ -1,6 +1,7 @@
 import unittest
 import sqlite3
 import locale
+import os
 from tests.test_config import (TEST_DATABASE_FILE_PATH,
                                TEST_DATABASE_SCHEMA_PATH,
                                TEST_DATABASE_SEED_PATH)
@@ -46,6 +47,9 @@ class TestUserRepository(unittest.TestCase):
         con.executescript(sql_seed)
         con.commit()
         con.close()
+
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_find_user_by_name_returns_correct_user(self):
         user = self.user_repo.find_user_by_name("Aava")

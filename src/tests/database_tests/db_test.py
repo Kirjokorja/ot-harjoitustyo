@@ -1,4 +1,5 @@
 import unittest
+import os
 import sqlite3
 from database.db import DatabaseInterface
 from tests.test_config import TEST_DATABASE_FILE_PATH
@@ -37,6 +38,9 @@ class TestDatabaseInterface(unittest.TestCase):
         con.close()
 
         self.test_db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
+
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_query_returns_list(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)

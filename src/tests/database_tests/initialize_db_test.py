@@ -47,6 +47,9 @@ class TestDatabaseInitializer(unittest.TestCase):
             self.assertEqual(row['tbl_name'], tables[i])
             i += 1
 
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
+
     def test_initialize_databse_creates_content_from_seed(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
         con.execute("PRAGMA foreign_keys = ON")
