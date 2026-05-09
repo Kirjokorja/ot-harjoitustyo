@@ -50,4 +50,6 @@
 | 2.5. | 3 t | hankkeen/maailman hakemisominaisuuden ja käyttöliittymän keitystä |
 | 2.5. | 7 t | käyttöliittymän keitystä |
 | 3.5. | 9 t | käyttöliittymän keitystä |
-| Summa | 175 t 35 min |
+| 9.5. | 4 t | sivutuksen korjaamista |
+| 9.5. | 2 t | testiasiakirjan kirjoitusta |
+| Summa | 181 t 35 min |
