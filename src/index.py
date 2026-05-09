@@ -3,6 +3,7 @@ from ui.ui import UI
 from services.complete_services import Services
 import config_ui
 
+
 def main():
     window = Tk()
 
