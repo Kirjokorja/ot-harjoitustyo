@@ -139,7 +139,7 @@ class ProjectService(ServiceBase):
             Returns:
                 List<Project>: lista löytyneitä hankeolioita   
         """
-        return self._repository.find_projects(query, page, page_size)
+        return self._repository.find_projects_by_page(query, page, page_size)
 
     def get_project(self, project_id):
         """Hakee hankkeen tunnusluvulla.

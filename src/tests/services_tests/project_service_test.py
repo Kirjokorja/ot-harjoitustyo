@@ -316,7 +316,7 @@ class TestProjectService(unittest.TestCase):
         con.execute("PRAGMA foreign_keys = ON")
         con.row_factory = sqlite3.Row
 
-        sql_query = """SELECT id, title 
+        sql_query = """SELECT id, title
                         FROM Projects
                         WHERE id = ?"""
         query_result = con.execute(sql_query, [self.project.p_id]).fetchall()

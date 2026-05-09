@@ -2,6 +2,7 @@ import unittest
 import sqlite3
 import locale
 import os
+import re
 from tests.test_config import (TEST_DATABASE_FILE_PATH,
                                TEST_DATABASE_SCHEMA_PATH,
                                TEST_DATABASE_SEED_PATH)
@@ -184,3 +185,106 @@ class TestProjectRepository(unittest.TestCase):
         con.close()
 
         self.assertEqual(len(query_result), 0)
+
+    def test_count_results_returns_number_of_projects_which_contain_query_in_title_or_desc(self):
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        query = "testi daapa"
+
+        sql = """SELECT
+                    (SELECT COUNT(*) 
+                        FROM Projects
+                        WHERE (Projects.title LIKE ? 
+                        OR Projects.description LIKE ?)
+                    )
+             """
+        like = "%" + query + "%"
+        db_count = con.execute(sql, [like, like]).fetchall()[0][0]
+        con.close()
+
+        self.assertEqual(self.project_repo.count_results(query), db_count)
+
+    def test_find_projects_by_page_returns_list(self):
+        page_size = 1
+        page = 1
+        query = "testi"
+
+        results = self.project_repo.find_projects_by_page(
+            query=query, page=page, page_size=page_size)
+
+        self.assertEqual(type(results), type([]))
+
+    def test_find_projects_by_page_list_contains_projects(self):
+        page_size = 1
+        page = 1
+        query = "testi"
+
+        results = self.project_repo.find_projects_by_page(
+            query=query, page=page, page_size=page_size)
+
+        project = Project(
+            {"id": None,
+             "title": None,
+             "type": None,
+             "description": None,
+             "owner": None}
+        )
+
+        self.assertEqual(type(results[0]), type(project))
+
+    def test_find_projects_by_page_returns_only_as_many_projects_as_page_size(self):
+        page_size = 2
+        query = "testi"
+        results = self.project_repo.find_projects_by_page(
+            query=query, page=1, page_size=page_size)
+        self.assertEqual(len(results), page_size)
+
+    def test_find_projects_returns_results_of_correct_page(self):
+        page_size = 2
+        page = 2
+        query = "testi"
+
+        con = sqlite3.connect(TEST_DATABASE_FILE_PATH)
+        con.execute("PRAGMA foreign_keys = ON")
+        con.row_factory = sqlite3.Row
+
+        sql = """SELECT id,
+                        title
+                FROM Projects
+                WHERE (title LIKE ? OR description LIKE ?)
+                ORDER BY title ASC
+                LIMIT ? OFFSET ?
+             """
+        like = "%" + query + "%"
+        limit = page_size
+        offset = page_size * (page - 1)
+        db_results = con.execute(sql, [like, like, limit, offset]).fetchall()
+        con.close()
+
+        results = self.project_repo.find_projects_by_page(
+            query=query, page=page, page_size=page_size)
+
+        self.assertEqual(results[0].p_id, db_results[0][0])
+        self.assertEqual(results[1].p_id, db_results[1][0])
+
+    def test_find_projects_finds_projects_by_page_which_contain_query_in_title_or_desc(self):
+        page_size = 3
+        page = 1
+        query = "testi daapa"
+
+        results = self.project_repo.find_projects_by_page(
+            query=query, page=page, page_size=page_size)
+
+        contain_query = True
+
+        regex = re.compile(query, re.IGNORECASE)
+        for project in results:
+            title_re = regex.search(project.title)
+            desc_re = regex.search(project.description)
+            if not title_re and not desc_re:
+                contain_query = False
+                break
+
+        self.assertTrue(contain_query)

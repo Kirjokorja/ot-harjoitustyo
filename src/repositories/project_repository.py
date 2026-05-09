@@ -95,7 +95,7 @@ class ProjectRepository(RepositoryBase):
         """
         sql = """SELECT
                     (SELECT COUNT(*) 
-                        FROM Projects, Classes
+                        FROM Projects
                         WHERE (Projects.title LIKE ? 
                         OR Projects.description LIKE ?)
                     )
@@ -104,7 +104,7 @@ class ProjectRepository(RepositoryBase):
         like = "%" + query + "%"
         return self._db.query(sql, [like, like])[0][0]
 
-    def find_projects(self, query, page, page_size):
+    def find_projects_by_page(self, query, page, page_size):
         """Kyselee tietokannasta hankkeita hakusanalla niiden otsikoista ja kuvauksista.
 
             Args:
@@ -120,6 +120,7 @@ class ProjectRepository(RepositoryBase):
                         Classes.id class_id,
                         Classes.title class_title,
                         Classes.value class_value,
+                        Projects.description,
                         Users.id owner_id,
                         Users.username owner_name
                 FROM Projects, Classes, Users

@@ -16,6 +16,9 @@ class TestDatabaseInitializer(unittest.TestCase):
             os.remove(TEST_DATABASE_FILE_PATH)
         self.test_db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
 
+    def tearDown(self):
+        os.remove(TEST_DATABASE_FILE_PATH)
+
     def test_initialize_database_creates_tables_from_schema(self):
         initializer = DatabaseInitializer(
             self.test_db, TEST_DATABASE_SCHEMA_PATH, TEST_DATABASE_SEED_PATH)
@@ -46,9 +49,6 @@ class TestDatabaseInitializer(unittest.TestCase):
         for row in table_names:
             self.assertEqual(row['tbl_name'], tables[i])
             i += 1
-
-    def tearDown(self):
-        os.remove(TEST_DATABASE_FILE_PATH)
 
     def test_initialize_databse_creates_content_from_seed(self):
         con = sqlite3.connect(TEST_DATABASE_FILE_PATH)

@@ -41,3 +41,7 @@ Järjestelmätestauksessa kokoonpanoa on muutettu **.env**-tiedoston avulla. Ohj
 Ohjelmaa on testattu ilman valmista tietokantaa ja sen kanssa. Kun tietokantaa ei vielä ole, sovellus luo sellaisen.
 
 Kaikki [vaatimusmäärittelyasiakirjassa](dokumentaatio/vaatimusmaarittely.md) valmiiksi merkityt toiminnallisuudet on testattu käytännössä. Kenttiin on syötetty niin oikeita kuin virheellisiäkin arvoja, kuten liian lyhyitä käyttäjänimiä ja salasanoja käyttäjän luonnissa sekä maailmaa muokatessa tai luodessa nimikenttä on jätetty tyhjäksi.
+
+## Testauksen puutteet
+
+Tietokantaa ja sovellusta ei ole testattu suurilla määrillä tietokohteita.
