@@ -52,4 +52,5 @@
 | 3.5. | 9 t | käyttöliittymän keitystä |
 | 9.5. | 4 t | sivutuksen korjaamista |
 | 9.5. | 2 t | testiasiakirjan kirjoitusta |
-| Summa | 181 t 35 min |
+| 9.5. | 4,5 t | testausta |
+| Summa | 186 t 5 min |
