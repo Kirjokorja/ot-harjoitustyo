@@ -1,3 +1,4 @@
+import copy
 from tkinter import ttk, constants, scrolledtext as stext
 from ui.view import ViewBase
 
@@ -31,16 +32,16 @@ class EditProjectView(ViewBase):
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
             _query (String): hakusana, jota käytettiin hankkeen löytämiseen
             _page (int): hakutulosten sivunumero, josta hanke löydettin
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, header, project_view, inputs):
+    def __init__(self, *, root, service, config, header, project_view, inputs):
         """Luo hankkeenmuokkausnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä
             project_view: hankenäkymä
             inputs (dict): dataa, jota näkymä tarvitsee
@@ -62,7 +63,7 @@ class EditProjectView(ViewBase):
             service=service,
             header=header,
             message=inputs["message"],
-            configs=configs
+            config=config
         )
         self._classes = self._service.get_project_service().get_project_classes()
 
@@ -77,11 +78,12 @@ class EditProjectView(ViewBase):
         self._hide_message()
         try:
             user = self._service.get_user_service().get_current_user()
-            self._project.title = self._project_name.get()
-            self._project.p_type = self._get_class_object()
-            self._project.description = self._project_description.get(
+            project = copy.deepcopy(self._project)
+            project.title = self._project_name.get()
+            project.p_type = self._get_class_object()
+            project.description = self._project_description.get(
                 "1.0", constants.END)
-            self._project = self._service.get_project_service().save_project(user, self._project)
+            self._project = self._service.get_project_service().save_project(user, project)
             self._project_view(message=None, project=self._project,
                                query=self._query, page=self._page)
         except (self._service.get_project_service().get_exceptions().UserNotOwnerOfProject,
@@ -95,12 +97,13 @@ class EditProjectView(ViewBase):
         self._hide_message()
         try:
             user = self._service.get_user_service().get_current_user()
-            self._project.title = self._project_name.get()
-            self._project.p_type = self._get_class_object()
-            self._project.description = self._project_description.get(
+            project = copy.deepcopy(self._project)
+            project.title = self._project_name.get()
+            project.p_type = self._get_class_object()
+            project.description = self._project_description.get(
                 "1.0", constants.END)
-            self._project = self._service.get_project_service().save_project(user, self._project)
-            self._show_message(self._configs.PROJECT_SAVED_MSG)
+            self._project = self._service.get_project_service().save_project(user, project)
+            self._show_message(self._config.PROJECT_SAVED_MSG)
         except (self._service.get_project_service().get_exceptions().UserNotOwnerOfProject,
                 self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
@@ -114,7 +117,7 @@ class EditProjectView(ViewBase):
     def _initialize_project_fields(self):
         name_label = ttk.Label(
             master=self._frame,
-            text=f"{self._configs.PROJECT_NAME_LABEL}*"
+            text=f"{self._config.PROJECT_NAME_LABEL}*"
         )
         name_label.grid(
             row=1,
@@ -136,7 +139,7 @@ class EditProjectView(ViewBase):
 
         class_label = ttk.Label(
             master=self._frame,
-            text=f"{self._configs.PROJECT_CLASS_LABEL}*"
+            text=f"{self._config.PROJECT_CLASS_LABEL}*"
         )
         class_label.grid(
             row=3,
@@ -162,7 +165,7 @@ class EditProjectView(ViewBase):
 
         description_label = ttk.Label(
             master=self._frame,
-            text=self._configs.PROJECT_DESC_LABEL
+            text=self._config.PROJECT_DESC_LABEL
         )
         description_label.grid(
             row=5,
@@ -185,7 +188,7 @@ class EditProjectView(ViewBase):
 
         create_button = ttk.Button(
             master=self._frame,
-            text=self._configs.SAVE_SHOW_BUTTON,
+            text=self._config.SAVE_SHOW_BUTTON,
             command=self._save_show_project_handler
         )
         create_button.grid(
@@ -198,7 +201,7 @@ class EditProjectView(ViewBase):
 
         save_button = ttk.Button(
             master=self._frame,
-            text=self._configs.SAVE_BUTTON,
+            text=self._config.SAVE_BUTTON,
             command=self._save_project_handler
         )
         save_button.grid(
@@ -211,7 +214,7 @@ class EditProjectView(ViewBase):
 
         save_button = ttk.Button(
             master=self._frame,
-            text=self._configs.BACK_TO_PROJECT_BUTTON,
+            text=self._config.BACK_TO_PROJECT_BUTTON,
             command=self._back_to_project_handler
         )
         save_button.grid(
@@ -224,7 +227,7 @@ class EditProjectView(ViewBase):
 
         star_message = ttk.Label(
             master=self._frame,
-            text=f"*{self._configs.CREATE_MODIFY_STAR_MSG}"
+            text=f"*{self._config.CREATE_MODIFY_STAR_MSG}"
         )
         star_message.grid(
             row=8,

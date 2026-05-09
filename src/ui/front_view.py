@@ -23,7 +23,7 @@ class FrontView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
     def initialize(self):
@@ -31,7 +31,7 @@ class FrontView(ViewBase):
         self._initialize_frame()
 
         if not self._message:
-            self._message = self._configs.FRONT_PAGE_GREET
+            self._message = self._config.FRONT_PAGE_GREET
 
         try:
             self._service.get_user_service().get_current_user()

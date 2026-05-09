@@ -19,49 +19,49 @@ class UI:
             _current_view: käyttöliittymän näyttämä näkymä
             _service: palvelu, joka vastaa sovellusksen toiminnasta
             _font (Font): sovelluksen fontista vastaava Tkinter-osanen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, root, service=default_services, configs=default_config):
+    def __init__(self, root, service=default_services, config=default_config):
         """Alusta uusi käyttöliittymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon käyttöliittymä alustetaan
             service: palvelu, joka vastaa sovellusksen toiminnasta
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
         """
         self._root = root
         self._current_view = None
         self._service = service
         self._font = None
-        self._configs = configs
+        self._config = config
 
     def start(self):
         """Käyttöliittymän käynnistävä metodi"""
         window_width = int(self._root.winfo_screenwidth()
-                           * self._configs.WINDOW_WIDTH_SCALE)
+                           * self._config.WINDOW_WIDTH_SCALE)
         window_height = int(self._root.winfo_screenheight()
-                            * self._configs.WINDOW_HEIGHT_SCALE)
+                            * self._config.WINDOW_HEIGHT_SCALE)
         window_width_min = int(self._root.winfo_screenwidth()
-                               * self._configs.WINDOW_MIN_WIDTH_SCALE)
+                               * self._config.WINDOW_MIN_WIDTH_SCALE)
         window_height_min = int(
-            self._root.winfo_screenheight() * self._configs.WINDOW_MIN_HEIGHT_SCALE)
+            self._root.winfo_screenheight() * self._config.WINDOW_MIN_HEIGHT_SCALE)
 
         self._root.geometry(f"{window_width}x{window_height}")
         self._root.minsize(window_width_min, window_height_min)
         self._configure_window_grid()
 
-        self._root.title(self._configs.APP_NAME)
+        self._root.title(self._config.APP_NAME)
 
-        self._font = font.nametofont(self._configs.DEFAULT_FONT)
-        self._font.configure(size=self._configs.DEFAULT_FONT_SIZE)
+        self._font = font.nametofont(self._config.DEFAULT_FONT)
+        self._font.configure(size=self._config.DEFAULT_FONT_SIZE)
 
         self._root.bind_all(
-            sequence=self._configs.SCALE_FONT_BIGGER_TRIGGER,
+            sequence=self._config.SCALE_FONT_BIGGER_TRIGGER,
             func=self._upsize_event
         )
         self._root.bind_all(
-            sequence=self._configs.SCALE_FONT_SMALLER_TRIGGER,
+            sequence=self._config.SCALE_FONT_SMALLER_TRIGGER,
             func=self._downsize_event
         )
 
@@ -75,24 +75,24 @@ class UI:
             self._root.grid_columnconfigure(i, weight=1)
 
     def _upsize_event(self, event):
-        if (self._font["size"] < self._configs.SCALE_FONT_MAX_SIZE
+        if (self._font["size"] < self._config.SCALE_FONT_MAX_SIZE
                 and self._current_view is not None):
             self._font.configure(
-                size=self._font["size"]+self._configs.SCALE_FONT_INCREMENT_SIZE
+                size=self._font["size"]+self._config.SCALE_FONT_INCREMENT_SIZE
             )
             self._current_view.pack()
 
     def _downsize_event(self, event):
-        if (self._font["size"] > self._configs.SCALE_FONT_MIN_SIZE
+        if (self._font["size"] > self._config.SCALE_FONT_MIN_SIZE
                 and self._current_view is not None):
             self._font.configure(
-                size=self._font["size"]-self._configs.SCALE_FONT_INCREMENT_SIZE
+                size=self._font["size"]-self._config.SCALE_FONT_INCREMENT_SIZE
             )
             self._current_view.pack()
 
     def _logout_handler(self):
         self._service.get_user_service().logout()
-        self._show_login_view(self._configs.LOGOUT_MSG)
+        self._show_login_view(self._config.LOGOUT_MSG)
 
     def _hide_current_view(self):
         if self._current_view:
@@ -110,7 +110,7 @@ class UI:
         header = HeaderFrame(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             buttons=header_buttons,
             search_results_view=self._show_search_results_view
         )
@@ -126,7 +126,7 @@ class UI:
         self._current_view = LoginView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             views=views,
             message=message
@@ -140,7 +140,7 @@ class UI:
         self._current_view = CreateUserView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             back_to_start_view=self._show_login_view,
             message=message
@@ -156,7 +156,7 @@ class UI:
             service=self._service,
             header=header,
             message=message,
-            configs=self._configs
+            config=self._config
         )
         self._current_view.initialize()
         self._current_view.pack()
@@ -167,7 +167,7 @@ class UI:
         self._current_view = CreateProjectView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             project_view=self._show_project_view,
             message=message
@@ -192,7 +192,7 @@ class UI:
         self._current_view = ProjectView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             views=views,
             inputs=inputs
@@ -212,7 +212,7 @@ class UI:
         self._current_view = EditProjectView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             project_view=self._show_project_view,
             inputs=inputs
@@ -231,7 +231,7 @@ class UI:
         self._current_view = SearchResultsView(
             root=self._root,
             service=self._service,
-            configs=self._configs,
+            config=self._config,
             header=header,
             inputs=inputs,
             project_view=self._show_project_view

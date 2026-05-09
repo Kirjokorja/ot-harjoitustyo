@@ -34,16 +34,16 @@ class ProjectView(ViewBase):
                 jos edellinen näkymä oli hakutulosnäkymä
             _page (int): hakutulosten sivunumero, joka näytettiin hakutulosnäkymässä
             _back_to_search_results: metodi, joka palauttaa hakutulokset
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, inputs, header, views):
+    def __init__(self, *, root, service, config, inputs, header, views):
         """Näytä hanke.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä 
             views (dict): hajautustaulu, joka sisältää luokan käyttämiä näkymiä
                 keys:
@@ -64,7 +64,7 @@ class ProjectView(ViewBase):
             service=service,
             header=header,
             message=inputs["message"],
-            configs=configs
+            config=config
         )
         self._project = inputs["project"]
         self._edit_project_view = views["edit_project_view"]
@@ -83,14 +83,14 @@ class ProjectView(ViewBase):
 
     def _remove_project_handler(self):
         self._question_window(
-            title=self._configs.DELETE_PROJECT_Q_WIN_TITLE,
-            message=self._configs.DELETE_PROJECT_Q_WIN_MSG,
-            yes_text=self._configs.DELETE_PROJECT_Q_WIN_YES_TEXT,
-            no_text=self._configs.DELETE_PROJECT_Q_WIN_NO_TEXT
+            title=self._config.DELETE_PROJECT_Q_WIN_TITLE,
+            message=self._config.DELETE_PROJECT_Q_WIN_MSG,
+            yes_text=self._config.DELETE_PROJECT_Q_WIN_YES_TEXT,
+            no_text=self._config.DELETE_PROJECT_Q_WIN_NO_TEXT
         )
 
     def _question_answer_handler(self):
-        message = self._configs.DELETE_PROJECT_SUCCESS_MSG
+        message = self._config.DELETE_PROJECT_SUCCESS_MSG
         if self._question_answer:
             try:
                 user = self._service.get_user_service().get_current_user()
@@ -124,7 +124,7 @@ class ProjectView(ViewBase):
 
         class_label = ttk.Label(
             master=self._frame,
-            text=self._configs.PROJECT_CLASS_LABEL
+            text=self._config.PROJECT_CLASS_LABEL
         )
         class_label.grid(
             column=self._grid_size[0]//2-1,
@@ -149,7 +149,7 @@ class ProjectView(ViewBase):
 
         description_label = ttk.Label(
             master=self._frame,
-            text=self._configs.PROJECT_DESC_LABEL
+            text=self._config.PROJECT_DESC_LABEL
         )
         description_label.grid(
             column=self._grid_size[0]//2-1,
@@ -173,7 +173,7 @@ class ProjectView(ViewBase):
 
         owner_label = ttk.Label(
             master=self._frame,
-            text=self._configs.PROJECT_OWNER_LABEL
+            text=self._config.PROJECT_OWNER_LABEL
         )
         owner_label.grid(
             column=self._grid_size[0]//2-1,
@@ -202,7 +202,7 @@ class ProjectView(ViewBase):
     def _initialize_owner_buttons(self):
         edit_button = ttk.Button(
             master=self._frame,
-            text=self._configs.MODIFY_BUTTON,
+            text=self._config.MODIFY_BUTTON,
             command=self._edit_project_handler
         )
         edit_button.grid(
@@ -215,7 +215,7 @@ class ProjectView(ViewBase):
 
         delete_button = ttk.Button(
             master=self._frame,
-            text=self._configs.DELETE_BUTTON,
+            text=self._config.DELETE_BUTTON,
             command=self._remove_project_handler
         )
         delete_button.grid(
@@ -229,7 +229,7 @@ class ProjectView(ViewBase):
     def _initialize_back_to_search_results(self):
         results_button = ttk.Button(
             master=self._frame,
-            text=self._configs.BACK_TO_SEARCH_RESULTS_BUTTON,
+            text=self._config.BACK_TO_SEARCH_RESULTS_BUTTON,
             command=self._back_to_search_handler
         )
         results_button.grid(

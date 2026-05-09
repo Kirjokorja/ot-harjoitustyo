@@ -10,7 +10,7 @@ from services.password_service import PasswordService
 from services.complete_services import Services
 
 
-class TestUserService(unittest.TestCase):
+class TestServices(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
         self.u_repo = UserRepository(self.db)

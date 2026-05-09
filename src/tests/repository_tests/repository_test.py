@@ -8,7 +8,7 @@ from database.db import DatabaseInterface
 from repositories.repository import RepositoryBase
 
 
-class TestRepository(unittest.TestCase):
+class TestRepositoryBase(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
         self.repo = RepositoryBase(self.db)

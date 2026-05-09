@@ -1,4 +1,4 @@
-# Arrkkitehtuurin kuvaus
+# Arkkitehtuurin kuvaus
 
 ## Rakenne
 

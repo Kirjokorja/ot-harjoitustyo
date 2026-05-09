@@ -6,7 +6,7 @@ import tests.test_config as config
 
 class TestPasswordService(unittest.TestCase):
     def setUp(self):
-        self.pw_service = PasswordService(configs=config)
+        self.pw_service = PasswordService(config=config)
         self.pw = "Moikka!"
         self.hashed_pw = self.pw_service.hash_password(self.pw)
         self.hashed_pw_bytes = self.hashed_pw.encode('utf-8')

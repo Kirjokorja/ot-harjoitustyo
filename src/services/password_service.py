@@ -6,16 +6,16 @@ class PasswordService:
     """Tarjoaa salasanapalveluja.
 
         Attributes:
-            _configs: palvelun ominaisuuksien arvot tiedostossa
+            _config: palvelun ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, configs=default_config):
+    def __init__(self, config=default_config):
         """Luo uuden salasanapalveluolion.
 
             Args:
-                configs: palvelun ominaisuuksien arvot tiedostossa
+                config: palvelun ominaisuuksien arvot tiedostossa
         """
-        self._configs = configs
+        self._config = config
 
     def hash_password(self, password):
         """Salaa salasanan luomalla siitä uuden merkkijonon hajauttamalla.
@@ -53,7 +53,7 @@ class PasswordService:
                 Returns:
                     bool: True, jos salasana on riittävän pitkä, muuten False 
         """
-        if len(password) < self._configs.PASSWORD_MIN_LENGHT:
+        if len(password) < self._config.PASSWORD_MIN_LENGHT:
             return False
         return True
 
@@ -63,7 +63,7 @@ class PasswordService:
             Returns:
                 int: salasanan minimipituus
         """
-        return self._configs.PASSWORD_MIN_LENGHT
+        return self._config.PASSWORD_MIN_LENGHT
 
 
 default_pw_service = PasswordService()

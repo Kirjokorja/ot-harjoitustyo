@@ -6,7 +6,7 @@ from repositories.repository import RepositoryBase
 from services.service import ServiceBase
 
 
-class TestProjectService(unittest.TestCase):
+class TestServiceBase(unittest.TestCase):
     def setUp(self):
         self.db = DatabaseInterface(TEST_DATABASE_FILE_PATH)
         self.repo = RepositoryBase(self.db)

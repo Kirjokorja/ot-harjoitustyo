@@ -11,15 +11,15 @@ class MarginFrame:
             _column (int): sarake, johon kehys sijoitetaan ikkunassa
             _rowspan (int): kehyksen korkeus ikkunassa 
             _columnspan (int): kehyksen leveys ikkunassa
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, configs):
+    def __init__(self, *, root, config):
         """Luo viitekenttäkehys.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
         """
         self._root = root
         self._frame = None
@@ -27,7 +27,7 @@ class MarginFrame:
         self._column = 0
         self._rowspan = 1
         self._columnspan = 1
-        self._configs = configs
+        self._config = config
 
     def pack(self):
         """Näyttää näkymän."""

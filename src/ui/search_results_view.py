@@ -29,17 +29,19 @@ class SearchResultsView(ViewBase):
             _page_count (int): tulossivujen lukumäärä
             _results (List): haun yhden sivun tulokset
             _tree (Treeview): Tkinter-osanen, joka listaa tulokset
+            _tree_nav_frame (Frame): Tkinter-osanen, 
+                joka sisältää tuloslistan siirtymänapit ja sivunumeron
             _project_view: hankenäkymä
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, header, inputs, project_view):
+    def __init__(self, *, root, service, config, header, inputs, project_view):
         """Luo hakutulosnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä
             inputs (dict): dataa, jota näkymä tarvitsee
                 keys:
@@ -61,7 +63,7 @@ class SearchResultsView(ViewBase):
             root=root, service=service,
             header=header,
             message=inputs["message"],
-            configs=configs
+            config=config
         )
 
     def _previous_page_handler(self):
@@ -107,13 +109,13 @@ class SearchResultsView(ViewBase):
     def _initialize_tree(self):
         self._tree = ttk.Treeview(master=self._frame)
         columns = []
-        for i in range(self._configs.RESULT_LIST_NUMBER_OF_COLUMNS):
+        for i in range(self._config.RESULT_LIST_NUMBER_OF_COLUMNS):
             columns.append(f"col_{i}")
         self._tree.configure(columns=columns)
         self._tree.column("#0", width=0, stretch=constants.NO)
 
-        column_names = self._configs.RESULT_LIST_COLUMN_NAMES
-        for i in range(self._configs.RESULT_LIST_NUMBER_OF_COLUMNS):
+        column_names = self._config.RESULT_LIST_COLUMN_NAMES
+        for i in range(self._config.RESULT_LIST_NUMBER_OF_COLUMNS):
             self._tree.heading(f"col_{i}", text=column_names[i])
 
         for item in self._results:
@@ -121,7 +123,7 @@ class SearchResultsView(ViewBase):
                 item.title, item.p_type.value, item.owner.username))
 
         self._tree.bind(
-            sequence=self._configs.RESULT_LIST_OPEN_ITEM_TRIGGER,
+            sequence=self._config.RESULT_LIST_OPEN_ITEM_TRIGGER,
             func=self._double_click_item
         )
 

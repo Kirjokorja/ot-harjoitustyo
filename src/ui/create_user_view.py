@@ -28,16 +28,16 @@ class CreateUserView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, header, back_to_start_view, message):
+    def __init__(self, *, root, service, config, header, back_to_start_view, message):
         """Luo käyttäjänluontinäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä 
             back_to_start_view: metodi, joka palauttaa alkunäkymän
             message (String): näkymässä näytettävä viesti
@@ -51,7 +51,7 @@ class CreateUserView(ViewBase):
             service=service,
             header=header,
             message=message,
-            configs=configs
+            config=config
         )
 
     def _create_user_handler(self):
@@ -64,8 +64,8 @@ class CreateUserView(ViewBase):
             user = self._service.get_user_service().create_user(
                 username, password, password_confirm)
             name = user.username
-            first_half = self._configs.REG_SUCCESS_MSG_1_HALF
-            second_half = self._configs.REG_SUCCESS_MSG_2_HALF
+            first_half = self._config.REG_SUCCESS_MSG_1_HALF
+            second_half = self._config.REG_SUCCESS_MSG_2_HALF
             msg = f"{first_half} {name} {second_half}"
             self._back_to_start_view(msg)
         except (self._service.get_user_service().get_exceptions().UserAlreadyExists,
@@ -77,7 +77,7 @@ class CreateUserView(ViewBase):
     def _initialize_create_fields(self):
         username_label = ttk.Label(
             master=self._frame,
-            text=self._configs.REG_USERNAME_LABEL
+            text=self._config.REG_USERNAME_LABEL
         )
         username_label.grid(
             padx=5,
@@ -93,8 +93,8 @@ class CreateUserView(ViewBase):
             sticky=(constants.NS, constants.EW)
         )
         pw_lenght = self._service.get_user_service().get_min_password_lenght()
-        first_half = self._configs.REG_PW_1_LABEL_1_HALF
-        second_half = self._configs.REG_PW_1_LABEL_2_HALF
+        first_half = self._config.REG_PW_1_LABEL_1_HALF
+        second_half = self._config.REG_PW_1_LABEL_2_HALF
         password_label = ttk.Label(
             master=self._frame,
             text=f"{first_half} {pw_lenght} {second_half}"
@@ -114,7 +114,7 @@ class CreateUserView(ViewBase):
         )
         password_confirm_label = ttk.Label(
             master=self._frame,
-            text=self._configs.REG_PW_2_LABEL
+            text=self._config.REG_PW_2_LABEL
         )
         password_confirm_label.grid(
             padx=5,
@@ -132,7 +132,7 @@ class CreateUserView(ViewBase):
 
         create_user_button = ttk.Button(
             master=self._frame,
-            text=self._configs.REG_CREATE_BUTTON,
+            text=self._config.REG_CREATE_BUTTON,
             command=self._create_user_handler
         )
         create_user_button.grid(

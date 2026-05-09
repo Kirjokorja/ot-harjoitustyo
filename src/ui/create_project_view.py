@@ -25,16 +25,16 @@ class CreateProjectView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, header, project_view, message):
+    def __init__(self, *, root, service, config, header, project_view, message):
         """Luo hankkeenluontinäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä 
             message (String): näkymässä näytettävä viesti
         """
@@ -48,7 +48,7 @@ class CreateProjectView(ViewBase):
             service=service,
             header=header,
             message=message,
-            configs=configs
+            config=config
         )
         self._classes = self._service.get_project_service().get_project_classes()
 
@@ -109,7 +109,7 @@ class CreateProjectView(ViewBase):
                     self._project_description.get("1.0", constants.END),
                     user
                 )
-            self._show_message(self._configs.PROJECT_SAVED_MSG)
+            self._show_message(self._config.PROJECT_SAVED_MSG)
         except (self._service.get_project_service().get_exceptions().ProjectHasNoTitle,
                 self._service.get_project_service().get_exceptions().ProjectHasNoType,
                 self._service.get_project_service().get_exceptions().ProjectHasNoOwner) as e:
@@ -118,7 +118,7 @@ class CreateProjectView(ViewBase):
     def _initialize_project_fields(self):
         name_label = ttk.Label(
             master=self._frame,
-            text=f"{self._configs.PROJECT_NAME_LABEL}*"
+            text=f"{self._config.PROJECT_NAME_LABEL}*"
         )
         name_label.grid(
             row=1,
@@ -139,7 +139,7 @@ class CreateProjectView(ViewBase):
 
         class_label = ttk.Label(
             master=self._frame,
-            text=f"{self._configs.PROJECT_CLASS_LABEL}*"
+            text=f"{self._config.PROJECT_CLASS_LABEL}*"
         )
         class_label.grid(
             row=3,
@@ -165,7 +165,7 @@ class CreateProjectView(ViewBase):
 
         description_label = ttk.Label(
             master=self._frame,
-            text=self._configs.PROJECT_DESC_LABEL
+            text=self._config.PROJECT_DESC_LABEL
         )
         description_label.grid(
             row=5,
@@ -186,7 +186,7 @@ class CreateProjectView(ViewBase):
 
         create_button = ttk.Button(
             master=self._frame,
-            text=self._configs.SAVE_SHOW_BUTTON,
+            text=self._config.SAVE_SHOW_BUTTON,
             command=self._save_show_project_handler
         )
         create_button.grid(
@@ -199,7 +199,7 @@ class CreateProjectView(ViewBase):
 
         save_button = ttk.Button(
             master=self._frame,
-            text=self._configs.SAVE_BUTTON,
+            text=self._config.SAVE_BUTTON,
             command=self._save_project_handler
         )
         save_button.grid(
@@ -212,7 +212,7 @@ class CreateProjectView(ViewBase):
 
         name_label = ttk.Label(
             master=self._frame,
-            text=f"*{self._configs.CREATE_MODIFY_STAR_MSG}"
+            text=f"*{self._config.CREATE_MODIFY_STAR_MSG}"
         )
         name_label.grid(
             row=8,

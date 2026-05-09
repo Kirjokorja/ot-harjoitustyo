@@ -16,7 +16,7 @@ class UserService(ServiceBase):
             _password_service: salasanankäsittelypalvelu
             _user: istunnon käyttäjäolio
             _username_min_lenght (int): käyttäjänimen minimipituus
-            _configs: palvelun ominaisuuksien arvot tiedostossa
+            _config: palvelun ominaisuuksien arvot tiedostossa
     """
 
     def __init__(
@@ -24,7 +24,7 @@ class UserService(ServiceBase):
         repository=default_user_repository,
         exceptions=default_exceptions,
         password_service=default_pw_service,
-        configs=default_config
+        config=default_config
     ):
         """Alusta käyttäjäpalvelu.
 
@@ -33,11 +33,11 @@ class UserService(ServiceBase):
                     käyttäjien tietokantatoiminnoista vastaava olio
                 exceptions: käyttäjävirheet
                 password_service: salasanankäsittelypalvelu
-                configs: palvelun ominaisuuksien arvot tiedostossa
+                vars: palvelun ominaisuuksien arvot tiedostossa
         """
         super().__init__(repository=repository, exceptions=exceptions)
         self._password_service = password_service
-        self._configs = configs
+        self._config = config
         self._user = None
 
     def create_user(self, username, password, password_confirm):
@@ -70,7 +70,7 @@ class UserService(ServiceBase):
             raise self._exceptions.UserAlreadyExists(message)
 
     def _username_acceptable(self, username):
-        if len(username) < self._configs.USERNAME_MIN_LENGHT:
+        if len(username) < self._config.USERNAME_MIN_LENGHT:
             message = "Käyttäjänimi on liian lyhyt."
             raise self._exceptions.UsernameTooShort(message)
 

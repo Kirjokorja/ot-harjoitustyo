@@ -24,16 +24,16 @@ class HeaderFrame(MarginFrame):
             _nav_button_2: metodi, joka ajetaan käyttäjän painaessa suunnistuspalkin toista nappia
             _nav_button_3: metodi, joka ajetaan käyttäjän painaessa suunnistuspalkin kolmatta nappia
             _search_results_view: metodi, joka näyttää haun tulokset
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, buttons, search_results_view):
+    def __init__(self, *, root, service, config, buttons, search_results_view):
         """Luo ylväviitekenttä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: toiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             buttons (dict): hajautustaulu, joka sisältääsuunnistuspalkin nappuloiden metodit
                 keys:
                     nav_button_1_logged_in: metodi, 
@@ -56,7 +56,7 @@ class HeaderFrame(MarginFrame):
         self._search_results_view = search_results_view
         self._search_field = None
 
-        super().__init__(root=root, configs=configs)
+        super().__init__(root=root, config=config)
 
     def _search_handler(self):
         self._search_results_view(
@@ -70,13 +70,13 @@ class HeaderFrame(MarginFrame):
         style = ttk.Style()
         style.configure(
             "Info.TLabel",
-            foreground=self._configs.HEADER_FRAME_FG_COLOR,
-            background=self._configs.HEADER_FRAME_BG_COLOR
+            foreground=self._config.HEADER_FRAME_FG_COLOR,
+            background=self._config.HEADER_FRAME_BG_COLOR
         )
 
         user_label = ttk.Label(
             master=info_frame,
-            text=f"{self._configs.HEADER_INFO_MSG} {user.username}.",
+            text=f"{self._config.HEADER_INFO_MSG} {user.username}.",
             style="Info.TLabel"
         )
         user_label.grid(
@@ -91,7 +91,7 @@ class HeaderFrame(MarginFrame):
 
         nav_button_1_logged_in = ttk.Button(
             master=nav_frame,
-            text=self._configs.HEADER_NAV_BUTTON_1,
+            text=self._config.HEADER_NAV_BUTTON_1,
             command=self._nav_button_1_logged_in,
         )
         nav_button_1_logged_in.grid(
@@ -106,7 +106,7 @@ class HeaderFrame(MarginFrame):
         if user:
             nav_button_2 = ttk.Button(
                 master=nav_frame,
-                text=self._configs.HEADER_NAV_BUTTON_2,
+                text=self._config.HEADER_NAV_BUTTON_2,
                 command=self._nav_button_2
             )
             nav_button_2.grid(
@@ -120,7 +120,7 @@ class HeaderFrame(MarginFrame):
 
             nav_button_3 = ttk.Button(
                 master=nav_frame,
-                text=self._configs.HEADER_NAV_BUTTON_3,
+                text=self._config.HEADER_NAV_BUTTON_3,
                 command=self._nav_button_3
             )
             nav_button_3.grid(
@@ -141,13 +141,13 @@ class HeaderFrame(MarginFrame):
         style = ttk.Style()
         style.configure(
             "Search.TLabel",
-            foreground=self._configs.HEADER_FRAME_FG_COLOR,
-            background=self._configs.HEADER_FRAME_BG_COLOR
+            foreground=self._config.HEADER_FRAME_FG_COLOR,
+            background=self._config.HEADER_FRAME_BG_COLOR
         )
 
         search_label = ttk.Label(
             master=search_frame,
-            text=self._configs.HEADER_SEARCH_LABEL,
+            text=self._config.HEADER_SEARCH_LABEL,
             style="Search.TLabel"
         )
         search_label.grid(
@@ -167,7 +167,7 @@ class HeaderFrame(MarginFrame):
         )
         search_button = ttk.Button(
             master=search_frame,
-            text=self._configs.HEADER_SEARCH_BUTTON,
+            text=self._config.HEADER_SEARCH_BUTTON,
             command=self._search_handler
         )
         search_button.grid(
@@ -208,8 +208,8 @@ class HeaderFrame(MarginFrame):
         style = ttk.Style()
         style.configure(
             "HeaderFrame.TFrame",
-            foreground=self._configs.HEADER_FRAME_FG_COLOR,
-            background=self._configs.HEADER_FRAME_BG_COLOR
+            foreground=self._config.HEADER_FRAME_FG_COLOR,
+            background=self._config.HEADER_FRAME_BG_COLOR
         )
         self._frame.configure(style="HeaderFrame.TFrame")
 

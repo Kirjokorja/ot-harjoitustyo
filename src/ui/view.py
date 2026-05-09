@@ -18,10 +18,10 @@ class ViewBase:
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, header, message, configs):
+    def __init__(self, *, root, service, header, message, config):
         """Luo näkymä.
 
         Args:
@@ -29,7 +29,7 @@ class ViewBase:
             service: käyttäjätoiminnoista vastaava olio
             header (HeaderFrame): näkymän yläviitekenttä
             message (String): näkymässä näytettävä viesti
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
         """
         self._root = root
         self._service = service
@@ -43,7 +43,7 @@ class ViewBase:
         self._message = message
         self._qusetion_win = None
         self._question_answer = None
-        self._configs = configs
+        self._config = config
 
     def pack(self):
         """Näyttää näkymän."""
@@ -125,16 +125,16 @@ class ViewBase:
         self._qusetion_win = Toplevel(master=self._root)
 
         win_width = int(
-            self._root.winfo_screenwidth() * self._configs.Q_WIN_MIN_WIDTH_SCALE
+            self._root.winfo_screenwidth() * self._config.Q_WIN_MIN_WIDTH_SCALE
         )
         win_height = int(
-            self._root.winfo_screenheight() * self._configs.Q_WIN_MIN_HEIGHT_SCALE
+            self._root.winfo_screenheight() * self._config.Q_WIN_MIN_HEIGHT_SCALE
         )
         win_offset_x = (self._root.winfo_x() +
-                        floor(self._root.winfo_width()*self._configs.Q_WIN_X_REL_POS_TO_MASTER) -
+                        floor(self._root.winfo_width()*self._config.Q_WIN_X_REL_POS_TO_MASTER) -
                         win_width//2)
         win_offset_y = (self._root.winfo_y() +
-                        floor(self._root.winfo_height()*self._configs.Q_WIN_Y_REL_POS_TO_MASTER) -
+                        floor(self._root.winfo_height()*self._config.Q_WIN_Y_REL_POS_TO_MASTER) -
                         win_height//2)
 
         self._qusetion_win.geometry(f"{win_width}x{win_height}")

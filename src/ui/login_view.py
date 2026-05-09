@@ -24,16 +24,16 @@ class LoginView(ViewBase):
             _message (String): näkymässä näytettävä viesti
             _message_win (Toplevel): käyttöliittymän päälle luotava ikkuna viestejä varten
             _question_answer (bool): käyttäjän vastaus kysymysikkunan kysymykseeen
-            _configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            _config: käyttöliittymän ominaisuuksien arvot tiedostossa
     """
 
-    def __init__(self, *, root, service, configs, header, views, message):
+    def __init__(self, *, root, service, config, header, views, message):
         """Luo kirjautumisnäkymä.
 
         Args:
             root (Tk): Tkinter-osanen, johon näkymä lisätään
             service: käyttäjätoiminnoista vastaava olio
-            configs: käyttöliittymän ominaisuuksien arvot tiedostossa
+            config: käyttöliittymän ominaisuuksien arvot tiedostossa
             header (HeaderFrame): näkymän yläviitekenttä
             views (dict): hajautustaulu, joka sisältää luokan käyttämiä näkymiä
                 keys:
@@ -51,7 +51,7 @@ class LoginView(ViewBase):
             service=service,
             header=header,
             message=message,
-            configs=configs
+            config=config
         )
 
     def _login_handler(self):
@@ -63,14 +63,14 @@ class LoginView(ViewBase):
         try:
             user = self._service.get_user_service().login(username, password)
             self._front_view(
-                f"{self._configs.LOGGED_IN_GREET} {user.username}!")
+                f"{self._config.LOGGED_IN_GREET} {user.username}!")
         except self._service.get_user_service().get_exceptions().InvalidCredentials as e:
             self._show_error(e.message)
 
     def _initialize_login_fields(self):
         username_label = ttk.Label(
             master=self._frame,
-            text=self._configs.LOGIN_USERNAME_LABEL
+            text=self._config.LOGIN_USERNAME_LABEL
         )
         username_label.grid(
             padx=5,
@@ -88,7 +88,7 @@ class LoginView(ViewBase):
 
         password_label = ttk.Label(
             master=self._frame,
-            text=self._configs.LOGIN_PW_LABEL
+            text=self._config.LOGIN_PW_LABEL
         )
         password_label.grid(
             padx=5,
@@ -105,7 +105,7 @@ class LoginView(ViewBase):
 
         login_button = ttk.Button(
             master=self._frame,
-            text=self._configs.LOGIN_BUTTON,
+            text=self._config.LOGIN_BUTTON,
             command=self._login_handler
         )
         login_button.grid(
@@ -118,7 +118,7 @@ class LoginView(ViewBase):
     def _initialize_create_user(self):
         create_user_button = ttk.Button(
             master=self._frame,
-            text=self._configs.REGISTER_USER_NAV_BUTTON,
+            text=self._config.REGISTER_USER_NAV_BUTTON,
             command=self._create_user_view
         )
         create_user_button.grid(
@@ -140,7 +140,7 @@ class LoginView(ViewBase):
         self._initialize_error()
 
         if not self._message:
-            self._message = self._configs.LOGIN_GREET
+            self._message = self._config.LOGIN_GREET
         self._initialize_message()
         self._show_message(self._message)
 
