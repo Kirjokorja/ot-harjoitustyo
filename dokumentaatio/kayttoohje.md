@@ -44,4 +44,4 @@ Maailman tarkastelunäkymän alareunalta löydät Muokkaa-näppäimen, jota pain
 
 ## Maailman hakeminen
 
-Kirjautumisen jälkeen jokaisen näkymän yläreunassa näkyy hakukenttä, josta maailmaa voi hakea hakusanalla. Kirjoita hakusana tai lauseke kenttään ja paina Hae-nappia. Haku etsii sanaa tai lauseketta hankkeen nimestä, kuvauksesta ja luokasta. Tulokset se esittää listana. Maailman voi avata tarkastelunäkymään kaksoisnapauttamalla sitä listassa. Tarkastelunäkymästä pääset muokkaamaan tai poistamaan maailman, jos olet sen haltija. Pääset tarkastelunäkymästä takaisin hakutuloksiin napauttamalla Takaisin hakutuloksiin -nappulaa.
+Kirjautumisen jälkeen jokaisen näkymän yläreunassa näkyy hakukenttä, josta maailmaa voi hakea hakusanalla. Kirjoita hakusana tai lauseke kenttään ja paina Hae-nappia. Haku etsii sanaa tai lauseketta maailman/hankkeen nimestä ja kuvauksesta. Tulokset se esittää listana. Maailman voi avata tarkastelunäkymään kaksoisnapauttamalla sitä listassa. Tarkastelunäkymästä pääset muokkaamaan tai poistamaan maailman, jos olet sen haltija. Pääset tarkastelunäkymästä takaisin hakutuloksiin napauttamalla Takaisin hakutuloksiin -nappulaa.

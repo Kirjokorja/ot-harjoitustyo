@@ -144,7 +144,7 @@ class HeaderFrame(MarginFrame):
             foreground=self._configs.HEADER_FRAME_FG_COLOR,
             background=self._configs.HEADER_FRAME_BG_COLOR
         )
-        
+
         search_label = ttk.Label(
             master=search_frame,
             text=self._configs.HEADER_SEARCH_LABEL,
@@ -155,7 +155,7 @@ class HeaderFrame(MarginFrame):
             column=0,
             padx=5,
             pady=5,
-            sticky=(constants.NS, constants.W)
+            sticky=(constants.NS, constants.E)
         )
         self._search_field = ttk.Entry(master=search_frame)
         self._search_field.grid(
@@ -197,7 +197,8 @@ class HeaderFrame(MarginFrame):
             search_frame = ttk.Frame(master=self._frame)
             self._initialize_search_field(search_frame=search_frame)
             search_frame.grid(
-                columnspan=self._columnspan//4,
+                column=self._columnspan//2-1,
+                columnspan=3,
                 sticky=constants.EW
             )
 

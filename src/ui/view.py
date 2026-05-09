@@ -74,7 +74,7 @@ class ViewBase:
         self._message_label = ttk.Label(
             master=self._frame,
             textvariable=self._message_variable,
-            anchor="center"
+            anchor=constants.CENTER
         )
         self._message_label.grid(
             padx=5,
@@ -97,7 +97,7 @@ class ViewBase:
             master=self._frame,
             textvariable=self._error_variable,
             foreground="red",
-            anchor="center"
+            anchor=constants.CENTER
         )
         self._error_label.grid(
             padx=5,
@@ -146,7 +146,10 @@ class ViewBase:
         self._qusetion_win.grid_columnconfigure(1, weight=1)
 
         message_label = ttk.Label(
-            master=self._qusetion_win, text=message, anchor="center")
+            master=self._qusetion_win,
+            text=message,
+            anchor=constants.CENTER
+        )
         message_label.grid(
             padx=10,
             pady=10,

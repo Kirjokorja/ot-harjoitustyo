@@ -55,6 +55,7 @@ class SearchResultsView(ViewBase):
         self._page_count = 0
         self._results = None
         self._tree = None
+        self._tree_nav_frame = None
         self._project_view = project_view
         super().__init__(
             root=root, service=service,
@@ -64,12 +65,22 @@ class SearchResultsView(ViewBase):
         )
 
     def _previous_page_handler(self):
+        self._tree.destroy()
+        self._tree = None
+        self._tree_nav_frame.destroy()
+        self._tree_nav_frame = None
         self._page -= 1
         self.initialize()
+        self.pack()
 
     def _next_page_handler(self):
+        self._tree.destroy()
+        self._tree = None
+        self._tree_nav_frame.destroy()
+        self._tree_nav_frame = None
         self._page += 1
         self.initialize()
+        self.pack()
 
     def _double_click_item(self, event):
         item = self._tree.selection()
@@ -115,38 +126,64 @@ class SearchResultsView(ViewBase):
         )
 
         self._tree.grid(
+            row=2,
             columnspan=self._grid_size[0],
             sticky=constants.NSEW
         )
 
-        if self._page > 1:
-            previous_button = ttk.Button(
-                master=self._frame,
-                text="<-",
-                command=self._previous_page_handler
-            )
-            previous_button.grid(
-                sticky=(constants.NS, constants.E)
-            )
-
-        pages_label = ttk.Label(
-            master=self._frame,
-            text=f"({self._page}/{self._page_count})",
-            anchor="center"
-        )
-        pages_label.grid(
+        self._tree_nav_frame = ttk.Frame(master=self._frame)
+        self._initialize_tree_nav()
+        self._tree_nav_frame.grid(
             column=self._grid_size[0]//2,
             sticky=constants.NSEW
         )
 
+    def _initialize_tree_nav(self):
+        if self._page > 1:
+            self._tree_nav_frame.columnconfigure(2, weight=1)
+            previous_button = ttk.Button(
+                master=self._tree_nav_frame,
+                text="<-",
+                command=self._previous_page_handler
+            )
+            previous_button.grid(
+                padx=5,
+                pady=5,
+                row=0,
+                column=0,
+                columnspan=1,
+                sticky=(constants.NS, constants.W)
+            )
+
+        pages_label = ttk.Label(
+            master=self._tree_nav_frame,
+            text=f"({self._page}/{self._page_count})",
+            anchor=constants.CENTER
+        )
+        pages_label.grid(
+            padx=5,
+            pady=5,
+            row=0,
+            column=1,
+            columnspan=1,
+            sticky=constants.NSEW
+        )
+        self._tree_nav_frame.columnconfigure(1, weight=1)
+
         if self._page is not self._page_count:
+            self._tree_nav_frame.columnconfigure(0, weight=1)
             next_button = ttk.Button(
-                master=self._frame,
+                master=self._tree_nav_frame,
                 text="->",
                 command=self._next_page_handler
             )
             next_button.grid(
-                sticky=(constants.NS, constants.W)
+                padx=5,
+                pady=5,
+                row=0,
+                column=2,
+                columnspan=1,
+                sticky=(constants.NS, constants.E)
             )
 
     def initialize(self):
