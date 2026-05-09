@@ -1,4 +1,4 @@
-# Ohjelmistotekniikka, harjoitustyö
+# Ohjelmistotekniikan harjoitustyö: Maailmasampo
 
 Sovellus on trakoitettu **maailmanrakentamiseen** _tarinan kirjoittamista ja roolipelaamista_ varten.
 
